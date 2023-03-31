@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsclient;
+package crazyauctionsadminpanel;
 
 /**
  *
@@ -16,9 +16,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        
         MainApp mainApp = new MainApp();
         mainApp.runApp(); // inject EJB here
     }
-    
+
 }

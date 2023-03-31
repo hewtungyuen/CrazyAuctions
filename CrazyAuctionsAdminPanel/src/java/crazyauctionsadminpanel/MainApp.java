@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsclient;
+package crazyauctionsadminpanel;
 
 import java.util.Scanner;
+import util.enumeration.EmployeeTypeEnum;
 
 /**
  *
@@ -13,9 +14,8 @@ import java.util.Scanner;
  */
 public class MainApp {
 
-    private AuctionOperationModule auctionOperationModule;
+    private AdminOperationModule adminOperationModule;
 
-    // 
     public MainApp() {
 
     }
@@ -25,13 +25,12 @@ public class MainApp {
         Integer response = 0;
 
         while (true) {
-            System.out.println("*** Welcome to OAS Auction Client ***\n");
+            System.out.println("*** Welcome to OAS Admin Panel ***\n");
             System.out.println("1: Login");
-            System.out.println("2: Register");
-            System.out.println("3: Exit\n");
+            System.out.println("2: Exit\n");
             response = 0;
 
-            while (response < 1 || response > 3) {
+            while (response < 1 || response > 2) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -39,15 +38,13 @@ public class MainApp {
                 if (response == 1) {
                     doLogin();
                 } else if (response == 2) {
-                    doRegister();
-                } else if (response == 3) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
             }
 
-            if (response == 3) {
+            if (response == 2) {
                 break;
             }
         }
@@ -59,14 +56,18 @@ public class MainApp {
         System.out.println("Enter username:");
         System.out.println("Enter password:");
 
-        auctionOperationModule = new AuctionOperationModule();
-        auctionOperationModule.menu();
+        EmployeeTypeEnum employeeType = EmployeeTypeEnum.FINANCE;
+        adminOperationModule = new AdminOperationModule();
+
+        if (employeeType == EmployeeTypeEnum.EMPLOYEE) {
+            adminOperationModule.employeeMenu();
+        } else if (employeeType == EmployeeTypeEnum.ADMIN) {
+            adminOperationModule.systemAdminMenu();
+        } else if (employeeType == EmployeeTypeEnum.FINANCE) {
+            adminOperationModule.financeStaffMenu();
+        } else if (employeeType == EmployeeTypeEnum.SALES) {
+            adminOperationModule.salesStaffMenu();
+        }
     }
 
-    public void doRegister() {
-        System.out.println("Enter username:");
-        System.out.println("Enter password:");
-        System.out.println("Successfully registered.");
-
-    }
 }

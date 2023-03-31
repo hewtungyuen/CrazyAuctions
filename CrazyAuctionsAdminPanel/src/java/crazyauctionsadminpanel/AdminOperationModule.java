@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package crazyauctionsclient;
+package crazyauctionsadminpanel;
 
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
@@ -12,26 +12,9 @@ import util.enumeration.EmployeeTypeEnum;
  *
  * @author hewtu
  */
-public class AdminClient {
+public class AdminOperationModule {
 
-    public void login() {
-        System.out.println("Enter username:");
-        System.out.println("Enter password:");
-        // check if credentials are correct
-        // check customer type and render correct menu accordingly 
-        EmployeeTypeEnum employeeType = EmployeeTypeEnum.FINANCE;
-        ;
 
-        if (employeeType == EmployeeTypeEnum.EMPLOYEE) {
-            employeeMenu();
-        } else if (employeeType == EmployeeTypeEnum.ADMIN) {
-            systemAdminMenu();
-        } else if (employeeType == EmployeeTypeEnum.FINANCE) {
-            financeStaffMenu();
-        } else if (employeeType == EmployeeTypeEnum.SALES) {
-            salesStaffMenu();
-        }
-    }
 
     public void employeeMenu() {
         Scanner scanner = new Scanner(System.in);
