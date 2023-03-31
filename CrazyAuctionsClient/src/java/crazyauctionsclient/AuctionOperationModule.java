@@ -13,7 +13,11 @@ import java.util.Scanner;
  */
 public class AuctionOperationModule {
 
+    private AuctionOperationModuleHelper auctionOperationModuleHelper;
+
     public void menu() {
+        auctionOperationModuleHelper = new AuctionOperationModuleHelper();
+        
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -40,25 +44,25 @@ public class AuctionOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.logout();
                 } else if (response == 2) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.viewCustomerProfile();
                 } else if (response == 3) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.updateCustomerProfile();
                 } else if (response == 4) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.createAddress();
                 } else if (response == 5) {
                     viewAddressDetailsMenu();
                 } else if (response == 6) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.viewAllAddresses();
                 } else if (response == 7) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.viewCreditBalance();
                 } else if (response == 8) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.viewCreditTransactionHistory();
                 } else if (response == 9) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.purchaseCreditPackage();
                 } else if (response == 10) {
-                    System.out.println("");
+                    auctionOperationModuleHelper.browseAllAuctionListings();
                 } else if (response == 11) {
                     viewAuctionListingDetailsMenu();
                 } else if (response == 12) {
@@ -87,9 +91,9 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            System.out.println("");
+            auctionOperationModuleHelper.updateAddress();
         } else if (response == 2) {
-            System.out.println("");
+            auctionOperationModuleHelper.deleteAddress();
         }
     }
 
@@ -104,9 +108,9 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            System.out.println("");
+            auctionOperationModuleHelper.placeNewBid();
         } else if (response == 2) {
-            System.out.println("");
+            auctionOperationModuleHelper.refreshAuctionListingBids();
         }
     }
 
@@ -120,7 +124,7 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            System.out.println("");
+            auctionOperationModuleHelper.selectDeliveryAddressForWonAuctionListing();
         }
     }
 }
