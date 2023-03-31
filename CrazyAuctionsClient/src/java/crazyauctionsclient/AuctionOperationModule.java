@@ -15,9 +15,12 @@ public class AuctionOperationModule {
 
     private AuctionOperationModuleHelper auctionOperationModuleHelper;
 
+    public AuctionOperationModule() {
+        this.auctionOperationModuleHelper = new AuctionOperationModuleHelper();
+    }
+
     public void menu() {
-        auctionOperationModuleHelper = new AuctionOperationModuleHelper();
-        
+
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -45,28 +48,43 @@ public class AuctionOperationModule {
 
                 if (response == 1) {
                     auctionOperationModuleHelper.logout();
+
                 } else if (response == 2) {
                     auctionOperationModuleHelper.viewCustomerProfile();
+
                 } else if (response == 3) {
                     auctionOperationModuleHelper.updateCustomerProfile();
+
                 } else if (response == 4) {
                     auctionOperationModuleHelper.createAddress();
+
                 } else if (response == 5) {
+                    auctionOperationModuleHelper.viewAddressDetails();
                     viewAddressDetailsMenu();
+
                 } else if (response == 6) {
                     auctionOperationModuleHelper.viewAllAddresses();
+
                 } else if (response == 7) {
                     auctionOperationModuleHelper.viewCreditBalance();
+
                 } else if (response == 8) {
                     auctionOperationModuleHelper.viewCreditTransactionHistory();
+
                 } else if (response == 9) {
                     auctionOperationModuleHelper.purchaseCreditPackage();
+
                 } else if (response == 10) {
                     auctionOperationModuleHelper.browseAllAuctionListings();
+
                 } else if (response == 11) {
+                    auctionOperationModuleHelper.viewAuctionListingDetails();
                     viewAuctionListingDetailsMenu();
+
                 } else if (response == 12) {
+                    auctionOperationModuleHelper.browseWonAuctionListings();
                     browseWonAuctionListingsMenu();
+
                 } else if (response == 13) {
                     break;
                 } else {
@@ -81,6 +99,7 @@ public class AuctionOperationModule {
     }
 
     public void viewAddressDetailsMenu() {
+
         System.out.println("1: Update Address");
         System.out.println("2: Delete Address");
         System.out.println("3: Exit\n");
@@ -98,6 +117,7 @@ public class AuctionOperationModule {
     }
 
     public void viewAuctionListingDetailsMenu() {
+
         System.out.println("1: Place New Bid");
         System.out.println("2: Refresh Auction Listing Bids");
         System.out.println("3: Exit\n");
@@ -115,6 +135,7 @@ public class AuctionOperationModule {
     }
 
     public void browseWonAuctionListingsMenu() {
+
         System.out.println("1: Select Delivery Address for Won Auction Listing");
         System.out.println("2: Exit\n");
 

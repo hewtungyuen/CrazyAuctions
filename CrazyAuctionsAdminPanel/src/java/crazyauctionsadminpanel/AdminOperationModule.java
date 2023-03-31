@@ -14,9 +14,14 @@ import util.enumeration.EmployeeTypeEnum;
  */
 public class AdminOperationModule {
 
+    private AdminOperationModuleHelper adminOperationModuleHelper;
 
+    public AdminOperationModule() {
+        this.adminOperationModuleHelper = new AdminOperationModuleHelper();
+    }
 
     public void employeeMenu() {
+
         Scanner scanner = new Scanner(System.in);
         Integer response = 0;
 
@@ -33,11 +38,14 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    System.out.println("");
+                    adminOperationModuleHelper.logout();
+
                 } else if (response == 2) {
-                    System.out.println("");
+                    adminOperationModuleHelper.changePassword();
+
                 } else if (response == 3) {
                     break;
+
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
@@ -69,15 +77,21 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    System.out.println("");
+                    adminOperationModuleHelper.logout();
+
                 } else if (response == 2) {
-                    System.out.println("");
+                    adminOperationModuleHelper.changePassword();
+
                 } else if (response == 3) {
-                    System.out.println("");
+                    adminOperationModuleHelper.createNewEmployee();
+
                 } else if (response == 4) {
+                    adminOperationModuleHelper.viewEmployeeDetails();
                     viewEmployeeDetailsMenu();
+
                 } else if (response == 5) {
-                    System.out.println("");
+                    adminOperationModuleHelper.viewAllEmployees();
+
                 } else if (response == 6) {
                     break;
                 } else {
@@ -111,17 +125,24 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    System.out.println("");
+                    adminOperationModuleHelper.logout();
+
                 } else if (response == 2) {
-                    System.out.println("");
+                    adminOperationModuleHelper.changePassword();
+
                 } else if (response == 3) {
-                    break;
+                    adminOperationModuleHelper.createCreditPackage();
+
                 } else if (response == 4) {
+                    adminOperationModuleHelper.viewCreditPackageDetails();
                     viewCreditPackageDetailsMenu();
+
                 } else if (response == 5) {
-                    System.out.println("");
+                    adminOperationModuleHelper.viewAllCreditPackages();
+
                 } else if (response == 6) {
                     break;
+
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
@@ -154,19 +175,28 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    System.out.println("");
+                    adminOperationModuleHelper.logout();
+
                 } else if (response == 2) {
-                    System.out.println("");
+                    adminOperationModuleHelper.changePassword();
+
                 } else if (response == 3) {
-                    System.out.println("");
+                    adminOperationModuleHelper.createAuctionListing();
+
                 } else if (response == 4) {
+                    adminOperationModuleHelper.viewAuctionListingDetails();
                     viewAuctionListingDetailsMenu();
+
                 } else if (response == 5) {
-                    System.out.println("");
+                    adminOperationModuleHelper.viewAllAuctionListings();
+
                 } else if (response == 6) {
+                    adminOperationModuleHelper.viewAllAuctionListingsWithBidBelowReserve();
                     assignWinningBidMenu();
+
                 } else if (response == 7) {
                     break;
+
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
@@ -188,9 +218,9 @@ public class AdminOperationModule {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            System.out.println("");
+            adminOperationModuleHelper.updateEmployee();
         } else if (response == 2) {
-            System.out.println("");
+            adminOperationModuleHelper.deleteEmployee();
         }
     }
 
@@ -204,9 +234,9 @@ public class AdminOperationModule {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            System.out.println("");
+            adminOperationModuleHelper.updateCreditPackage();
         } else if (response == 2) {
-            System.out.println("");
+            adminOperationModuleHelper.deleteCreditPackage();
         }
     }
 
@@ -224,9 +254,9 @@ public class AdminOperationModule {
         response = scanner.nextInt();
 
         if (response == 1) {
-            System.out.println("");
+            adminOperationModuleHelper.updateAuctionListing();
         } else if (response == 2) {
-            System.out.println("");
+            adminOperationModuleHelper.deleteAuctionListing();
         }
 
     }
@@ -242,7 +272,7 @@ public class AdminOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            System.out.println("");
+            adminOperationModuleHelper.assignWinningBid();
         }
     }
 }
