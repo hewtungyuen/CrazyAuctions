@@ -10,5 +10,12 @@ package crazyauctionsclient;
  * @author hewtu
  */
 public class AuctionClient {
-    
+
+    public void login() {
+        System.out.println("Enter username:");
+        System.out.println("Enter password:");
+
+        // check if credentials are correct
+        // check customer type and render correct menu accordingly 
+    }
 }
