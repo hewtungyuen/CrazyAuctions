@@ -17,7 +17,7 @@ public class AdminOperationModule {
     private AdminOperationModuleHelper adminOperationModuleHelper;
 
     public AdminOperationModule() {
-        this.adminOperationModuleHelper = new AdminOperationModuleHelper();
+        this.adminOperationModuleHelper = new AdminOperationModuleHelper(); // pass in id here 
     }
 
     public void employeeMenu() {

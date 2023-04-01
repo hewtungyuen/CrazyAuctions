@@ -51,14 +51,17 @@ public class MainApp {
     }
 
     public void doLogin() {
-        // check if credentials are correct
-        // check customer type and render correct menu accordingly 
         System.out.println("Enter username:");
+        // check if user is currently logged in 
+
         System.out.println("Enter password:");
-
+        // check if password is correct 
+        
+        // retrieve employee type 
         EmployeeTypeEnum employeeType = EmployeeTypeEnum.FINANCE;
-        adminOperationModule = new AdminOperationModule();
+        adminOperationModule = new AdminOperationModule(); // pass in user id here? 
 
+        // render menu according to employee type 
         if (employeeType == EmployeeTypeEnum.EMPLOYEE) {
             adminOperationModule.employeeMenu();
         } else if (employeeType == EmployeeTypeEnum.ADMIN) {

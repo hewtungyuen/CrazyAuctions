@@ -13,22 +13,30 @@ public class AdminOperationModuleHelper {
 
     // all employees 
     public void logout() {
+        // set isLoggedIn = false
     }
 
     public void changePassword() {
+        // prompt current password, check if it is correct
+        // enter new password twice, both times it should match
+        // change password attribute 
     }
 
     // system admin
     public void createNewEmployee() {
+        // enter employee details
     }
 
     public void viewEmployeeDetails() {
+        // call toString method of employee 
     }
 
     public void viewAllEmployees() {
+        // view all employee IDs
     }
 
     public void updateEmployee() {
+        // 
     }
 
     public void deleteEmployee() {
