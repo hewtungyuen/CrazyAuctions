@@ -22,6 +22,17 @@ public class CustomerEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String type;
+    private String username;
+    private String password;
+    private BigDecimal creditBalance;
+    private Boolean isLoggedIn = false;
+    @OneToMany
+    private List<AddressEntity> Addresses;
+    private List<BidEntity> bids;
+    private List<TransactionEntity> transactions;
+    
+        
 
     public Long getId() {
         return id;
