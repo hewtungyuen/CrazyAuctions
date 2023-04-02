@@ -20,14 +20,20 @@ public class TransactionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private string id;
+    @ManyToOne
+    private CustomerEntity customer;
+    private Date date;
+    private BigDecimal amount;
+    private Enum type;
+    private string description;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
