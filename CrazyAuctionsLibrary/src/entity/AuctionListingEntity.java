@@ -20,8 +20,20 @@ public class AuctionListingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    private BidEntity winningBid = null;
+    private AddressEntity winnerDeliveryAddress = null;
+    private BigDecimal currentBidPrice = 0;
+    private BigDecimal reservePrice;
+    private string productName;
+    private Date startTime;
+    private Date endTime;
+    private Enum State;
+    @OneToMany
+    private List<BidEntity> bids;
+    
 
     public Long getId() {
         return id;
@@ -30,7 +42,79 @@ public class AuctionListingEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
+    
+    public BidEntity getWinningBid() {
+        return winningBid;
+    }
+    
+    public void setWinningBid(BidEntity winningBid) {
+        this.winningBid = winningBid;
+    }
+    
+    public AddressEntity getWinnerDeliveryAddress() {
+        return winnerDeliveryAddress;
+    }
+    
+    public void setWinnerDeliveryAddress(AddressEntity winnerDeliveryAddress) {
+        this.winnerDeliveryAddress = winnerDeliveryAddress;
+    }
+    
+    public BigDecimal getCurrentBidPrice() {
+        return currentBidPrice;
+    }
+    
+    public void setCurrentBidPrice(BigDecimal currentBidPrice) {
+        this.currentBidPrice = currentBidPrice;
+    }
+    
+    public BigDecimal getReservePrice() {
+        return reservePrice;
+    }
+    
+    public void setReservePrice(BigDecimal reservePrice) {
+        this.reservePrice = reservePrice;
+    }
+    
+    public String getProductName() {
+        return productName;
+    }
+    
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
+    public Date getStartTime() {
+        return startTime;
+    }
+    
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+    
+    public Date getEndTime() {
+        return endTime;
+    }
+    
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+    
+    public Enum getState() {
+        return state;
+    }
+    
+    public void setState(Enum state) {
+        this.state = state;
+    }
+    
+    public List<BidEntity> getBids() {
+        return bids;
+    }
+    
+    public void setBids(List<BidEntity> bids) {
+        this.bids = bids;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
