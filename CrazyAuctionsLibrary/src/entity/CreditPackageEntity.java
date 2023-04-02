@@ -20,8 +20,11 @@ public class CreditPackageEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean isEnabled = true;
+    private Boolean purchasedBefore = false;
+    private BigDecimal credits;
 
     public Long getId() {
         return id;
