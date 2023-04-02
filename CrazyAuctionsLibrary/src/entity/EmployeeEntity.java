@@ -23,6 +23,9 @@ public class EmployeeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Enum type;
+    private String password;
+    private Boolean isLoggedIn;
 
     private EmployeeTypeEnum employeeType;
 
