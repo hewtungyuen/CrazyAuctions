@@ -6,6 +6,8 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
+import entity.EmployeeEntity;
+import java.util.List;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
 
@@ -103,7 +105,10 @@ public class AdminOperationModuleHelper {
     }
 
     public void viewAllEmployees() {
-        // view all employee IDs
+        List<EmployeeEntity> employees = employeeEntitySessionBeanRemote.viewAllEmployees();
+        for (EmployeeEntity e : employees) {
+            System.out.println(e.toString());
+        }
     }
 
     public void updateEmployee() {

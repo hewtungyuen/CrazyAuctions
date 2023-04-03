@@ -38,7 +38,6 @@ public class EmployeeEntity implements Serializable {
         this.isLoggedIn = false;
     }
 
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -61,7 +60,7 @@ public class EmployeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.EmployeeEntity[ id=" + getId() + " ]";
+        return "Username: " + username + ", Type: " + employeeType + ", Id: " + id;
     }
 
     /**

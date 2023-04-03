@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.EmployeeEntity;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -66,8 +67,14 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     public Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) {
         EmployeeEntity e = new EmployeeEntity(username, password, employeeType);
         em.persist(e);
-
+        em.flush();
         return e.getId();
+    }
+
+    @Override
+    public List<EmployeeEntity> viewAllEmployees() {
+        Query q = em.createQuery("SELECT e FROM EmployeeEntity e");
+        return q.getResultList();
     }
 
 }
