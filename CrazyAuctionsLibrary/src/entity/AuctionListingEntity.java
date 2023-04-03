@@ -6,10 +6,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -25,96 +30,17 @@ public class AuctionListingEntity implements Serializable {
     @OneToOne
     private BidEntity winningBid = null;
     private AddressEntity winnerDeliveryAddress = null;
-    private BigDecimal currentBidPrice = 0;
+    private BigDecimal currentBidPrice;
     private BigDecimal reservePrice;
-    private string productName;
+    private String productName;
     private Date startTime;
     private Date endTime;
     private Enum State;
     @OneToMany
     private List<BidEntity> bids;
+
     
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public BidEntity getWinningBid() {
-        return winningBid;
-    }
-    
-    public void setWinningBid(BidEntity winningBid) {
-        this.winningBid = winningBid;
-    }
-    
-    public AddressEntity getWinnerDeliveryAddress() {
-        return winnerDeliveryAddress;
-    }
-    
-    public void setWinnerDeliveryAddress(AddressEntity winnerDeliveryAddress) {
-        this.winnerDeliveryAddress = winnerDeliveryAddress;
-    }
-    
-    public BigDecimal getCurrentBidPrice() {
-        return currentBidPrice;
-    }
-    
-    public void setCurrentBidPrice(BigDecimal currentBidPrice) {
-        this.currentBidPrice = currentBidPrice;
-    }
-    
-    public BigDecimal getReservePrice() {
-        return reservePrice;
-    }
-    
-    public void setReservePrice(BigDecimal reservePrice) {
-        this.reservePrice = reservePrice;
-    }
-    
-    public String getProductName() {
-        return productName;
-    }
-    
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-    
-    public Date getStartTime() {
-        return startTime;
-    }
-    
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-    
-    public Date getEndTime() {
-        return endTime;
-    }
-    
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-    
-    public Enum getState() {
-        return state;
-    }
-    
-    public void setState(Enum state) {
-        this.state = state;
-    }
-    
-    public List<BidEntity> getBids() {
-        return bids;
-    }
-    
-    public void setBids(List<BidEntity> bids) {
-        this.bids = bids;
-    }
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -139,5 +65,5 @@ public class AuctionListingEntity implements Serializable {
     public String toString() {
         return "entity.AuctionListingEntity[ id=" + id + " ]";
     }
-    
+
 }

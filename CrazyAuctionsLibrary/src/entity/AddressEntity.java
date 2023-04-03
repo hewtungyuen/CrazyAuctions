@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -27,37 +28,7 @@ public class AddressEntity implements Serializable {
     private String address;
     private Boolean isDisabled = false;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public CustomerEntity getCustomer() {
-        return customer;
-    }
-    
-    public void setCustomer(CustomerEntity customer) {
-        this.customer = customer;
-    }
-    
-    public String getAddress() {
-        return address;
-    }
-    
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    
-    public Boolean getIsDisabled() {
-        return isDisabled;
-    }
-    
-    public String setIsDisabled() {
-        this.isDisabled = isDisabled;
-    }
         
     @Override
     public int hashCode() {

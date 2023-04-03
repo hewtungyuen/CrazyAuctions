@@ -6,10 +6,13 @@
 package entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -21,21 +24,13 @@ public class TransactionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private string id;
+    private String id;
     @ManyToOne
     private CustomerEntity customer;
     private Date date;
     private BigDecimal amount;
     private Enum type;
-    private string description;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String description;
 
     @Override
     public int hashCode() {

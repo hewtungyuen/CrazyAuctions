@@ -29,22 +29,12 @@ public class EmployeeEntity implements Serializable {
 
     private EmployeeTypeEnum employeeType;
 
-    private String password;
 
-    private Boolean isLoggedIn;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -55,7 +45,7 @@ public class EmployeeEntity implements Serializable {
             return false;
         }
         EmployeeEntity other = (EmployeeEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -63,7 +53,7 @@ public class EmployeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.EmployeeEntity[ id=" + id + " ]";
+        return "entity.EmployeeEntity[ id=" + getId() + " ]";
     }
 
     /**
@@ -106,6 +96,34 @@ public class EmployeeEntity implements Serializable {
      */
     public void setIsLoggedIn(Boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the type
+     */
+    public Enum getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(Enum type) {
+        this.type = type;
     }
 
 }
