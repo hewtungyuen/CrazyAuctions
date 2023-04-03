@@ -7,6 +7,7 @@ package crazyauctionsadminpanel;
 
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import java.util.Scanner;
+import util.enumeration.EmployeeTypeEnum;
 
 /**
  *
@@ -62,6 +63,39 @@ public class AdminOperationModuleHelper {
     // system admin
     public void createNewEmployee() {
         // enter employee details
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter employee username");
+        String username = scanner.nextLine();
+
+        System.out.println("Enter employee password");
+        String password = scanner.nextLine();
+
+        System.out.println("Enter employee type:");
+        System.out.println("1: Employee");
+        System.out.println("2: Finance");
+        System.out.println("3: Sales");
+        System.out.println("4: Admin");
+        EmployeeTypeEnum employeeType;
+
+        Integer response = scanner.nextInt();
+
+        if (response == 1) {
+            employeeType = EmployeeTypeEnum.EMPLOYEE;
+        } else if (response == 2) {
+            employeeType = EmployeeTypeEnum.FINANCE;
+        } else if (response == 3) {
+            employeeType = EmployeeTypeEnum.SALES;
+        } else if (response == 4) {
+            employeeType = EmployeeTypeEnum.ADMIN;
+        } else {
+            System.out.println("Invalid input, try again");
+            return;
+        }
+
+        Long employeeId = employeeEntitySessionBeanRemote.createNewEmployee(username, password, employeeType);
+
+        System.out.println("Created employee: " + employeeId);
+
     }
 
     public void viewEmployeeDetails() {

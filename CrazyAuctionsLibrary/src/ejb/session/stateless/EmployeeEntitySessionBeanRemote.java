@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.EmployeeEntity;
 import javax.ejb.Remote;
+import util.enumeration.EmployeeTypeEnum;
 import util.exception.InvalidLoginException;
 
 /**
@@ -23,5 +24,7 @@ public interface EmployeeEntitySessionBeanRemote {
     Boolean checkCorrectPassword(java.lang.Long employeeId, String password);
 
     void changePassword(Long employeeId, String newPassword);
+
+    Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType);
 
 }
