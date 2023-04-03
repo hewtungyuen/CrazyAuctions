@@ -100,8 +100,15 @@ public class AdminOperationModuleHelper {
 
     }
 
-    public void viewEmployeeDetails() {
+    public Long viewEmployeeDetails() {
         // call toString method of employee 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter employee username");
+        String username = scanner.nextLine();
+
+        EmployeeEntity e = employeeEntitySessionBeanRemote.getEmployee(username);
+        System.out.println(e.toString());
+        return e.getId();
     }
 
     public void viewAllEmployees() {
@@ -111,11 +118,11 @@ public class AdminOperationModuleHelper {
         }
     }
 
-    public void updateEmployee() {
+    public void updateEmployee(Long employeeId) {
         // 
     }
 
-    public void deleteEmployee() {
+    public void deleteEmployee(Long employeeId) {
     }
 
     // finance staff

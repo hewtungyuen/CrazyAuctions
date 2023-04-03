@@ -30,4 +30,6 @@ public interface EmployeeEntitySessionBeanLocal {
 
     List<EmployeeEntity> viewAllEmployees();
 
+    EmployeeEntity getEmployee(String username);
+
 }

@@ -30,4 +30,6 @@ public interface EmployeeEntitySessionBeanRemote {
 
     List<EmployeeEntity> viewAllEmployees();
 
+    EmployeeEntity getEmployee(String username);
+
 }

@@ -87,8 +87,8 @@ public class AdminOperationModule {
                     adminOperationModuleHelper.createNewEmployee();
 
                 } else if (response == 4) {
-                    adminOperationModuleHelper.viewEmployeeDetails();
-                    viewEmployeeDetailsMenu();
+                    Long employeeId = adminOperationModuleHelper.viewEmployeeDetails();
+                    viewEmployeeDetailsMenu(employeeId);
 
                 } else if (response == 5) {
                     adminOperationModuleHelper.viewAllEmployees();
@@ -209,7 +209,7 @@ public class AdminOperationModule {
         }
     }
 
-    public void viewEmployeeDetailsMenu() {
+    public void viewEmployeeDetailsMenu(Long employeeId) {
 
         System.out.println("1: Update Employee");
         System.out.println("2: Delete Employee");
@@ -219,9 +219,9 @@ public class AdminOperationModule {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            adminOperationModuleHelper.updateEmployee();
+            adminOperationModuleHelper.updateEmployee(employeeId);
         } else if (response == 2) {
-            adminOperationModuleHelper.deleteEmployee();
+            adminOperationModuleHelper.deleteEmployee(employeeId);
         }
     }
 

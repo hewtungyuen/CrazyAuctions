@@ -77,4 +77,11 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
         return q.getResultList();
     }
 
+    @Override
+    public EmployeeEntity getEmployee(String username) {
+        Query q = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :username");
+        q.setParameter("username", username);
+        return (EmployeeEntity) q.getSingleResult();
+    }
+
 }
