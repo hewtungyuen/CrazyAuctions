@@ -18,15 +18,15 @@ import util.exception.InvalidLoginException;
  */
 @Stateless
 public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemote, EmployeeEntitySessionBeanLocal {
-
+    
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
-
+    
     @Override
     public EmployeeEntity login(String username, String password) throws InvalidLoginException {
         Query q = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :username");
         q.setParameter("username", username);
-
+        
         try {
             EmployeeEntity e = (EmployeeEntity) q.getSingleResult();
             if (e.getPassword().equals(password)) {
@@ -41,11 +41,24 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
             throw new InvalidLoginException("Incorrect username");
         }
     }
-
+    
     @Override
     public Long logout(Long employeeId) {
         EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
         e.setIsLoggedIn(Boolean.FALSE);
         return e.getId();
     }
+    
+    @Override
+    public Boolean checkCorrectPassword(java.lang.Long employeeId, String password) {
+        EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
+        return e.getPassword().equals(password);
+    }
+    
+    @Override
+    public void changePassword(Long employeeId, String newPassword) {
+        EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
+        e.setPassword(newPassword);
+    }
+    
 }

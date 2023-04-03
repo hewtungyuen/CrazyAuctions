@@ -20,4 +20,8 @@ public interface EmployeeEntitySessionBeanLocal {
 
     Long logout(Long employeeId);
 
+    Boolean checkCorrectPassword(java.lang.Long employeeId, String password);
+
+    void changePassword(Long employeeId, String newPassword);
+
 }
