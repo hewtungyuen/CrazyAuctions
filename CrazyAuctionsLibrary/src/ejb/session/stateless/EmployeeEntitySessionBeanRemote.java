@@ -32,4 +32,6 @@ public interface EmployeeEntitySessionBeanRemote {
 
     EmployeeEntity getEmployee(String username);
 
+    EmployeeEntity deleteEmployee(Long employeeId);
+
 }

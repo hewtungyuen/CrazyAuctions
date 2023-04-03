@@ -84,4 +84,11 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
         return (EmployeeEntity) q.getSingleResult();
     }
 
+    @Override
+    public EmployeeEntity deleteEmployee(Long employeeId) {
+        EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
+        em.remove(e);
+        return e;
+    }
+
 }

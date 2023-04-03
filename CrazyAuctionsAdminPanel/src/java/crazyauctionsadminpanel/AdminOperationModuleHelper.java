@@ -123,6 +123,8 @@ public class AdminOperationModuleHelper {
     }
 
     public void deleteEmployee(Long employeeId) {
+        EmployeeEntity e = employeeEntitySessionBeanRemote.deleteEmployee(employeeId);
+        System.out.println("Deleted employee: " + e.toString());
     }
 
     // finance staff
