@@ -5,8 +5,11 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
+import entity.EmployeeEntity;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
+import util.exception.InvalidLoginException;
 
 /**
  *
@@ -14,10 +17,10 @@ import util.enumeration.EmployeeTypeEnum;
  */
 public class MainApp {
 
-    private AdminOperationModule adminOperationModule;
+    private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
 
-    public MainApp() {
-
+    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
+        this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -51,15 +54,25 @@ public class MainApp {
     }
 
     public void doLogin() {
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Enter username:");
-        // check if user is currently logged in 
+        String username = scanner.nextLine();
 
         System.out.println("Enter password:");
-        // check if password is correct 
-        
+        String password = scanner.nextLine();
+        EmployeeEntity e;
+        try {
+            e = employeeEntitySessionBeanRemote.login(username, password);
+
+        } catch (InvalidLoginException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+
         // retrieve employee type 
-        EmployeeTypeEnum employeeType = EmployeeTypeEnum.FINANCE;
-        adminOperationModule = new AdminOperationModule(); // pass in user id here? 
+        EmployeeTypeEnum employeeType = e.getEmployeeType();
+        AdminOperationModule adminOperationModule = new AdminOperationModule(e.getId(), employeeEntitySessionBeanRemote); // pass in user id here? 
 
         // render menu according to employee type 
         if (employeeType == EmployeeTypeEnum.EMPLOYEE) {

@@ -23,12 +23,20 @@ public class EmployeeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Enum type;
+    private String username;
     private String password;
     private Boolean isLoggedIn;
-
     private EmployeeTypeEnum employeeType;
 
+    public EmployeeEntity() {
+    }
+
+    public EmployeeEntity(String username, String password, EmployeeTypeEnum employeeType) {
+        this.username = username;
+        this.password = password;
+        this.employeeType = employeeType;
+        this.isLoggedIn = false;
+    }
 
 
     @Override
@@ -113,17 +121,17 @@ public class EmployeeEntity implements Serializable {
     }
 
     /**
-     * @return the type
+     * @return the username
      */
-    public Enum getType() {
-        return type;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * @param type the type to set
+     * @param username the username to set
      */
-    public void setType(Enum type) {
-        this.type = type;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

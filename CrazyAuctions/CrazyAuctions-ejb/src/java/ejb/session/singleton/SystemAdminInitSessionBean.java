@@ -12,6 +12,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import util.enumeration.EmployeeTypeEnum;
 
 /**
  *
@@ -34,7 +35,7 @@ public class SystemAdminInitSessionBean {
     
     @PostConstruct
     public void postConstruct() {
-        EmployeeEntity employee = new EmployeeEntity();
+        EmployeeEntity employee = new EmployeeEntity("admin", "password", EmployeeTypeEnum.ADMIN);
         em.persist(employee);
     }
 }

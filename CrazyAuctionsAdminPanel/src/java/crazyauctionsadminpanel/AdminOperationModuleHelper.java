@@ -5,15 +5,25 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
+
 /**
  *
  * @author hewtu
  */
 public class AdminOperationModuleHelper {
 
+    private Long employeeId;
+    private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
+
+    public AdminOperationModuleHelper(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
+        this.employeeId = employeeId;
+        this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
+    }
+
     // all employees 
     public void logout() {
-        // set isLoggedIn = false
+        employeeEntitySessionBeanRemote.logout(employeeId);
     }
 
     public void changePassword() {

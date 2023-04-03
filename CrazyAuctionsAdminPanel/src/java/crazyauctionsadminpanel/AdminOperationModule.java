@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
 
@@ -16,8 +17,8 @@ public class AdminOperationModule {
 
     private AdminOperationModuleHelper adminOperationModuleHelper;
 
-    public AdminOperationModule() {
-        this.adminOperationModuleHelper = new AdminOperationModuleHelper(); // pass in id here 
+    public AdminOperationModule(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
+        this.adminOperationModuleHelper = new AdminOperationModuleHelper(employeeId, employeeEntitySessionBeanRemote); // pass in id here 
     }
 
     public void employeeMenu() {
@@ -39,7 +40,7 @@ public class AdminOperationModule {
 
                 if (response == 1) {
                     adminOperationModuleHelper.logout();
-
+                    break;
                 } else if (response == 2) {
                     adminOperationModuleHelper.changePassword();
 
@@ -51,7 +52,7 @@ public class AdminOperationModule {
                 }
             }
 
-            if (response == 3) {
+            if (response == 3 || response == 1) {
                 break;
             }
         }
@@ -78,7 +79,7 @@ public class AdminOperationModule {
 
                 if (response == 1) {
                     adminOperationModuleHelper.logout();
-
+                    break;
                 } else if (response == 2) {
                     adminOperationModuleHelper.changePassword();
 
@@ -99,7 +100,7 @@ public class AdminOperationModule {
                 }
             }
 
-            if (response == 6) {
+            if (response == 6 || response == 1) {
                 break;
             }
         }
@@ -126,7 +127,7 @@ public class AdminOperationModule {
 
                 if (response == 1) {
                     adminOperationModuleHelper.logout();
-
+                    break;
                 } else if (response == 2) {
                     adminOperationModuleHelper.changePassword();
 
@@ -148,7 +149,7 @@ public class AdminOperationModule {
                 }
             }
 
-            if (response == 6) {
+            if (response == 6 || response == 1) {
                 break;
             }
         }
@@ -176,7 +177,7 @@ public class AdminOperationModule {
 
                 if (response == 1) {
                     adminOperationModuleHelper.logout();
-
+                    break;
                 } else if (response == 2) {
                     adminOperationModuleHelper.changePassword();
 
@@ -202,7 +203,7 @@ public class AdminOperationModule {
                 }
             }
 
-            if (response == 7) {
+            if (response == 7 || response == 1) {
                 break;
             }
         }

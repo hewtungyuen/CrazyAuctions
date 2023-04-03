@@ -5,18 +5,24 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
+import javax.ejb.EJB;
+
 /**
  *
  * @author hewtu
  */
 public class Main {
 
+    @EJB
+    private static EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MainApp mainApp = new MainApp();
+        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote);
         mainApp.runApp(); // inject EJB here
     }
 
