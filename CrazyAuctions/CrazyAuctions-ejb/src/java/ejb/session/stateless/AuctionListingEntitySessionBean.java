@@ -6,12 +6,14 @@
 package ejb.session.stateless;
 
 import entity.AuctionListingEntity;
+import entity.BidEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
@@ -22,6 +24,9 @@ import util.enumeration.AuctionListingStateEnum;
  */
 @Stateless
 public class AuctionListingEntitySessionBean implements AuctionListingEntitySessionBeanRemote, AuctionListingEntitySessionBeanLocal {
+
+    @EJB
+    private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
 
     @EJB
     private AuctionListingTimerSessionBeanLocal auctionListingTimerSessionBeanLocal;
@@ -72,7 +77,15 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
     @Override
     public AuctionListingEntity deleteAuctionListing(Long auctionListingId) {
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
-        em.remove(a);
+
+        try {
+            BidEntity highestBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(auctionListingId);
+            a.setAuctionListingState(AuctionListingStateEnum.DISABLED);
+            // refund the guy with the highest bid 
+        } catch (NoResultException ex) {
+            em.remove(a);
+        }
+
         return a;
     }
 
