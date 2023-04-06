@@ -6,9 +6,11 @@
 package ejb.session.stateless;
 
 import entity.AuctionListingEntity;
+import java.util.Collection;
 import java.util.Date;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.NoSuchObjectLocalException;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
@@ -42,8 +44,9 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
 
         TimerService timerService = sessionContext.getTimerService();
 
-        timerService.createTimer(5000, auctionListingId);
-        timerService.createTimer(15000, auctionListingId);
+        timerService.createTimer(startDate, auctionListingId);
+        timerService.createTimer(endDate, auctionListingId);
+        System.out.println("Created timers");
     }
 
     @Timeout
@@ -59,6 +62,25 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
             System.out.println("CLOSING");
             a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
             bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
+        }
+    }
+
+    @Override
+    public void cancelTimers(Long auctionListingId) {
+        TimerService timerService = sessionContext.getTimerService();
+        Collection<Timer> timers = timerService.getTimers();
+
+        for (Timer t : timers) {
+            if (t.getInfo() != null) {
+                if (t.getInfo().equals(auctionListingId)) {
+                    try {
+                        t.cancel();
+                        System.out.println("Cancelled timer");
+                    } catch (NoSuchObjectLocalException ex) {
+                        System.err.println("Timer already cancelled");
+                    }
+                }
+            }
         }
     }
 

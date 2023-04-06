@@ -60,7 +60,12 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
     @Override
     public AuctionListingEntity updateAuctionListing(AuctionListingEntity updatedAuctionListing) {
+        updatedAuctionListing.setAuctionListingState(AuctionListingStateEnum.CLOSED);
         em.merge(updatedAuctionListing);
+        em.flush();
+        Long updatedId = updatedAuctionListing.getId();
+        auctionListingTimerSessionBeanLocal.cancelTimers(updatedId);
+        auctionListingTimerSessionBeanLocal.createAuctionTimers(updatedId);
         return updatedAuctionListing;
     }
 

@@ -98,23 +98,46 @@ public class SalesOperations {
 
     public void updateAuctionListing(AuctionListingEntity a) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter new product name: ");
-        String productName = scanner.nextLine();
-        a.setProductName(productName);
+        System.out.println("Enter new product name or leave empty if unchanged: ");
+        String productName = scanner.nextLine().trim();
+        if (productName.length() > 0) {
+            a.setProductName(productName);
+        }
 
-        System.out.println("Enter new reserve price: ");
+        System.out.println("Enter new reserve price or 0 if unchanged: ");
         BigDecimal reservePrice = scanner.nextBigDecimal();
-        a.setReservePrice(reservePrice);
 
-        System.out.println("Enter new auction start date: ");
-        String startDateString = scanner.nextLine();
-        Date startDate = new Date(startDateString);
-        a.setStartDate(startDate);
+        if (reservePrice.compareTo(new BigDecimal(0)) > 0) {
+            a.setReservePrice(reservePrice);
+        }
 
-        System.out.println("Enter new auction end date: ");
-        String endDateString = scanner.nextLine();
-        Date endDate = new Date(endDateString);
-        a.setEndDate(endDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        scanner.nextLine();
+        System.out.println("Enter new auction start date (yyyy/mm/dd HH:mm) or leave empty if unchanged");
+        String startDateString = scanner.nextLine().trim();
+
+        if (startDateString.length() > 0) {
+            try {
+                Date startDate = dateFormat.parse(startDateString);
+                a.setStartDate(startDate);
+            } catch (Exception e) {
+                System.out.println("Invalid date format");
+                return;
+            }
+        }
+
+        System.out.println("Enter new auction end date (yyyy/mm/dd HH:mm) or leave empty if unchanged");
+        String endDateString = scanner.nextLine().trim();
+
+        if (endDateString.length() > 0) {
+            try {
+                Date endDate = dateFormat.parse(endDateString);
+                a.setEndDate(endDate);
+            } catch (Exception e) {
+                System.out.println("Invalid date format");
+                return;
+            }
+        }
 
         AuctionListingEntity updated = auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
         System.out.println("Updated: " + updated.toString());

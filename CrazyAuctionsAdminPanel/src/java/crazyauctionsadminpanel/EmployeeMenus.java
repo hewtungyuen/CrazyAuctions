@@ -265,11 +265,10 @@ public class EmployeeMenus {
         System.out.println("3: Exit\n");
 
         Scanner scanner = new Scanner(System.in);
-        Integer response = scanner.nextInt();
 
         System.out.print("> ");
 
-        response = scanner.nextInt();
+        Integer response = scanner.nextInt();
 
         if (response == 1) {
             salesOperations.updateAuctionListing(a);

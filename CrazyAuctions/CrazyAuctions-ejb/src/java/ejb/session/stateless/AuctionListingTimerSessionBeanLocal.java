@@ -15,4 +15,6 @@ import javax.ejb.Local;
 public interface AuctionListingTimerSessionBeanLocal {
 
     void createAuctionTimers(Long auctionListingId);
+
+    void cancelTimers(Long auctionListingId);
 }

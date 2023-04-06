@@ -15,4 +15,6 @@ import javax.ejb.Remote;
 public interface AuctionListingTimerSessionBeanRemote {
 
     void createAuctionTimers(Long auctionListingId);
+
+    void cancelTimers(Long auctionListingId);
 }
