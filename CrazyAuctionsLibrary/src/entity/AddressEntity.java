@@ -23,17 +23,26 @@ public class AddressEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     @ManyToOne
     private CustomerEntity customer;
+    
     private String address;
-    private Boolean isDisabled = false;
+    private Boolean isDisabled;
 
+    public AddressEntity() {
+        this.isDisabled = false;
+    }
 
-        
+    public AddressEntity(CustomerEntity customer, String address) {
+        this.customer = customer;
+        this.address = address;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -44,7 +53,7 @@ public class AddressEntity implements Serializable {
             return false;
         }
         AddressEntity other = (AddressEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -52,7 +61,63 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.AddressEntity[ id=" + id + " ]";
+        return "entity.AddressEntity[ id=" + getId() + " ]";
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the customer
+     */
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the isDisabled
+     */
+    public Boolean getIsDisabled() {
+        return isDisabled;
+    }
+
+    /**
+     * @param isDisabled the isDisabled to set
+     */
+    public void setIsDisabled(Boolean isDisabled) {
+        this.isDisabled = isDisabled;
     }
     
 }

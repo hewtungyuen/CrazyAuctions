@@ -30,6 +30,18 @@ public class BidEntity implements Serializable {
     private AuctionListingEntity auctionListing;
     private BigDecimal bidPrice;
     private Boolean isWinningBid;      
+
+    public BidEntity() {
+        this.isWinningBid = true;
+    }
+
+    public BidEntity(CustomerEntity customer, AuctionListingEntity auctionListing, BigDecimal bidPrice) {
+        this();
+        this.customer = customer;
+        this.auctionListing = auctionListing;
+        this.bidPrice = bidPrice;
+    }
+    
     
     public Long getId() {
         return id;
@@ -42,7 +54,7 @@ public class BidEntity implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -53,7 +65,7 @@ public class BidEntity implements Serializable {
             return false;
         }
         BidEntity other = (BidEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -61,7 +73,63 @@ public class BidEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.BidEntity[ id=" + id + " ]";
+        return "entity.BidEntity[ id=" + getId() + " ]";
+    }
+
+    /**
+     * @return the customer
+     */
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * @return the auctionListing
+     */
+    public AuctionListingEntity getAuctionListing() {
+        return auctionListing;
+    }
+
+    /**
+     * @param auctionListing the auctionListing to set
+     */
+    public void setAuctionListing(AuctionListingEntity auctionListing) {
+        this.auctionListing = auctionListing;
+    }
+
+    /**
+     * @return the bidPrice
+     */
+    public BigDecimal getBidPrice() {
+        return bidPrice;
+    }
+
+    /**
+     * @param bidPrice the bidPrice to set
+     */
+    public void setBidPrice(BigDecimal bidPrice) {
+        this.bidPrice = bidPrice;
+    }
+
+    /**
+     * @return the isWinningBid
+     */
+    public Boolean getIsWinningBid() {
+        return isWinningBid;
+    }
+
+    /**
+     * @param isWinningBid the isWinningBid to set
+     */
+    public void setIsWinningBid(Boolean isWinningBid) {
+        this.isWinningBid = isWinningBid;
     }
     
 }

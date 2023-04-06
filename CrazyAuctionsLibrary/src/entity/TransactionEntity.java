@@ -13,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import util.enumeration.TransactionTypeEnum;
 
 /**
  *
@@ -24,18 +27,29 @@ public class TransactionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
+
     @ManyToOne
     private CustomerEntity customer;
-    private Date date;
-    private BigDecimal amount;
-    private Enum type;
-    private String description;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date transactionDate;
+    private BigDecimal transactionAmount;
+    private TransactionTypeEnum transactionType;
+    private String transactionDescription;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -46,7 +60,7 @@ public class TransactionEntity implements Serializable {
             return false;
         }
         TransactionEntity other = (TransactionEntity) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -54,7 +68,77 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.TransactionEntity[ id=" + id + " ]";
+        return "entity.TransactionEntity[ id=" + getId() + " ]";
     }
-    
+
+    /**
+     * @return the customer
+     */
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+    }
+
+    /**
+     * @return the transactionDate
+     */
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    /**
+     * @param transactionDate the transactionDate to set
+     */
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    /**
+     * @return the transactionAmount
+     */
+    public BigDecimal getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    /**
+     * @param transactionAmount the transactionAmount to set
+     */
+    public void setTransactionAmount(BigDecimal transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    /**
+     * @return the transactionType
+     */
+    public TransactionTypeEnum getTransactionType() {
+        return transactionType;
+    }
+
+    /**
+     * @param transactionType the transactionType to set
+     */
+    public void setTransactionType(TransactionTypeEnum transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    /**
+     * @return the transactionDescription
+     */
+    public String getTransactionDescription() {
+        return transactionDescription;
+    }
+
+    /**
+     * @param transactionDescription the transactionDescription to set
+     */
+    public void setTransactionDescription(String transactionDescription) {
+        this.transactionDescription = transactionDescription;
+    }
+
 }
