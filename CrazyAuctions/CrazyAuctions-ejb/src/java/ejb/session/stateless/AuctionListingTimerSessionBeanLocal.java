@@ -5,18 +5,14 @@
  */
 package ejb.session.stateless;
 
-import entity.BidEntity;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author hewtu
  */
-@Remote
-public interface BidEntitySessionBeanRemote {
+@Local
+public interface AuctionListingTimerSessionBeanLocal {
 
-    BidEntity getHighestBidForAuctionListing(Long auctionListingId);
-
-    void markWinningBid(Long auctionListingId);
-    
+    void createAuctionTimers(Long auctionListingId);
 }

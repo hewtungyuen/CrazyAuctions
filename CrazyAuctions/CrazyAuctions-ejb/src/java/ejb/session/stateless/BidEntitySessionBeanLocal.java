@@ -16,5 +16,7 @@ import javax.ejb.Local;
 public interface BidEntitySessionBeanLocal {
 
     BidEntity getHighestBidForAuctionListing(Long auctionListingId);
+
+    void markWinningBid(Long auctionListingId);
     
 }

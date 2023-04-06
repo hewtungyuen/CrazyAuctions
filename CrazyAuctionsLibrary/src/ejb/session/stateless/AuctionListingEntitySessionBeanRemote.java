@@ -30,5 +30,9 @@ public interface AuctionListingEntitySessionBeanRemote {
     AuctionListingEntity updateAuctionListing(AuctionListingEntity updatedAuctionListing);
 
     AuctionListingEntity deleteAuctionListing(Long auctionListingId);
+
+    void openAuctionListing(Long auctionListingId);
+
+    void closeAuctionListing(Long auctionListingId);
     
 }

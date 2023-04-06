@@ -66,9 +66,17 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         em.remove(a);
         return a;
     }
-    
-    
-    
-    
+
+    @Override
+    public void openAuctionListing(Long auctionListingId) {
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        a.setAuctionListingState(AuctionListingStateEnum.OPEN);
+    }
+
+    @Override
+    public void closeAuctionListing(Long auctionListingId) {
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
+    }
 
 }

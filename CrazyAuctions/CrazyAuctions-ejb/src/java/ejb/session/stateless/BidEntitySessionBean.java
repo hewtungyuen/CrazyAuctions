@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.AuctionListingEntity;
 import entity.BidEntity;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,6 +28,16 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         q.setParameter("auctionListingId", auctionListingId);
         return (BidEntity) q.getSingleResult();
     }
-    
-    
+
+    @Override
+    public void markWinningBid(Long auctionListingId) {  // next time account for proxy bid 
+        BidEntity b = getHighestBidForAuctionListing(auctionListingId);
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+
+        if (b.getBidPrice().compareTo(a.getReservePrice()) >= 0) {
+            b.setIsWinningBid(Boolean.TRUE);
+            a.setWinningBid(b);
+        }
+    }
+
 }

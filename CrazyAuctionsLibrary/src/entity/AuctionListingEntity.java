@@ -5,14 +5,17 @@
  */
 package entity;
 
+import ejb.session.stateless.AuctionListingTimerSessionBeanRemote;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.ejb.EJB;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PostPersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import util.enumeration.AuctionListingStateEnum;
@@ -24,6 +27,9 @@ import util.enumeration.AuctionListingStateEnum;
 @Entity
 public class AuctionListingEntity implements Serializable {
 
+    @EJB
+    private static AuctionListingTimerSessionBeanRemote auctionListingTimerSessionBeanRemote;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +63,11 @@ public class AuctionListingEntity implements Serializable {
         this.productName = productName;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+    
+    @PostPersist
+    public void postPersist() {
+        auctionListingTimerSessionBeanRemote.createAuctionTimers(id);
     }
 
     @Override
