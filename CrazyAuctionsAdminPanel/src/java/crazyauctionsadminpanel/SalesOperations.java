@@ -6,8 +6,10 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
+import entity.BidEntity;
 import entity.EmployeeEntity;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,9 +25,13 @@ public class SalesOperations {
 
     private Long employeeId;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
+    private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
-    public SalesOperations(AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote) {
+    public SalesOperations(AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
+    ) {
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
+        this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
     }
 
     // sales staff
@@ -112,12 +118,17 @@ public class SalesOperations {
         String productName = scanner.nextLine();
         AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
 
-        // display all winning bids for that auction listing 
-        System.out.println("Enter winning bid id (0 if no winning bid): ");
-        Long winningBidId = scanner.nextLong();
-        // get the winning bid 
+        BidEntity winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
+        
+        System.out.println("Assign this bid (" + winningBid.toString() + ") as winner?: ");
+        System.out.println("1: Yes");
+        System.out.println("2: No");
 
-        if (winningBidId != new Long(0)) {
+        Integer response = scanner.nextInt();
+
+        if (response == 1) {
+            a.setWinningBid(winningBid);
+            winningBid.setIsWinningBid(Boolean.TRUE);
             auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
             System.out.println("Assigned winning bid for: " + a.toString());
         } else {

@@ -6,6 +6,7 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import javax.ejb.EJB;
@@ -17,6 +18,9 @@ import javax.ejb.EJB;
 public class Main {
 
     @EJB
+    private static BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
+
+    @EJB
     private static AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
     @EJB
@@ -25,13 +29,16 @@ public class Main {
     @EJB
     private static EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
 
-    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote, creditPackageEntitySessionBeanRemote, auctionListingEntitySessionBeanRemote);
+        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote,
+                creditPackageEntitySessionBeanRemote,
+                auctionListingEntitySessionBeanRemote,
+                bidEntitySessionBeanRemote
+        );
         mainApp.runApp();
     }
 

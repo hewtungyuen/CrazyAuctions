@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.BidEntity;
 import javax.ejb.Local;
 
 /**
@@ -12,6 +13,8 @@ import javax.ejb.Local;
  * @author hewtu
  */
 @Local
-public interface BiddingOperationSessionBeanLocal {
+public interface BidEntitySessionBeanLocal {
+
+    BidEntity getHighestBidForAuctionListing(Long auctionListingId);
     
 }

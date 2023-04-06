@@ -6,6 +6,7 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
@@ -23,15 +24,17 @@ public class EmployeeMenus {
     private SalesOperations salesOperations;
     private FinanceOperations financeOperations;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
+    private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
     public EmployeeMenus(Long employeeId,
             EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
-            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
     ) {
         this.employeeOperations = new EmployeeOperations(employeeId, employeeEntitySessionBeanRemote);
         this.adminOperations = new AdminOperations(employeeId, employeeEntitySessionBeanRemote);
-        this.salesOperations = new SalesOperations(auctionListingEntitySessionBeanRemote);
+        this.salesOperations = new SalesOperations(auctionListingEntitySessionBeanRemote, bidEntitySessionBeanRemote);
         this.financeOperations = new FinanceOperations(creditPackageEntitySessionBeanRemote);
     }
 

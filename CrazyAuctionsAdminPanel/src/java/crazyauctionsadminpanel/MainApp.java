@@ -6,6 +6,7 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
@@ -22,14 +23,17 @@ public class MainApp {
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
+    private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
-    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote, 
-            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote, 
-            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
     ) {
         this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
+        this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -84,7 +88,8 @@ public class MainApp {
         EmployeeMenus employeeMenu = new EmployeeMenus(e.getId(),
                 employeeEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
-                auctionListingEntitySessionBeanRemote
+                auctionListingEntitySessionBeanRemote,
+                bidEntitySessionBeanRemote
         );
 
         // render menu according to employee type 

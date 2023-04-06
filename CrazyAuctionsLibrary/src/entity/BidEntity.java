@@ -29,10 +29,10 @@ public class BidEntity implements Serializable {
     @ManyToOne
     private AuctionListingEntity auctionListing;
     private BigDecimal bidPrice;
-    private Boolean isWinningBid;      
+    private Boolean isWinningBid; // only if it actually won
 
     public BidEntity() {
-        this.isWinningBid = true;
+        this.isWinningBid = false;
     }
 
     public BidEntity(CustomerEntity customer, AuctionListingEntity auctionListing, BigDecimal bidPrice) {

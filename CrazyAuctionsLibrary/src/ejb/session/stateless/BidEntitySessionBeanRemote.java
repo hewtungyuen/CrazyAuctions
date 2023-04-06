@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import entity.BidEntity;
 import javax.ejb.Remote;
 
 /**
@@ -12,6 +13,8 @@ import javax.ejb.Remote;
  * @author hewtu
  */
 @Remote
-public interface BiddingOperationSessionBeanRemote {
+public interface BidEntitySessionBeanRemote {
+
+    BidEntity getHighestBidForAuctionListing(Long auctionListingId);
     
 }
