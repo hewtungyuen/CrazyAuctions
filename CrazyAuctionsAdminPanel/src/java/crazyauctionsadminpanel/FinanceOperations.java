@@ -53,6 +53,17 @@ public class FinanceOperations {
     }
 
     public void updateCreditPackage(Long creditPackageId) {
+        CreditPackageEntity c = creditPackageEntitySessionBeanRemote.getCreditPackage(creditPackageId);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter new number of credits: (0 if no change)");
+        BigDecimal credits = scanner.nextBigDecimal();
+
+        if (credits.compareTo(BigDecimal.ZERO) > 0) {
+            c.setCredits(credits);
+        }
+        
+        CreditPackageEntity updatedCreditPackage = creditPackageEntitySessionBeanRemote.updateCreditPackage(c);
+        System.out.println("Updated: " + updatedCreditPackage.toString());
 
     }
 

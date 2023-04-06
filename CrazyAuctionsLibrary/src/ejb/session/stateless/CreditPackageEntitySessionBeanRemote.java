@@ -25,4 +25,6 @@ public interface CreditPackageEntitySessionBeanRemote {
 
     CreditPackageEntity deleteCreditPackage(Long creditPackageId);
 
+    CreditPackageEntity updateCreditPackage(CreditPackageEntity updatedCreditPackage);
+
 }

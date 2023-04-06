@@ -24,5 +24,7 @@ public interface CreditPackageEntitySessionBeanLocal {
     CreditPackageEntity getCreditPackage(Long creditPackageId);
 
     CreditPackageEntity deleteCreditPackage(Long creditPackageId);
+
+    CreditPackageEntity updateCreditPackage(CreditPackageEntity updatedCreditPackage);
     
 }

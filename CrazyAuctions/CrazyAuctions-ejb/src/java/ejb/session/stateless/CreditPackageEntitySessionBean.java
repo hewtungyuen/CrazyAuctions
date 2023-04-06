@@ -54,4 +54,11 @@ public class CreditPackageEntitySessionBean implements CreditPackageEntitySessio
         return c;
     }
 
+    @Override
+    public CreditPackageEntity updateCreditPackage(CreditPackageEntity updatedCreditPackage) {
+        em.merge(updatedCreditPackage);
+        return updatedCreditPackage;
+    }
+
+    
 }
