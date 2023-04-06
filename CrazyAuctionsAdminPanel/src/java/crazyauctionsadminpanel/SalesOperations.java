@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
 import java.util.List;
@@ -18,11 +19,10 @@ import util.enumeration.EmployeeTypeEnum;
 public class SalesOperations {
 
     private Long employeeId;
-    private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
-    public SalesOperations(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
-        this.employeeId = employeeId;
-        this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
+    public SalesOperations(AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote) {
+        this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
 
     // sales staff

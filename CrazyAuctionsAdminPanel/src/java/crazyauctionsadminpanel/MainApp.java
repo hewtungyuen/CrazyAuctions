@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
@@ -18,12 +19,17 @@ import util.exception.InvalidLoginException;
  */
 public class MainApp {
 
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
 
-    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote, CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote) {
+    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote, 
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote, 
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+    ) {
         this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
+        this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -75,10 +81,11 @@ public class MainApp {
 
         // retrieve employee type 
         EmployeeTypeEnum employeeType = e.getEmployeeType();
-        EmployeeMenus employeeMenu = new EmployeeMenus(e.getId(), 
+        EmployeeMenus employeeMenu = new EmployeeMenus(e.getId(),
                 employeeEntitySessionBeanRemote,
-                creditPackageEntitySessionBeanRemote
-        ); 
+                creditPackageEntitySessionBeanRemote,
+                auctionListingEntitySessionBeanRemote
+        );
 
         // render menu according to employee type 
         if (employeeType == EmployeeTypeEnum.EMPLOYEE) {

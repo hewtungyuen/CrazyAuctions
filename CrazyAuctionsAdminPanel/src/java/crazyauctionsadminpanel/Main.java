@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import javax.ejb.EJB;
@@ -14,6 +15,9 @@ import javax.ejb.EJB;
  * @author hewtu
  */
 public class Main {
+
+    @EJB
+    private static AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
     @EJB
     private static CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
@@ -27,8 +31,8 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote, creditPackageEntitySessionBeanRemote);
-        mainApp.runApp(); // inject EJB here
+        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote, creditPackageEntitySessionBeanRemote, auctionListingEntitySessionBeanRemote);
+        mainApp.runApp();
     }
 
 }

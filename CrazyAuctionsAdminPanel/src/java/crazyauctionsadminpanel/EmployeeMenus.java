@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import java.util.Scanner;
@@ -20,14 +21,16 @@ public class EmployeeMenus {
     private AdminOperations adminOperations;
     private SalesOperations salesOperations;
     private FinanceOperations financeOperations;
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
-    public EmployeeMenus(Long employeeId, 
+    public EmployeeMenus(Long employeeId,
             EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
-            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
     ) {
         this.employeeOperations = new EmployeeOperations(employeeId, employeeEntitySessionBeanRemote);
         this.adminOperations = new AdminOperations(employeeId, employeeEntitySessionBeanRemote);
-        this.salesOperations = new SalesOperations(employeeId, employeeEntitySessionBeanRemote);
+        this.salesOperations = new SalesOperations(auctionListingEntitySessionBeanRemote);
         this.financeOperations = new FinanceOperations(creditPackageEntitySessionBeanRemote);
     }
 
