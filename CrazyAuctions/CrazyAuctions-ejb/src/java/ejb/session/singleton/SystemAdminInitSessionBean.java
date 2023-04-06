@@ -11,7 +11,10 @@ import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import util.enumeration.EmployeeTypeEnum;
 
 /**
@@ -26,16 +29,16 @@ public class SystemAdminInitSessionBean {
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
 
-    public void persist(Object object) {
-        em.persist(object);
-    }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
-    
     @PostConstruct
     public void postConstruct() {
-        EmployeeEntity employee = new EmployeeEntity("admin", "password", EmployeeTypeEnum.ADMIN);
-        em.persist(employee);
+        Query query = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :inUsername");
+        query.setParameter("inUsername", "admin");
+
+        try {
+            query.getSingleResult();
+        } catch (NoResultException | NonUniqueResultException ex) {
+            EmployeeEntity employee = new EmployeeEntity("admin", "password", EmployeeTypeEnum.ADMIN);
+            em.persist(employee);
+        }
     }
 }
