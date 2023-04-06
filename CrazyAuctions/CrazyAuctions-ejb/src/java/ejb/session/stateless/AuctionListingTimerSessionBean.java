@@ -58,8 +58,7 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
         } else if (a.getAuctionListingState().equals(AuctionListingStateEnum.OPEN)) {
             System.out.println("CLOSING");
             a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
-
-//            bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
+            bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
         }
     }
 
