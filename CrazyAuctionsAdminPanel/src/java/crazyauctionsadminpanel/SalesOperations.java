@@ -7,15 +7,13 @@ package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.BidEntitySessionBeanRemote;
-import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
 import entity.BidEntity;
-import entity.EmployeeEntity;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import util.enumeration.EmployeeTypeEnum;
 
 /**
  *
@@ -36,7 +34,9 @@ public class SalesOperations {
 
     // sales staff
     public void createAuctionListing() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Enter product name: ");
         String productName = scanner.nextLine();
 
@@ -46,13 +46,26 @@ public class SalesOperations {
         System.out.println("Enter starting bid price (must be lower than reserve price): ");
         BigDecimal startingBidPrice = scanner.nextBigDecimal();
 
-        System.out.println("Enter auction start date: ");
+        System.out.println("Enter auction start date (yyyy/mm/dd HH:mm)");
         String startDateString = scanner.nextLine();
-        Date startDate = new Date(startDateString);
+        Date startDate;
+        try {
+            startDate = dateFormat.parse(startDateString);
+        } catch (Exception e) {
+            System.out.println("Invalid date format");
+            return;
+        }
 
-        System.out.println("Enter auction end date: ");
+        System.out.println("Enter auction end date: (yyyy/mm/dd HH:mm)");
         String endDateString = scanner.nextLine();
-        Date endDate = new Date(endDateString);
+
+        Date endDate;
+        try {
+            endDate = dateFormat.parse(endDateString);
+        } catch (Exception e) {
+            System.out.println("Invalid date format");
+            return;
+        }
 
         AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
 
@@ -119,7 +132,7 @@ public class SalesOperations {
         AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
 
         BidEntity winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
-        
+
         System.out.println("Assign this bid (" + winningBid.toString() + ") as winner?: ");
         System.out.println("1: Yes");
         System.out.println("2: No");
