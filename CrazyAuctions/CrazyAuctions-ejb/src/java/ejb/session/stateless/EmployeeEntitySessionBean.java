@@ -78,7 +78,7 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     }
 
     @Override
-    public EmployeeEntity getEmployee(String username) {
+    public EmployeeEntity getEmployeeByUsername(String username) {
         Query q = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :username");
         q.setParameter("username", username);
         return (EmployeeEntity) q.getSingleResult();
@@ -89,6 +89,18 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
         EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
         em.remove(e);
         return e;
+    }
+
+    @Override
+    public EmployeeEntity getEmployeeById(Long employeeId) {
+        EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
+        return e;
+    }
+
+    @Override
+    public EmployeeEntity updateEmployee(EmployeeEntity updatedEmployee) {
+        em.merge(updatedEmployee);
+        return updatedEmployee;
     }
 
 }

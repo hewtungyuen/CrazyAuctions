@@ -106,7 +106,7 @@ public class AdminOperations {
         System.out.println("Enter employee username");
         String username = scanner.nextLine();
 
-        EmployeeEntity e = employeeEntitySessionBeanRemote.getEmployee(username);
+        EmployeeEntity e = employeeEntitySessionBeanRemote.getEmployeeByUsername(username);
         System.out.println(e.toString());
         return e.getId();
     }
@@ -119,51 +119,32 @@ public class AdminOperations {
     }
 
     public void updateEmployee(Long employeeId) {
-        // 
+        EmployeeEntity e = employeeEntitySessionBeanRemote.getEmployeeById(employeeId);
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter new employee type: 0: no change, 1: Employee, 2: Finance, 3: Sales, 4: Admin");
+        Integer response = scanner.nextInt();
+
+        if (response == 1) {
+            e.setEmployeeType(EmployeeTypeEnum.EMPLOYEE);
+        } else if (response == 2) {
+            e.setEmployeeType(EmployeeTypeEnum.FINANCE);
+        } else if (response == 3) {
+            e.setEmployeeType(EmployeeTypeEnum.SALES);
+        } else if (response == 4) {
+            e.setEmployeeType(EmployeeTypeEnum.ADMIN);
+        } else if (response == 0) {
+        } else {
+            System.out.println("Invalid input, try again");
+        }
+
+        EmployeeEntity updatedEmployee = employeeEntitySessionBeanRemote.updateEmployee(e);
+        System.out.println("Updated: " + updatedEmployee.toString());
     }
 
     public void deleteEmployee(Long employeeId) {
         EmployeeEntity e = employeeEntitySessionBeanRemote.deleteEmployee(employeeId);
         System.out.println("Deleted employee: " + e.toString());
-    }
-
-    // finance staff
-    public void createCreditPackage() {
-    }
-
-    public void viewCreditPackageDetails() {
-    }
-
-    public void viewAllCreditPackages() {
-    }
-
-    public void updateCreditPackage() {
-
-    }
-
-    public void deleteCreditPackage() {
-
-    }
-
-    // sales staff
-    public void createAuctionListing() {
-    }
-
-    public void viewAuctionListingDetails() {
-    }
-
-    public void viewAllAuctionListings() {
-    }
-
-    public void viewAllAuctionListingsWithBidBelowReserve() {
-    }
-
-    public void updateAuctionListing() {
-    }
-
-    public void deleteAuctionListing() {
-    }
-
-    public void assignWinningBid() {
     }
 }

@@ -283,7 +283,7 @@ public class EmployeeMenus {
         System.out.print("> ");
 
         if (response == 1) {
-            adminOperations.assignWinningBid();
+            salesOperations.assignWinningBid();
         }
     }
 }

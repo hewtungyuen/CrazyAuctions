@@ -30,8 +30,12 @@ public interface EmployeeEntitySessionBeanLocal {
 
     List<EmployeeEntity> viewAllEmployees();
 
-    EmployeeEntity getEmployee(String username);
+    EmployeeEntity getEmployeeByUsername(String username);
 
     EmployeeEntity deleteEmployee(Long employeeId);
+
+    EmployeeEntity getEmployeeById(Long employeeId);
+
+    EmployeeEntity updateEmployee(EmployeeEntity updatedEmployee);
 
 }
