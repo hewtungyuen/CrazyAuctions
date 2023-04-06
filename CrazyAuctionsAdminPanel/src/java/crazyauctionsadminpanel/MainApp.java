@@ -25,7 +25,8 @@ public class MainApp {
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
     private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
-    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
+    public MainApp(
+            EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
             BidEntitySessionBeanRemote bidEntitySessionBeanRemote

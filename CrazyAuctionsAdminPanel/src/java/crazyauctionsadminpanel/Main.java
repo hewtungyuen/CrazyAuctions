@@ -18,6 +18,9 @@ import javax.ejb.EJB;
 public class Main {
 
     @EJB
+    private static EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
+
+    @EJB
     private static BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
     @EJB
@@ -26,15 +29,13 @@ public class Main {
     @EJB
     private static CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
 
-    @EJB
-    private static EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        MainApp mainApp = new MainApp(employeeEntitySessionBeanRemote,
+        MainApp mainApp = new MainApp(
+                employeeEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
                 auctionListingEntitySessionBeanRemote,
                 bidEntitySessionBeanRemote
