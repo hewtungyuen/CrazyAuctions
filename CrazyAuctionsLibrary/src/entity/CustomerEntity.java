@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +35,7 @@ public class CustomerEntity implements Serializable {
     @OneToMany(mappedBy = "customer")
     private List<TransactionEntity> transactions;
     
+    @Enumerated
     private CustomerTypeEnum customerType;
     private String username;
     private String password;

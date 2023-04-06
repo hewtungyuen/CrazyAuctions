@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.ejb.EJB;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,9 +27,6 @@ import util.enumeration.AuctionListingStateEnum;
  */
 @Entity
 public class AuctionListingEntity implements Serializable {
-
-    @EJB
-    private static AuctionListingTimerSessionBeanRemote auctionListingTimerSessionBeanRemote;
     
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,6 +48,7 @@ public class AuctionListingEntity implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
+    @Enumerated
     private AuctionListingStateEnum auctionListingState;
 
     public AuctionListingEntity() {
@@ -63,11 +62,6 @@ public class AuctionListingEntity implements Serializable {
         this.productName = productName;
         this.startDate = startDate;
         this.endDate = endDate;
-    }
-    
-    @PostPersist
-    public void postPersist() {
-        auctionListingTimerSessionBeanRemote.createAuctionTimers(id);
     }
 
     @Override

@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,10 +24,11 @@ public class EmployeeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated
+    private EmployeeTypeEnum employeeType;
     private String username;
     private String password;
     private Boolean isLoggedIn;
-    private EmployeeTypeEnum employeeType;
 
     public EmployeeEntity() {
     }

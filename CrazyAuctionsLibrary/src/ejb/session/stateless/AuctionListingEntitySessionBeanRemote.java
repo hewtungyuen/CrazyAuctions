@@ -31,8 +31,4 @@ public interface AuctionListingEntitySessionBeanRemote {
 
     AuctionListingEntity deleteAuctionListing(Long auctionListingId);
 
-    void openAuctionListing(Long auctionListingId);
-
-    void closeAuctionListing(Long auctionListingId);
-    
 }
