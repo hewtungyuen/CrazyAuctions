@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
@@ -13,12 +14,21 @@ import util.enumeration.EmployeeTypeEnum;
  *
  * @author hewtu
  */
-public class AdminOperationModule {
+public class EmployeeMenus {
 
-    private AdminOperationModuleHelper adminOperationModuleHelper;
+    private EmployeeOperations employeeOperations;
+    private AdminOperations adminOperations;
+    private SalesOperations salesOperations;
+    private FinanceOperations financeOperations;
 
-    public AdminOperationModule(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
-        this.adminOperationModuleHelper = new AdminOperationModuleHelper(employeeId, employeeEntitySessionBeanRemote); // pass in id here 
+    public EmployeeMenus(Long employeeId, 
+            EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
+    ) {
+        this.employeeOperations = new EmployeeOperations(employeeId, employeeEntitySessionBeanRemote);
+        this.adminOperations = new AdminOperations(employeeId, employeeEntitySessionBeanRemote);
+        this.salesOperations = new SalesOperations(employeeId, employeeEntitySessionBeanRemote);
+        this.financeOperations = new FinanceOperations(creditPackageEntitySessionBeanRemote);
     }
 
     public void employeeMenu() {
@@ -39,10 +49,10 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    adminOperationModuleHelper.logout();
+                    employeeOperations.logout();
                     break;
                 } else if (response == 2) {
-                    adminOperationModuleHelper.changePassword();
+                    employeeOperations.changePassword();
 
                 } else if (response == 3) {
                     break;
@@ -78,20 +88,20 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    adminOperationModuleHelper.logout();
+                    employeeOperations.logout();
                     break;
                 } else if (response == 2) {
-                    adminOperationModuleHelper.changePassword();
+                    employeeOperations.changePassword();
 
                 } else if (response == 3) {
-                    adminOperationModuleHelper.createNewEmployee();
+                    adminOperations.createNewEmployee();
 
                 } else if (response == 4) {
-                    Long employeeId = adminOperationModuleHelper.viewEmployeeDetails();
+                    Long employeeId = adminOperations.viewEmployeeDetails();
                     viewEmployeeDetailsMenu(employeeId);
 
                 } else if (response == 5) {
-                    adminOperationModuleHelper.viewAllEmployees();
+                    adminOperations.viewAllEmployees();
 
                 } else if (response == 6) {
                     break;
@@ -126,20 +136,20 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    adminOperationModuleHelper.logout();
+                    employeeOperations.logout();
                     break;
                 } else if (response == 2) {
-                    adminOperationModuleHelper.changePassword();
+                    employeeOperations.changePassword();
 
                 } else if (response == 3) {
-                    adminOperationModuleHelper.createCreditPackage();
+                    financeOperations.createCreditPackage();
 
                 } else if (response == 4) {
-                    adminOperationModuleHelper.viewCreditPackageDetails();
-                    viewCreditPackageDetailsMenu();
+                    Long creditPackageId = financeOperations.viewCreditPackageDetails();
+                    viewCreditPackageDetailsMenu(creditPackageId);
 
                 } else if (response == 5) {
-                    adminOperationModuleHelper.viewAllCreditPackages();
+                    financeOperations.viewAllCreditPackages();
 
                 } else if (response == 6) {
                     break;
@@ -176,23 +186,23 @@ public class AdminOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    adminOperationModuleHelper.logout();
+                    employeeOperations.logout();
                     break;
                 } else if (response == 2) {
-                    adminOperationModuleHelper.changePassword();
+                    employeeOperations.changePassword();
 
                 } else if (response == 3) {
-                    adminOperationModuleHelper.createAuctionListing();
+                    salesOperations.createAuctionListing();
 
                 } else if (response == 4) {
-                    adminOperationModuleHelper.viewAuctionListingDetails();
+                    salesOperations.viewAuctionListingDetails();
                     viewAuctionListingDetailsMenu();
 
                 } else if (response == 5) {
-                    adminOperationModuleHelper.viewAllAuctionListings();
+                    salesOperations.viewAllAuctionListings();
 
                 } else if (response == 6) {
-                    adminOperationModuleHelper.viewAllAuctionListingsWithBidBelowReserve();
+                    salesOperations.viewAllAuctionListingsWithBidBelowReserve();
                     assignWinningBidMenu();
 
                 } else if (response == 7) {
@@ -219,13 +229,13 @@ public class AdminOperationModule {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            adminOperationModuleHelper.updateEmployee(employeeId);
+            adminOperations.updateEmployee(employeeId);
         } else if (response == 2) {
-            adminOperationModuleHelper.deleteEmployee(employeeId);
+            adminOperations.deleteEmployee(employeeId);
         }
     }
 
-    public void viewCreditPackageDetailsMenu() {
+    public void viewCreditPackageDetailsMenu(Long creditPackageId) {
 
         System.out.println("1: Update Credit Package");
         System.out.println("2: Delete Credit Package");
@@ -235,9 +245,9 @@ public class AdminOperationModule {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            adminOperationModuleHelper.updateCreditPackage();
+            financeOperations.updateCreditPackage(creditPackageId);
         } else if (response == 2) {
-            adminOperationModuleHelper.deleteCreditPackage();
+            financeOperations.deleteCreditPackage(creditPackageId);
         }
     }
 
@@ -255,9 +265,9 @@ public class AdminOperationModule {
         response = scanner.nextInt();
 
         if (response == 1) {
-            adminOperationModuleHelper.updateAuctionListing();
+            salesOperations.updateAuctionListing();
         } else if (response == 2) {
-            adminOperationModuleHelper.deleteAuctionListing();
+            salesOperations.deleteAuctionListing();
         }
 
     }
@@ -273,7 +283,7 @@ public class AdminOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            adminOperationModuleHelper.assignWinningBid();
+            adminOperations.assignWinningBid();
         }
     }
 }

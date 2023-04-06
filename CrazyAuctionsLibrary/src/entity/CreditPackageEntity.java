@@ -23,10 +23,21 @@ public class CreditPackageEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Boolean isEnabled = true;
-    private Boolean purchasedBefore = false;
+    private Boolean isEnabled;
+    private Boolean purchasedBefore;
     private BigDecimal credits;
 
+    public CreditPackageEntity() {
+        this.isEnabled = true;
+        this.purchasedBefore = false;
+    }
+
+    public CreditPackageEntity(BigDecimal credits) {
+        this();
+        this.credits = credits;
+    }
+
+    
     public Long getId() {
         return id;
     }
@@ -57,7 +68,31 @@ public class CreditPackageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CreditPackageEntity[ id=" + id + " ]";
+        return "id: " + id + ", credits: " + credits + ", is enabled: " + isEnabled + ", purchased before: " + purchasedBefore;
+    }
+
+    public Boolean getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(Boolean isEnabled) {
+        this.isEnabled = isEnabled;
+    }
+
+    public Boolean getPurchasedBefore() {
+        return purchasedBefore;
+    }
+
+    public void setPurchasedBefore(Boolean purchasedBefore) {
+        this.purchasedBefore = purchasedBefore;
+    }
+
+    public BigDecimal getCredits() {
+        return credits;
+    }
+
+    public void setCredits(BigDecimal credits) {
+        this.credits = credits;
     }
     
 }

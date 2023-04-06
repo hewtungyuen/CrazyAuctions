@@ -5,6 +5,7 @@
  */
 package crazyauctionsadminpanel;
 
+import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
 import java.util.Scanner;
@@ -18,9 +19,11 @@ import util.exception.InvalidLoginException;
 public class MainApp {
 
     private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
+    private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
 
-    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
+    public MainApp(EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote, CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote) {
         this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
+        this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -72,17 +75,20 @@ public class MainApp {
 
         // retrieve employee type 
         EmployeeTypeEnum employeeType = e.getEmployeeType();
-        AdminOperationModule adminOperationModule = new AdminOperationModule(e.getId(), employeeEntitySessionBeanRemote); // pass in user id here? 
+        EmployeeMenus employeeMenu = new EmployeeMenus(e.getId(), 
+                employeeEntitySessionBeanRemote,
+                creditPackageEntitySessionBeanRemote
+        ); 
 
         // render menu according to employee type 
         if (employeeType == EmployeeTypeEnum.EMPLOYEE) {
-            adminOperationModule.employeeMenu();
+            employeeMenu.employeeMenu();
         } else if (employeeType == EmployeeTypeEnum.ADMIN) {
-            adminOperationModule.systemAdminMenu();
+            employeeMenu.systemAdminMenu();
         } else if (employeeType == EmployeeTypeEnum.FINANCE) {
-            adminOperationModule.financeStaffMenu();
+            employeeMenu.financeStaffMenu();
         } else if (employeeType == EmployeeTypeEnum.SALES) {
-            adminOperationModule.salesStaffMenu();
+            employeeMenu.salesStaffMenu();
         }
     }
 

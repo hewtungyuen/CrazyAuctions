@@ -5,6 +5,9 @@
  */
 package ejb.session.stateless;
 
+import entity.CreditPackageEntity;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -13,5 +16,13 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface CreditPackageEntitySessionBeanRemote {
-    
+
+    CreditPackageEntity createCreditPackage(BigDecimal credits);
+
+    List<CreditPackageEntity> viewAllCreditPackages();
+
+    CreditPackageEntity getCreditPackage(Long creditPackageId);
+
+    CreditPackageEntity deleteCreditPackage(Long creditPackageId);
+
 }

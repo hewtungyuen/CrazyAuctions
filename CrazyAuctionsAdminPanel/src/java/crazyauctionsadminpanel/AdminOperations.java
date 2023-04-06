@@ -15,12 +15,12 @@ import util.enumeration.EmployeeTypeEnum;
  *
  * @author hewtu
  */
-public class AdminOperationModuleHelper {
+public class AdminOperations {
 
     private Long employeeId;
     private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
 
-    public AdminOperationModuleHelper(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
+    public AdminOperations(Long employeeId, EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote) {
         this.employeeId = employeeId;
         this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
     }
