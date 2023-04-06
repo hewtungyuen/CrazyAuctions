@@ -5,6 +5,11 @@
  */
 package ejb.session.stateless;
 
+import entity.AuctionListingEntity;
+import entity.BidEntity;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -13,5 +18,17 @@ import javax.ejb.Local;
  */
 @Local
 public interface AuctionListingEntitySessionBeanLocal {
+
+    AuctionListingEntity createNewAuctionListing(BigDecimal startingBidPrice, BigDecimal reservePrice, String productName, Date startDate, Date endDate);
+
+    AuctionListingEntity getAuctionListingByProductName(String productName);
+
+    List<AuctionListingEntity> viewAllAuctionListings();
+
+    List<AuctionListingEntity> viewAllListingsWithBidsBelowReserve();
+
+    AuctionListingEntity updateAuctionListing(AuctionListingEntity winningBid);
+
+    AuctionListingEntity deleteAuctionListing(Long auctionListingId);
     
 }

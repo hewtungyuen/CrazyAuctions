@@ -8,6 +8,7 @@ package crazyauctionsadminpanel;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
+import entity.AuctionListingEntity;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
 
@@ -198,8 +199,8 @@ public class EmployeeMenus {
                     salesOperations.createAuctionListing();
 
                 } else if (response == 4) {
-                    salesOperations.viewAuctionListingDetails();
-                    viewAuctionListingDetailsMenu();
+                    AuctionListingEntity a = salesOperations.viewAuctionListingDetails();
+                    viewAuctionListingDetailsMenu(a);
 
                 } else if (response == 5) {
                     salesOperations.viewAllAuctionListings();
@@ -254,7 +255,7 @@ public class EmployeeMenus {
         }
     }
 
-    public void viewAuctionListingDetailsMenu() {
+    public void viewAuctionListingDetailsMenu(AuctionListingEntity a) {
 
         System.out.println("1: Update Auction Listing");
         System.out.println("2: Delete Auction Listing");
@@ -268,9 +269,9 @@ public class EmployeeMenus {
         response = scanner.nextInt();
 
         if (response == 1) {
-            salesOperations.updateAuctionListing();
+            salesOperations.updateAuctionListing(a);
         } else if (response == 2) {
-            salesOperations.deleteAuctionListing();
+            salesOperations.deleteAuctionListing(a);
         }
 
     }
