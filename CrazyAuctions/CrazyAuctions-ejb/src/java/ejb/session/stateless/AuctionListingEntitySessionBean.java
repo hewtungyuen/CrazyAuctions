@@ -6,10 +6,10 @@
 package ejb.session.stateless;
 
 import entity.AuctionListingEntity;
-import entity.BidEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +23,9 @@ import util.enumeration.AuctionListingStateEnum;
 @Stateless
 public class AuctionListingEntitySessionBean implements AuctionListingEntitySessionBeanRemote, AuctionListingEntitySessionBeanLocal {
 
+    @EJB
+    private AuctionListingTimerSessionBeanLocal auctionListingTimerSessionBeanLocal;
+
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
 
@@ -31,6 +34,7 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
         em.persist(a);
         em.flush();
+        auctionListingTimerSessionBeanLocal.createAuctionTimers(a.getId());
         return a;
     }
 
@@ -65,18 +69,6 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
         em.remove(a);
         return a;
-    }
-
-    @Override
-    public void openAuctionListing(Long auctionListingId) {
-        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
-        a.setAuctionListingState(AuctionListingStateEnum.OPEN);
-    }
-
-    @Override
-    public void closeAuctionListing(Long auctionListingId) {
-        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
-        a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
     }
 
 }

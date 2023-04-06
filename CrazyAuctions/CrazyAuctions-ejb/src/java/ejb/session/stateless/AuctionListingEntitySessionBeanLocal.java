@@ -31,8 +31,4 @@ public interface AuctionListingEntitySessionBeanLocal {
 
     AuctionListingEntity deleteAuctionListing(Long auctionListingId);
 
-    void openAuctionListing(Long auctionListingId);
-
-    void closeAuctionListing(Long auctionListingId);
-    
 }

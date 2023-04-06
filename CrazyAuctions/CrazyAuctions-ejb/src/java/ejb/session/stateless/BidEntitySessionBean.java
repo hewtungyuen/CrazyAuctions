@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.AuctionListingStateEnum;
 
 /**
  *
@@ -24,20 +25,28 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
 
     @Override
     public BidEntity getHighestBidForAuctionListing(Long auctionListingId) {
-        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC LIMIT 1");
+        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC, LIMIT 1");
         q.setParameter("auctionListingId", auctionListingId);
         return (BidEntity) q.getSingleResult();
     }
 
     @Override
     public void markWinningBid(Long auctionListingId) {  // next time account for proxy bid 
-        BidEntity b = getHighestBidForAuctionListing(auctionListingId);
-        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
-        if (b.getBidPrice().compareTo(a.getReservePrice()) >= 0) {
-            b.setIsWinningBid(Boolean.TRUE);
-            a.setWinningBid(b);
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
+
+        try {
+            BidEntity b = getHighestBidForAuctionListing(auctionListingId);
+            if (b.getBidPrice().compareTo(a.getReservePrice()) >= 0) {
+                b.setIsWinningBid(Boolean.TRUE);
+                a.setWinningBid(b);
+            }
+        } catch (Exception e) {
+            e.getMessage();
+            a.setWinningBid(null);
         }
+        return; 
     }
 
 }

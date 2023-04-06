@@ -45,10 +45,11 @@ public class SalesOperations {
 
         System.out.println("Enter starting bid price (must be lower than reserve price): ");
         BigDecimal startingBidPrice = scanner.nextBigDecimal();
-
+        scanner.nextLine();
+        Date startDate;
         System.out.println("Enter auction start date (yyyy/mm/dd HH:mm)");
         String startDateString = scanner.nextLine();
-        Date startDate;
+
         try {
             startDate = dateFormat.parse(startDateString);
         } catch (Exception e) {
@@ -67,8 +68,8 @@ public class SalesOperations {
             return;
         }
 
-        AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
-
+        AuctionListingEntity a = auctionListingEntitySessionBeanRemote.createNewAuctionListing(startingBidPrice, reservePrice, productName, startDate, endDate);
+        System.out.println("Created: " + a.toString());
     }
 
     public AuctionListingEntity viewAuctionListingDetails() {

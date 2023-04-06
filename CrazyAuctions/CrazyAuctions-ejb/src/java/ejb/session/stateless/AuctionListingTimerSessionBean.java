@@ -13,7 +13,6 @@ import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.ejb.Timeout;
 import javax.ejb.Timer;
-import javax.ejb.TimerConfig;
 import javax.ejb.TimerService;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +26,7 @@ import util.enumeration.AuctionListingStateEnum;
 public class AuctionListingTimerSessionBean implements AuctionListingTimerSessionBeanRemote, AuctionListingTimerSessionBeanLocal {
 
     @EJB
-    private static BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
+    private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
 
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
@@ -43,23 +42,25 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
 
         TimerService timerService = sessionContext.getTimerService();
 
-        timerService.createTimer(startDate, auctionListingId);
-        timerService.createTimer(endDate, auctionListingId);
+        timerService.createTimer(5000, auctionListingId);
+        timerService.createTimer(15000, auctionListingId);
     }
 
     @Timeout
     public void handleTimeout(Timer t) {
+        System.out.println("TIMEOUT");
         Long auctionListingId = (Long) t.getInfo();
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
         if (a.getAuctionListingState().equals(AuctionListingStateEnum.CLOSED)) {
+            System.out.println("OPENING");
             a.setAuctionListingState(AuctionListingStateEnum.OPEN);
         } else if (a.getAuctionListingState().equals(AuctionListingStateEnum.OPEN)) {
+            System.out.println("CLOSING");
             a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
-            bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
+
+//            bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
         }
     }
-    
-    
 
 }
