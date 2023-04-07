@@ -26,7 +26,7 @@ public class CustomerEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToMany(mappedBy = "customer")
@@ -46,7 +46,7 @@ public class CustomerEntity implements Serializable {
         this.creditBalance = new BigDecimal(0.0);
         this.isLoggedIn = false;
         this.addresses = new ArrayList<>();
-//        this.transactions = new ArrayList<>();
+        this.transactions = new ArrayList<>();
     }
 
     public CustomerEntity(CustomerTypeEnum customerType, String username, String password) {
@@ -186,5 +186,4 @@ public class CustomerEntity implements Serializable {
     public void setTransactions(List<TransactionEntity> transactions) {
         this.transactions = transactions;
     }
-
 }

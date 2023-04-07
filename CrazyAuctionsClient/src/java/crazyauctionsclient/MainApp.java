@@ -5,7 +5,10 @@
  */
 package crazyauctionsclient;
 
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import entity.CustomerEntity;
 import java.util.Scanner;
+import util.exception.InvalidLoginException;
 
 /**
  *
@@ -13,11 +16,12 @@ import java.util.Scanner;
  */
 public class MainApp {
 
-    private AuctionOperationModule auctionOperationModule;
+    private CustomerOperationModule customerOperationModule;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
     // 
-    public MainApp() {
-
+    public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote) {
+        this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -56,17 +60,33 @@ public class MainApp {
     public void doLogin() {
         // check if credentials are correct
         // check customer type and render correct menu accordingly 
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter username:");
+        String username = scanner.nextLine();
         System.out.println("Enter password:");
+        String password = scanner.nextLine();
 
-        auctionOperationModule = new AuctionOperationModule();
-        auctionOperationModule.menu();
+        try {
+            CustomerEntity c = customerEntitySessionBeanRemote.login(username, password);
+            customerOperationModule = new CustomerOperationModule(c, customerEntitySessionBeanRemote);
+            customerOperationModule.menu();
+        } catch (InvalidLoginException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void doRegister() {
+        Scanner scanner = new Scanner(System.in);
+
         System.out.println("Enter username:");
+        String username = scanner.nextLine();
+
         System.out.println("Enter password:");
-        System.out.println("Successfully registered.");
+        String password = scanner.nextLine();
+
+        CustomerEntity c = customerEntitySessionBeanRemote.createCustomer(username, password);
+        System.out.println("Successfully registered: " + c.toString());
 
     }
 }

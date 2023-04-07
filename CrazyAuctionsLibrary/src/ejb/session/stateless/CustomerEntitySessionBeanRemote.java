@@ -5,7 +5,9 @@
  */
 package ejb.session.stateless;
 
+import entity.CustomerEntity;
 import javax.ejb.Remote;
+import util.exception.InvalidLoginException;
 
 /**
  *
@@ -13,5 +15,11 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface CustomerEntitySessionBeanRemote {
+
+    CustomerEntity createCustomer(String username, String password);
+
+    CustomerEntity login(String username, String password) throws InvalidLoginException;
+
+    void logout(CustomerEntity customer);
     
 }

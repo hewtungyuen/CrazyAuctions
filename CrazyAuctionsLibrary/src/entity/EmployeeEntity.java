@@ -40,14 +40,6 @@ public class EmployeeEntity implements Serializable {
         this.isLoggedIn = false;
     }
 
-    public EmployeeEntity(Long id, String username, String password, EmployeeTypeEnum employeeType) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.employeeType = employeeType;
-        this.isLoggedIn = false;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;

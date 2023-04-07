@@ -5,18 +5,23 @@
  */
 package crazyauctionsclient;
 
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import entity.CustomerEntity;
 import java.util.Scanner;
 
 /**
  *
  * @author hewtu
  */
-public class AuctionOperationModule {
+public class CustomerOperationModule {
 
-    private AuctionOperationModuleHelper auctionOperationModuleHelper;
+    private CustomerEntity customer;
+    private CustomerOperationModuleHelper customerOperationModuleHelper;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
-    public AuctionOperationModule() {
-        this.auctionOperationModuleHelper = new AuctionOperationModuleHelper();
+    public CustomerOperationModule(CustomerEntity customer, CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote) {
+        this.customer = customer;
+        this.customerOperationModuleHelper = new CustomerOperationModuleHelper(customer, customerEntitySessionBeanRemote);
     }
 
     public void menu() {
@@ -25,7 +30,7 @@ public class AuctionOperationModule {
         Integer response = 0;
 
         while (true) {
-            System.out.println("*** OAS Admin Panel: Employee ***\n");
+            System.out.println("*** OAS Auction Client ***\n");
             System.out.println("1: Logout");
             System.out.println("2: View Customer Profile");
             System.out.println("3: Update Customer Profile");
@@ -47,52 +52,53 @@ public class AuctionOperationModule {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    auctionOperationModuleHelper.logout();
+                    customerOperationModuleHelper.logout();
+                    break;
 
                 } else if (response == 2) {
-                    auctionOperationModuleHelper.viewCustomerProfile();
+                    customerOperationModuleHelper.viewCustomerProfile();
 
                 } else if (response == 3) {
-                    auctionOperationModuleHelper.updateCustomerProfile();
+                    customerOperationModuleHelper.updateCustomerProfile();
 
                 } else if (response == 4) {
-                    auctionOperationModuleHelper.createAddress();
+                    customerOperationModuleHelper.createAddress();
 
                 } else if (response == 5) {
-                    auctionOperationModuleHelper.viewAddressDetails();
+                    customerOperationModuleHelper.viewAddressDetails();
                     viewAddressDetailsMenu();
 
                 } else if (response == 6) {
-                    auctionOperationModuleHelper.viewAllAddresses();
+                    customerOperationModuleHelper.viewAllAddresses();
 
                 } else if (response == 7) {
-                    auctionOperationModuleHelper.viewCreditBalance();
+                    customerOperationModuleHelper.viewCreditBalance();
 
                 } else if (response == 8) {
-                    auctionOperationModuleHelper.viewCreditTransactionHistory();
+                    customerOperationModuleHelper.viewCreditTransactionHistory();
 
                 } else if (response == 9) {
-                    auctionOperationModuleHelper.purchaseCreditPackage();
+                    customerOperationModuleHelper.purchaseCreditPackage();
 
                 } else if (response == 10) {
-                    auctionOperationModuleHelper.browseAllAuctionListings();
+                    customerOperationModuleHelper.browseAllAuctionListings();
 
                 } else if (response == 11) {
-                    auctionOperationModuleHelper.viewAuctionListingDetails();
+                    customerOperationModuleHelper.viewAuctionListingDetails();
                     viewAuctionListingDetailsMenu();
 
                 } else if (response == 12) {
-                    auctionOperationModuleHelper.browseWonAuctionListings();
+                    customerOperationModuleHelper.browseWonAuctionListings();
                     browseWonAuctionListingsMenu();
 
-                } else if (response == 13) {
+                } else if (response == 13 || response == 1) {
                     break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
             }
 
-            if (response == 13) {
+            if (response == 13 || response == 1) {
                 break;
             }
         }
@@ -110,9 +116,9 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            auctionOperationModuleHelper.updateAddress();
+            customerOperationModuleHelper.updateAddress();
         } else if (response == 2) {
-            auctionOperationModuleHelper.deleteAddress();
+            customerOperationModuleHelper.deleteAddress();
         }
     }
 
@@ -128,9 +134,9 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            auctionOperationModuleHelper.placeNewBid();
+            customerOperationModuleHelper.placeNewBid();
         } else if (response == 2) {
-            auctionOperationModuleHelper.refreshAuctionListingBids();
+            customerOperationModuleHelper.refreshAuctionListingBids();
         }
     }
 
@@ -145,7 +151,7 @@ public class AuctionOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            auctionOperationModuleHelper.selectDeliveryAddressForWonAuctionListing();
+            customerOperationModuleHelper.selectDeliveryAddressForWonAuctionListing();
         }
     }
 }

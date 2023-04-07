@@ -5,6 +5,7 @@
  */
 package ejb.session.singleton;
 
+import entity.CustomerEntity;
 import entity.EmployeeEntity;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -15,6 +16,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.CustomerTypeEnum;
 import util.enumeration.EmployeeTypeEnum;
 
 /**
@@ -33,7 +35,7 @@ public class SystemAdminInitSessionBean {
     public void postConstruct() {
         Query query = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :inUsername");
         query.setParameter("inUsername", "admin");
-
+        
         try {
             query.getSingleResult();
         } catch (NoResultException | NonUniqueResultException ex) {

@@ -5,14 +5,25 @@
  */
 package crazyauctionsclient;
 
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import entity.CustomerEntity;
+
 /**
  *
  * @author hewtu
  */
-public class AuctionOperationModuleHelper {
+public class CustomerOperationModuleHelper {
+
+    private CustomerEntity customer;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
+
+    public CustomerOperationModuleHelper(CustomerEntity customer, CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote) {
+        this.customer = customer;
+        this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
+    }
 
     public void logout() {
-        
+        customerEntitySessionBeanRemote.logout(customer);
     }
 
     public void viewCustomerProfile() {
