@@ -113,8 +113,12 @@ public class CustomerOperationModuleHelper {
         }
     }
 
-    public void viewAuctionListingDetails() {
-
+    public String viewAuctionListingDetails() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter product name to view:");
+        String auctionListingName = scanner.nextLine();
+        AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(auctionListingName);
+        return a.getProductName();
     }
 
     public void browseWonAuctionListings() {

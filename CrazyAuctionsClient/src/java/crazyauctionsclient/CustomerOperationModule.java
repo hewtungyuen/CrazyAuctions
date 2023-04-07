@@ -9,6 +9,7 @@ import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import entity.AuctionListingEntity;
 import entity.CustomerEntity;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ public class CustomerOperationModule {
 
     private Long customerId;
     private CustomerOperationModuleHelper customerOperationModuleHelper;
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
     public CustomerOperationModule(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
@@ -29,12 +31,13 @@ public class CustomerOperationModule {
     ) {
         this.customerId = customerId;
         this.customerOperationModuleHelper = new CustomerOperationModuleHelper(
-                customerId, 
-                customerEntitySessionBeanRemote, 
+                customerId,
+                customerEntitySessionBeanRemote,
                 addressEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
                 auctionListingEntitySessionBeanRemote
         );
+        this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
 
     public void menu() {
@@ -97,8 +100,8 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.browseAllAuctionListings();
 
                 } else if (response == 11) {
-                    customerOperationModuleHelper.viewAuctionListingDetails();
-                    viewAuctionListingDetailsMenu();
+                    String productName = customerOperationModuleHelper.viewAuctionListingDetails();
+                    viewAuctionListingDetailsMenu(productName);
 
                 } else if (response == 12) {
                     customerOperationModuleHelper.browseWonAuctionListings();
@@ -135,8 +138,10 @@ public class CustomerOperationModule {
         }
     }
 
-    public void viewAuctionListingDetailsMenu() {
+    public void viewAuctionListingDetailsMenu(String productName) {
 
+        AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
+        System.out.println(a.toString());
         System.out.println("1: Place New Bid");
         System.out.println("2: Refresh Auction Listing Bids");
         System.out.println("3: Exit\n");
@@ -150,6 +155,7 @@ public class CustomerOperationModule {
             customerOperationModuleHelper.placeNewBid();
         } else if (response == 2) {
             customerOperationModuleHelper.refreshAuctionListingBids();
+            viewAuctionListingDetailsMenu(productName);
         }
     }
 
