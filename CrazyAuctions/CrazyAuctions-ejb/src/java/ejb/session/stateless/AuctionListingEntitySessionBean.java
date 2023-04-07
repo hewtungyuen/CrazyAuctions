@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.AuctionListingEntity;
 import entity.BidEntity;
+import entity.CustomerEntity;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
+import util.enumeration.TransactionTypeEnum;
 
 /**
  *
@@ -26,8 +28,14 @@ import util.enumeration.AuctionListingStateEnum;
 public class AuctionListingEntitySessionBean implements AuctionListingEntitySessionBeanRemote, AuctionListingEntitySessionBeanLocal {
 
     @EJB
+    private TransactionEntitySessionBeanLocal transactionEntitySessionBeanLocal;
+    
+    @EJB
     private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
 
+    @EJB 
+    private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
+    
     @EJB
     private AuctionListingTimerSessionBeanLocal auctionListingTimerSessionBeanLocal;
 
@@ -81,7 +89,9 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         try {
             BidEntity highestBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(auctionListingId);
             a.setAuctionListingState(AuctionListingStateEnum.DISABLED);
-            // refund the guy with the highest bid 
+            
+            CustomerEntity c = highestBid.getCustomer();
+            customerEntitySessionBeanLocal.credit(c.getId(), highestBid.getBidPrice(), "Refund for " + a.getProductName());
         } catch (NoResultException ex) {
             em.remove(a);
         }
@@ -96,4 +106,5 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         return q.getResultList();
     }
 
+    
 }

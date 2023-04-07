@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.AddressEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -88,16 +89,37 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
 
     @Override
     public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId) {
-        CustomerEntity customer = em.find(CustomerEntity.class, customerId);
         CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
-        customer.setCreditBalance(customer.getCreditBalance().add(creditPackage.getCredits()));
         creditPackage.setPurchasedBefore(Boolean.TRUE);
-        transactionEntitySessionBeanLocal.createNewTransaction(
-                creditPackage.getCredits(),
-                TransactionTypeEnum.DEBIT,
-                "Purchase credit package",
-                customer
-        );
+        
+        CustomerEntity customer = em.find(CustomerEntity.class, customerId);
+        credit(customerId, creditPackage.getCredits(), "Purchase credit package");
+        
         return creditPackage;
     }
+
+    @Override
+    public void credit(Long customerId, BigDecimal amount, String transactionDescription) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        c.setCreditBalance(c.getCreditBalance().add(amount));
+        transactionEntitySessionBeanLocal.createNewTransaction(
+                amount,
+                TransactionTypeEnum.CREDIT,
+                transactionDescription,
+                c
+        );
+    }
+
+    @Override
+    public void debit(Long customerId, BigDecimal amount, String transactionDescription) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        c.setCreditBalance(c.getCreditBalance().subtract(amount));
+        transactionEntitySessionBeanLocal.createNewTransaction(
+                amount,
+                TransactionTypeEnum.DEBIT,
+                transactionDescription,
+                c
+        );
+    }
+
 }

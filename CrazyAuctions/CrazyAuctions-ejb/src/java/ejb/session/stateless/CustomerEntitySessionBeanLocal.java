@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.AddressEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.InvalidLoginException;
@@ -32,5 +33,9 @@ public interface CustomerEntitySessionBeanLocal {
     List<AddressEntity> viewAllAddresses(Long customerId);
 
     CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId);
+
+    void credit(Long customerId, BigDecimal amount, String transactionDescription);
+
+    void debit(Long customerId, BigDecimal amount, String transactionDescription);
     
 }
