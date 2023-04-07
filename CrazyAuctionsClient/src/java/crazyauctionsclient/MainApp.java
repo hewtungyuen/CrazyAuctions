@@ -6,6 +6,7 @@
 package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.CustomerEntity;
@@ -22,15 +23,18 @@ public class MainApp {
     private CustomerOperationModule customerOperationModule;
     private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
     // 
     public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
-            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
     ) {
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
+        this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -80,7 +84,8 @@ public class MainApp {
             customerOperationModule = new CustomerOperationModule(c.getId(),
                     customerEntitySessionBeanRemote,
                     addressEntitySessionBeanRemote,
-                    creditPackageEntitySessionBeanRemote
+                    creditPackageEntitySessionBeanRemote,
+                    auctionListingEntitySessionBeanRemote
             );
             customerOperationModule.menu();
         } catch (InvalidLoginException ex) {

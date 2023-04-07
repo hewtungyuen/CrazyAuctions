@@ -6,9 +6,11 @@
 package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.AddressEntity;
+import entity.AuctionListingEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.util.List;
@@ -24,16 +26,19 @@ public class CustomerOperationModuleHelper {
     private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
+    private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
     public CustomerOperationModuleHelper(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
-            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
+        this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
 
     public void logout() {
@@ -102,7 +107,10 @@ public class CustomerOperationModuleHelper {
     }
 
     public void browseAllAuctionListings() {
-
+        List<AuctionListingEntity> listings = auctionListingEntitySessionBeanRemote.viewAllOpenAuctionListings();
+        for (AuctionListingEntity a : listings) {
+            System.out.println(a.toString());
+        }
     }
 
     public void viewAuctionListingDetails() {

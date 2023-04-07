@@ -6,6 +6,7 @@
 package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.CustomerEntity;
@@ -19,19 +20,20 @@ public class CustomerOperationModule {
 
     private Long customerId;
     private CustomerOperationModuleHelper customerOperationModuleHelper;
-    private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
 
     public CustomerOperationModule(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
-            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerOperationModuleHelper = new CustomerOperationModuleHelper(
                 customerId, 
                 customerEntitySessionBeanRemote, 
                 addressEntitySessionBeanRemote,
-                creditPackageEntitySessionBeanRemote
+                creditPackageEntitySessionBeanRemote,
+                auctionListingEntitySessionBeanRemote
         );
     }
 

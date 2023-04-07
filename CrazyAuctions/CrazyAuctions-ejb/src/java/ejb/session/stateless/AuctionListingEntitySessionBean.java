@@ -89,4 +89,11 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         return a;
     }
 
+    @Override
+    public List<AuctionListingEntity> viewAllOpenAuctionListings() {
+        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.auctionListingState = :openState");
+        q.setParameter("openState", AuctionListingStateEnum.OPEN);
+        return q.getResultList();
+    }
+
 }

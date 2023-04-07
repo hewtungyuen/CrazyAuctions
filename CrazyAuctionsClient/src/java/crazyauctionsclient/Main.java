@@ -6,6 +6,7 @@
 package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
+import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import javax.ejb.EJB;
@@ -25,13 +26,17 @@ public class Main {
     @EJB
     private static CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
+    @EJB
+    private static AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
+
     public static void main(String[] args) {
         // TODO code application logic here
 
         MainApp mainApp = new MainApp(
                 customerEntitySessionBeanRemote,
                 addressEntitySessionBeanRemote,
-                creditPackageEntitySessionBeanRemote
+                creditPackageEntitySessionBeanRemote,
+                auctionListingEntitySessionBeanRemote
         );
         mainApp.runApp(); // inject EJB here
     }
