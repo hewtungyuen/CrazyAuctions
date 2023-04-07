@@ -5,6 +5,7 @@
  */
 package crazyauctionsclient;
 
+import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.CustomerEntity;
 import java.util.Scanner;
@@ -15,13 +16,19 @@ import java.util.Scanner;
  */
 public class CustomerOperationModule {
 
-    private CustomerEntity customer;
+    private Long customerId;
     private CustomerOperationModuleHelper customerOperationModuleHelper;
-    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
-    public CustomerOperationModule(CustomerEntity customer, CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote) {
-        this.customer = customer;
-        this.customerOperationModuleHelper = new CustomerOperationModuleHelper(customer, customerEntitySessionBeanRemote);
+    public CustomerOperationModule(Long customerId,
+            CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
+            AddressEntitySessionBeanRemote addressEntitySessionBeanRemote
+    ) {
+        this.customerId = customerId;
+        this.customerOperationModuleHelper = new CustomerOperationModuleHelper(
+                customerId, 
+                customerEntitySessionBeanRemote, 
+                addressEntitySessionBeanRemote
+        );
     }
 
     public void menu() {
@@ -65,8 +72,8 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.createAddress();
 
                 } else if (response == 5) {
-                    customerOperationModuleHelper.viewAddressDetails();
-                    viewAddressDetailsMenu();
+                    Long addressId = customerOperationModuleHelper.viewAddressDetails();
+                    viewAddressDetailsMenu(addressId);
 
                 } else if (response == 6) {
                     customerOperationModuleHelper.viewAllAddresses();
@@ -104,7 +111,7 @@ public class CustomerOperationModule {
         }
     }
 
-    public void viewAddressDetailsMenu() {
+    public void viewAddressDetailsMenu(Long addressId) {
 
         System.out.println("1: Update Address");
         System.out.println("2: Delete Address");
@@ -116,9 +123,9 @@ public class CustomerOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            customerOperationModuleHelper.updateAddress();
+            customerOperationModuleHelper.updateAddress(addressId);
         } else if (response == 2) {
-            customerOperationModuleHelper.deleteAddress();
+            customerOperationModuleHelper.deleteAddress(addressId);
         }
     }
 

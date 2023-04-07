@@ -5,6 +5,7 @@
  */
 package crazyauctionsclient;
 
+import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.CustomerEntity;
 import java.util.Scanner;
@@ -18,10 +19,14 @@ public class MainApp {
 
     private CustomerOperationModule customerOperationModule;
     private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
+    private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
 
     // 
-    public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote) {
+    public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
+            AddressEntitySessionBeanRemote addressEntitySessionBeanRemote
+    ) {
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
+        this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -68,7 +73,10 @@ public class MainApp {
 
         try {
             CustomerEntity c = customerEntitySessionBeanRemote.login(username, password);
-            customerOperationModule = new CustomerOperationModule(c, customerEntitySessionBeanRemote);
+            customerOperationModule = new CustomerOperationModule(c.getId(),
+                    customerEntitySessionBeanRemote,
+                    addressEntitySessionBeanRemote
+            );
             customerOperationModule.menu();
         } catch (InvalidLoginException ex) {
             System.out.println(ex.getMessage());

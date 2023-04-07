@@ -5,7 +5,9 @@
  */
 package ejb.session.stateless;
 
+import entity.AddressEntity;
 import entity.CustomerEntity;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,8 +54,30 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public void logout(CustomerEntity customer) {
-        CustomerEntity c = em.find(CustomerEntity.class, customer.getId());
+    public void logout(Long customerId) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
         c.setIsLoggedIn(Boolean.FALSE);
     }
+
+    @Override
+    public CustomerEntity getCustomer(Long customerId) {
+        return em.find(CustomerEntity.class, customerId);
+    }
+
+    @Override
+    public AddressEntity createAddress(Long customerId, String address) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        AddressEntity a = new AddressEntity(c, address);
+        em.persist(a);
+        c.getAddresses().add(a);
+        return a;
+    }
+
+    @Override
+    public List<AddressEntity> viewAllAddresses(Long customerId) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        c.getAddresses().size();
+        return c.getAddresses();
+    }
+
 }

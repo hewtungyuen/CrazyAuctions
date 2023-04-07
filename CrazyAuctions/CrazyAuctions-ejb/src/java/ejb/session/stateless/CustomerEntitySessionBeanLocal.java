@@ -5,7 +5,9 @@
  */
 package ejb.session.stateless;
 
+import entity.AddressEntity;
 import entity.CustomerEntity;
+import java.util.List;
 import javax.ejb.Local;
 import util.exception.InvalidLoginException;
 
@@ -20,6 +22,12 @@ public interface CustomerEntitySessionBeanLocal {
 
     CustomerEntity login(String username, String password) throws InvalidLoginException;
 
-    void logout(CustomerEntity customer);
+    void logout(Long customerId);
+
+    CustomerEntity getCustomer(Long customerId);
+
+    AddressEntity createAddress(Long customer, String address);
+
+    List<AddressEntity> viewAllAddresses(Long customerId);
     
 }
