@@ -6,7 +6,9 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import entity.CreditPackageEntity;
 import entity.CustomerEntity;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -80,4 +82,12 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         return c.getAddresses();
     }
 
+    @Override
+    public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId) {
+        CustomerEntity customer = em.find(CustomerEntity.class, customerId);
+        CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
+        customer.setCreditBalance(customer.getCreditBalance().add(creditPackage.getCredits()));
+        creditPackage.setPurchasedBefore(Boolean.TRUE);
+        return creditPackage;
+    }
 }

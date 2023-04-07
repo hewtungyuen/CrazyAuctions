@@ -27,4 +27,6 @@ public interface CreditPackageEntitySessionBeanRemote {
 
     CreditPackageEntity updateCreditPackage(CreditPackageEntity updatedCreditPackage);
 
+    List<CreditPackageEntity> viewAllOpenCreditPackages();
+
 }

@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.util.List;
 import javax.ejb.Remote;
@@ -29,5 +30,7 @@ public interface CustomerEntitySessionBeanRemote {
     AddressEntity createAddress(Long customerId, String address);
 
     List<AddressEntity> viewAllAddresses(Long customerId);
+
+    CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId);
     
 }

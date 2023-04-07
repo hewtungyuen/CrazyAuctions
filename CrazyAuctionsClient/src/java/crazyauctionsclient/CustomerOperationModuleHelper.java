@@ -6,8 +6,10 @@
 package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
+import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.AddressEntity;
+import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.util.List;
 import java.util.Scanner;
@@ -21,14 +23,17 @@ public class CustomerOperationModuleHelper {
     private Long customerId;
     private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
+    private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
 
     public CustomerOperationModuleHelper(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
-            AddressEntitySessionBeanRemote addressEntitySessionBeanRemote
+            AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
+            CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
+        this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
     }
 
     public void logout() {
@@ -74,7 +79,8 @@ public class CustomerOperationModuleHelper {
     }
 
     public void viewCreditBalance() {
-
+        CustomerEntity c = customerEntitySessionBeanRemote.getCustomer(customerId);
+        System.out.println("Credit balance: " + c.getCreditBalance());
     }
 
     public void viewCreditTransactionHistory() {
@@ -82,7 +88,17 @@ public class CustomerOperationModuleHelper {
     }
 
     public void purchaseCreditPackage() {
+        List<CreditPackageEntity> creditPackages = creditPackageEntitySessionBeanRemote.viewAllOpenCreditPackages();
+        for (CreditPackageEntity c : creditPackages) {
+            System.out.println(c.toString());
+        }
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter credit package id to purchase:");
+        Long creditPackageId = scanner.nextLong();
+
+        CreditPackageEntity c = customerEntitySessionBeanRemote.purchaseCreditPackage(customerId, creditPackageId);
+        System.out.println("Purchased credit package: " + c.toString());
     }
 
     public void browseAllAuctionListings() {

@@ -60,5 +60,9 @@ public class CreditPackageEntitySessionBean implements CreditPackageEntitySessio
         return updatedCreditPackage;
     }
 
-    
+    @Override
+    public List<CreditPackageEntity> viewAllOpenCreditPackages() {
+        Query q = em.createQuery("SELECT c FROM CreditPackageEntity c WHERE c.isEnabled = TRUE");
+        return q.getResultList();
+    }
 }
