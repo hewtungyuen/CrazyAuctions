@@ -9,6 +9,7 @@ import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
 import entity.CustomerEntity;
 import java.util.Scanner;
@@ -27,7 +28,8 @@ public class CustomerOperationModule {
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
-            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerOperationModuleHelper = new CustomerOperationModuleHelper(
@@ -35,7 +37,8 @@ public class CustomerOperationModule {
                 customerEntitySessionBeanRemote,
                 addressEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
-                auctionListingEntitySessionBeanRemote
+                auctionListingEntitySessionBeanRemote,
+                transactionEntitySessionBeanRemote
         );
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }

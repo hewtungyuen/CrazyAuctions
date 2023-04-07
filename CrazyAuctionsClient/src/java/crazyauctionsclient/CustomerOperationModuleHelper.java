@@ -9,10 +9,12 @@ import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.AddressEntity;
 import entity.AuctionListingEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
+import entity.TransactionEntity;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,18 +29,21 @@ public class CustomerOperationModuleHelper {
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
-
+    private TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
+    
     public CustomerOperationModuleHelper(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
-            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
+        this.transactionEntitySessionBeanRemote = transactionEntitySessionBeanRemote;
     }
 
     public void logout() {
@@ -89,7 +94,10 @@ public class CustomerOperationModuleHelper {
     }
 
     public void viewCreditTransactionHistory() {
-
+        List<TransactionEntity> transactions = transactionEntitySessionBeanRemote.viewCustomerTransactions(customerId);
+        for (TransactionEntity t : transactions) {
+            System.out.println(t.toString());
+        }
     }
 
     public void purchaseCreditPackage() {

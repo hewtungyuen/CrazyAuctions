@@ -8,13 +8,14 @@ package ejb.session.stateless;
 import entity.AddressEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
-import java.math.BigDecimal;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.CustomerTypeEnum;
+import util.enumeration.TransactionTypeEnum;
 import util.exception.InvalidLoginException;
 
 /**
@@ -23,6 +24,9 @@ import util.exception.InvalidLoginException;
  */
 @Stateless
 public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemote, CustomerEntitySessionBeanLocal {
+
+    @EJB
+    private TransactionEntitySessionBeanLocal transactionEntitySessionBeanLocal;
 
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
@@ -88,6 +92,12 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
         customer.setCreditBalance(customer.getCreditBalance().add(creditPackage.getCredits()));
         creditPackage.setPurchasedBefore(Boolean.TRUE);
+        transactionEntitySessionBeanLocal.createNewTransaction(
+                creditPackage.getCredits(),
+                TransactionTypeEnum.DEBIT,
+                "Purchase credit package",
+                customer
+        );
         return creditPackage;
     }
 }

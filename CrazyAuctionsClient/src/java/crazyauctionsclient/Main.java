@@ -9,6 +9,7 @@ import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import javax.ejb.EJB;
 
 /**
@@ -29,6 +30,9 @@ public class Main {
     @EJB
     private static AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
 
+    @EJB
+    private static TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
+    
     public static void main(String[] args) {
         // TODO code application logic here
 
@@ -36,7 +40,8 @@ public class Main {
                 customerEntitySessionBeanRemote,
                 addressEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
-                auctionListingEntitySessionBeanRemote
+                auctionListingEntitySessionBeanRemote,
+                transactionEntitySessionBeanRemote
         );
         mainApp.runApp(); // inject EJB here
     }

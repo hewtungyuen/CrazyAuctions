@@ -9,6 +9,7 @@ import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
+import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.CustomerEntity;
 import java.util.Scanner;
 import util.exception.InvalidLoginException;
@@ -24,17 +25,20 @@ public class MainApp {
     private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
+    private TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
 
     // 
     public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
-            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote
+            AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
     ) {
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
+        this.transactionEntitySessionBeanRemote = transactionEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -85,7 +89,8 @@ public class MainApp {
                     customerEntitySessionBeanRemote,
                     addressEntitySessionBeanRemote,
                     creditPackageEntitySessionBeanRemote,
-                    auctionListingEntitySessionBeanRemote
+                    auctionListingEntitySessionBeanRemote,
+                    transactionEntitySessionBeanRemote
             );
             customerOperationModule.menu();
         } catch (InvalidLoginException ex) {

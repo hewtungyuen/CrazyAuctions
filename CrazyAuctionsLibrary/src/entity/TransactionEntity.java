@@ -40,6 +40,18 @@ public class TransactionEntity implements Serializable {
     private TransactionTypeEnum transactionType;
     private String transactionDescription;
 
+    public TransactionEntity() {
+        this.transactionDate = new Date();
+    }
+
+    public TransactionEntity(CustomerEntity customer, BigDecimal transactionAmount, TransactionTypeEnum transactionType, String transactionDescription) {
+        this();
+        this.customer = customer;
+        this.transactionAmount = transactionAmount;
+        this.transactionType = transactionType;
+        this.transactionDescription = transactionDescription;
+    }
+    
     public Long getId() {
         return id;
     }
