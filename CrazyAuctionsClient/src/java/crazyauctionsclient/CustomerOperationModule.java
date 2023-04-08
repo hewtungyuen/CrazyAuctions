@@ -160,7 +160,6 @@ public class CustomerOperationModule {
         if (response == 1) {
             customerOperationModuleHelper.placeNewBid(a.getId());
         } else if (response == 2) {
-            customerOperationModuleHelper.refreshAuctionListingBids();
             viewAuctionListingDetailsMenu(productName);
         }
     }

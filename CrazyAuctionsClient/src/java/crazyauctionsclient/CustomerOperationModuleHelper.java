@@ -176,10 +176,6 @@ public class CustomerOperationModuleHelper {
 
     }
 
-    public void refreshAuctionListingBids() {
-
-    }
-
     public void selectDeliveryAddressForWonAuctionListing() {
         Scanner scanner = new Scanner(System.in);
 
