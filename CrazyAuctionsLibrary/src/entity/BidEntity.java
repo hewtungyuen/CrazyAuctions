@@ -73,7 +73,7 @@ public class BidEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "BidEntity: id=" + getId() + ", bidPrice=" + getBidPrice() + ", isWinningBid=" + getIsWinningBid();
+        return "Bid Entity: id=" + getId() + ", bidPrice=" + getBidPrice() + ", isWinningBid=" + getIsWinningBid();
     }
 
     /**
