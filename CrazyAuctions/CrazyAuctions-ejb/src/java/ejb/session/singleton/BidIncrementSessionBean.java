@@ -16,30 +16,28 @@ import javax.ejb.Singleton;
 public class BidIncrementSessionBean implements BidIncrementSessionBeanRemote, BidIncrementSessionBeanLocal {
 
     @Override
-    public void incrementPrice(BigDecimal currentPrice) {
-        if (currentPrice >= 0.01 && currentPrice <= 0.99) {
-            return 0.05;
-        } elif (currentPrice >= 1.00 && currentPrice <= 4.99) {
-            return 0.25;
-        } elif (currentPrice >= 5.00 && currentPrice <= 24.99) {
-            return 0.50;
-        } elif (currentPrice >= 25.00 && currentPrice <= 99.99) {
-            return 1.00;
-        } elif (currentPrice >= 100.00 && currentPrice <= 249.99) {
-            return 2.50;
-        } elif (currentPrice >= 250.00 && currentPrice <= 499.99) {
-            return 5.00;
-        } elif (currentPrice >= 500.00 && currentPrice <= 999.99) {
-            return 10.00;
-        } elif (currentPrice >= 1000 && currentPrice <= 2499.99) {
-            return 25.00;
-        } elif (currentPrice >= 2500 && currentPrice <= 4999.99) {
-            return 50.00;
+    public BigDecimal incrementPrice(BigDecimal currentPrice) {
+        if (currentPrice.compareTo(new BigDecimal("0.01")) >= 0 && currentPrice.compareTo(new BigDecimal("0.99")) <= 0) {
+            return new BigDecimal("0.05").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("1.00")) >= 0 && currentPrice.compareTo(new BigDecimal("4.99")) <= 0) {
+            return new BigDecimal("0.25").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("5.00")) >= 0 && currentPrice.compareTo(new BigDecimal("24.99")) <= 0) {
+            return new BigDecimal("0.50").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("25.00")) >= 0 && currentPrice.compareTo(new BigDecimal("99.99")) <= 0) {
+            return new BigDecimal("1.00").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("100.00")) >= 0 && currentPrice.compareTo(new BigDecimal("249.99")) <= 0) {
+            return new BigDecimal("2.50").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("250.00")) >= 0 && currentPrice.compareTo(new BigDecimal("499.99")) <= 0) {
+            return new BigDecimal("5.00").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("500.00")) >= 0 && currentPrice.compareTo(new BigDecimal("999.99")) <= 0) {
+            return new BigDecimal("10.00").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("1000.00")) >= 0 && currentPrice.compareTo(new BigDecimal("2499.99")) <= 0) {
+            return new BigDecimal("25.00").add(currentPrice);
+        } else if (currentPrice.compareTo(new BigDecimal("2500.00")) >= 0 && currentPrice.compareTo(new BigDecimal("4999.99")) <= 0) {
+            return new BigDecimal("50.00").add(currentPrice);
         } else {
-            return 100.00;
+            return new BigDecimal("100.00");
         }
     }
 
-
-    
 }

@@ -15,6 +15,6 @@ import javax.ejb.Local;
 @Local
 public interface BidIncrementSessionBeanLocal {
 
-    void incrementPrice(BigDecimal currentPrice);
+    BigDecimal incrementPrice(BigDecimal currentPrice);
     
 }
