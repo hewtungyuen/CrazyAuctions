@@ -59,8 +59,12 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
         BigDecimal currentBidPrice = a.getCurrentBidPrice();
+        
+        BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
+        CustomerEntity previousBidder = previousBid.getCustomer();
+        customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
+        
         BigDecimal newBidPrice = currentBidPrice;
-
         customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
 
         BidEntity b = new BidEntity(c, a, newBidPrice);
