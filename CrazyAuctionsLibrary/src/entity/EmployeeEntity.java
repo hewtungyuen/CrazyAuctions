@@ -62,7 +62,7 @@ public class EmployeeEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "EmployeeEntity: id=" + getId() + ", Username=" + getUsername() + ", Password=" + getPassword() + ", isLoggedin=" + getIsLoggedIn()
+        return "Employee Entity: id=" + getId() + ", Username=" + getUsername() + ", Password=" + getPassword() + ", isLoggedin=" + getIsLoggedIn()
             + ", Type=" + getEmployeeType();
     }
 
