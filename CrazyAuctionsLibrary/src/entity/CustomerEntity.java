@@ -26,7 +26,7 @@ public class CustomerEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "customer")
@@ -86,7 +86,8 @@ public class CustomerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CustomerEntity[ id=" + getId() + " ]";
+        return "Customer Entity: id=" + getId() + ", customerType=" + getCustomerType() + ", username=" + getUsername() + ", password=" + getPassword()
+            + ", creditBalance=" + getCreditBalance() + ", isLoggedIn=" + getIsLoggedIn();
     }
 
     /**

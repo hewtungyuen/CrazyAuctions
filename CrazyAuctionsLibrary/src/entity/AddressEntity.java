@@ -26,7 +26,6 @@ public class AddressEntity implements Serializable {
     
     @ManyToOne
     private CustomerEntity customer;
-    
     private String address;
     private Boolean isDisabled;
 
@@ -61,7 +60,7 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.AddressEntity[ id=" + getId() + " ]";
+        return "Address Entity: id=" + getId() + ", address=" + getAddress() + ", isDisabled=" + getIsDisabled();
     }
 
     /**
@@ -113,9 +112,6 @@ public class AddressEntity implements Serializable {
         return isDisabled;
     }
 
-    /**
-     * @param isDisabled the isDisabled to set
-     */
     public void setIsDisabled(Boolean isDisabled) {
         this.isDisabled = isDisabled;
     }
