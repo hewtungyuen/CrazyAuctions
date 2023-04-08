@@ -88,7 +88,7 @@ public class AuctionListingEntity implements Serializable {
     public String toString() {
         return "AuctionListing Entity: id=" + getId() + ", winningBid=" + getWinningBid() + ", winnerDeliveryAddress=" + getWinnerDeliveryAddress() 
             + ", currentBidPrice=" + getCurrentBidPrice() + ", reservePrice=" + getReservePrice() + ", productName=" + getProductName() + ", startDate=" 
-            + getStartDate() + ", endDate=" + getEndDate();
+            + getStartDate() + ", endDate=" + getEndDate() + ", auctionListingState=" + getAuctionListingState();
     }
 
     /**
