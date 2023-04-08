@@ -18,5 +18,7 @@ public interface BidEntitySessionBeanLocal {
     BidEntity getHighestBidForAuctionListing(Long auctionListingId);
 
     void markWinningBid(Long auctionListingId);
+
+    BidEntity createNewBid(Long customerId, Long auctionListingId);
     
 }

@@ -7,11 +7,13 @@ package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.AddressEntity;
 import entity.AuctionListingEntity;
+import entity.BidEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import entity.TransactionEntity;
@@ -30,13 +32,15 @@ public class CustomerOperationModuleHelper {
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
+    private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
     public CustomerOperationModuleHelper(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
@@ -44,6 +48,7 @@ public class CustomerOperationModuleHelper {
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
         this.transactionEntitySessionBeanRemote = transactionEntitySessionBeanRemote;
+        this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
     }
 
     public void logout() {
@@ -157,8 +162,9 @@ public class CustomerOperationModuleHelper {
         System.out.println("Deleted address: " + a.getAddress());
     }
 
-    public void placeNewBid() {
-
+    public void placeNewBid(Long auctionListingId) {
+        BidEntity b = bidEntitySessionBeanRemote.createNewBid(customerId, auctionListingId);
+        System.out.println("Placed new bid at " + b.getBidPrice());
     }
 
     public void refreshAuctionListingBids() {

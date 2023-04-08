@@ -7,6 +7,9 @@ package ejb.session.stateless;
 
 import entity.AuctionListingEntity;
 import entity.BidEntity;
+import entity.CustomerEntity;
+import java.math.BigDecimal;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -20,6 +23,9 @@ import util.enumeration.AuctionListingStateEnum;
  */
 @Stateless
 public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEntitySessionBeanLocal {
+
+    @EJB
+    private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
 
     @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
     private EntityManager em;
@@ -46,6 +52,21 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         } catch (NoResultException e) {
             return;
         }
+    }
+
+    @Override
+    public BidEntity createNewBid(Long customerId, Long auctionListingId) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        BigDecimal currentBidPrice = a.getCurrentBidPrice();
+        BigDecimal newBidPrice = currentBidPrice;
+
+        customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
+
+        BidEntity b = new BidEntity(c, a, newBidPrice);
+        em.persist(b);
+        em.flush();
+        return b;
     }
 
 }

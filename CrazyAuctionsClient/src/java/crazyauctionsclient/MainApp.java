@@ -7,6 +7,7 @@ package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.TransactionEntitySessionBeanRemote;
@@ -26,19 +27,22 @@ public class MainApp {
     private AddressEntitySessionBeanRemote addressEntitySessionBeanRemote;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
+    private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
 
     // 
     public MainApp(CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
     ) {
         this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
         this.addressEntitySessionBeanRemote = addressEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
         this.transactionEntitySessionBeanRemote = transactionEntitySessionBeanRemote;
+        this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -90,7 +94,8 @@ public class MainApp {
                     addressEntitySessionBeanRemote,
                     creditPackageEntitySessionBeanRemote,
                     auctionListingEntitySessionBeanRemote,
-                    transactionEntitySessionBeanRemote
+                    transactionEntitySessionBeanRemote,
+                    bidEntitySessionBeanRemote
             );
             customerOperationModule.menu();
         } catch (InvalidLoginException ex) {

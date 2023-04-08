@@ -7,6 +7,7 @@ package crazyauctionsclient;
 
 import ejb.session.stateless.AddressEntitySessionBeanRemote;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
+import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.TransactionEntitySessionBeanRemote;
@@ -29,7 +30,8 @@ public class CustomerOperationModule {
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote
+            TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote,
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
     ) {
         this.customerId = customerId;
         this.customerOperationModuleHelper = new CustomerOperationModuleHelper(
@@ -38,7 +40,8 @@ public class CustomerOperationModule {
                 addressEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
                 auctionListingEntitySessionBeanRemote,
-                transactionEntitySessionBeanRemote
+                transactionEntitySessionBeanRemote,
+                bidEntitySessionBeanRemote
         );
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
     }
@@ -155,7 +158,7 @@ public class CustomerOperationModule {
         System.out.print("> ");
 
         if (response == 1) {
-            customerOperationModuleHelper.placeNewBid();
+            customerOperationModuleHelper.placeNewBid(a.getId());
         } else if (response == 2) {
             customerOperationModuleHelper.refreshAuctionListingBids();
             viewAuctionListingDetailsMenu(productName);

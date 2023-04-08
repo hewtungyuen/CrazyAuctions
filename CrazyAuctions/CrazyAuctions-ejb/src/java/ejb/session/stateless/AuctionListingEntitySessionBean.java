@@ -112,5 +112,5 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         q.setParameter("customerId", customerId);
         return q.getResultList();
     }
-
+    
 }

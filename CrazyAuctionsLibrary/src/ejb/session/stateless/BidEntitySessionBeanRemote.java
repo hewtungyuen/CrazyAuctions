@@ -18,5 +18,7 @@ public interface BidEntitySessionBeanRemote {
     BidEntity getHighestBidForAuctionListing(Long auctionListingId);
 
     void markWinningBid(Long auctionListingId);
+
+    BidEntity createNewBid(Long customerId, Long auctionListingId);
     
 }
