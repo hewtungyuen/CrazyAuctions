@@ -15,7 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import util.enumeration.AuctionListingStateEnum;
 import util.exception.InsufficientBalanceException;
 
 /**
@@ -32,11 +31,16 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     private EntityManager em;
 
     @Override
-    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) {
+    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException {
         Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC");
         q.setParameter("auctionListingId", auctionListingId);
         q.setMaxResults(1);
-        return (BidEntity) q.getSingleResult();
+        try {
+            BidEntity highest = (BidEntity) q.getSingleResult();
+            return highest;
+        } catch (NoResultException ex) {
+            throw new NoResultException("asdfasdf");
+        }
     }
 
     @Override

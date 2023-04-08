@@ -18,7 +18,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
-import util.enumeration.TransactionTypeEnum;
 
 /**
  *
