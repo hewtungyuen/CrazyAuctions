@@ -82,7 +82,7 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "TransactionEntity: id=" + getId() + ", transactionDate=" + getTransactionDate() + ", transactionAmount=" + getTransactionAmount() 
+        return "Transaction Entity: id=" + getId() + ", transactionDate=" + getTransactionDate() + ", transactionAmount=" + getTransactionAmount() 
             + ", transactionType=" + getTransactionType() + ", transactionDescription=" + getTransactionDescription();
     }
 
