@@ -29,13 +29,13 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
     @EJB
     private TransactionEntitySessionBeanLocal transactionEntitySessionBeanLocal;
-    
+
     @EJB
     private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
 
-    @EJB 
+    @EJB
     private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
-    
+
     @EJB
     private AuctionListingTimerSessionBeanLocal auctionListingTimerSessionBeanLocal;
 
@@ -89,7 +89,7 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         try {
             BidEntity highestBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(auctionListingId);
             a.setAuctionListingState(AuctionListingStateEnum.DISABLED);
-            
+
             CustomerEntity c = highestBid.getCustomer();
             customerEntitySessionBeanLocal.credit(c.getId(), highestBid.getBidPrice(), "Refund for " + a.getProductName());
         } catch (NoResultException ex) {
@@ -106,5 +106,11 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         return q.getResultList();
     }
 
-    
+    @Override
+    public List<AuctionListingEntity> browseWonAuctionListings(Long customerId) {
+        Query q = em.createQuery("SELECT b.auctionListing FROM BidEntity b WHERE b.customer.id = :customerId AND b.isWinningBid = TRUE");
+        q.setParameter("customerId", customerId);
+        return q.getResultList();
+    }
+
 }

@@ -33,4 +33,6 @@ public interface AuctionListingEntitySessionBeanRemote {
 
     List<AuctionListingEntity> viewAllOpenAuctionListings();
 
+    List<AuctionListingEntity> browseWonAuctionListings(Long customerId);
+
 }

@@ -30,7 +30,7 @@ public class CustomerOperationModuleHelper {
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private TransactionEntitySessionBeanRemote transactionEntitySessionBeanRemote;
-    
+
     public CustomerOperationModuleHelper(Long customerId,
             CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote,
             AddressEntitySessionBeanRemote addressEntitySessionBeanRemote,
@@ -130,7 +130,10 @@ public class CustomerOperationModuleHelper {
     }
 
     public void browseWonAuctionListings() {
-
+        List<AuctionListingEntity> won = auctionListingEntitySessionBeanRemote.browseWonAuctionListings(customerId);
+        for (AuctionListingEntity a : won) {
+            System.out.println(a.toString());
+        }
     }
 
     public void updateAddress(Long addressId) {
