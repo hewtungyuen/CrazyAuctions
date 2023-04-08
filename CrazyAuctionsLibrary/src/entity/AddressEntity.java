@@ -60,7 +60,7 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AddressEntity: id=" + getId() + ", address=" + getAddress() + ", isDisabled=" + getIsDisabled();
+        return "AddressEntity: Id=" + getId() + ", Address=" + getAddress() + ", Disabled=" + getIsDisabled();
     }
 
     /**
