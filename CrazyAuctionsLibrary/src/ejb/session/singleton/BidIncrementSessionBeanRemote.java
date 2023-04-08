@@ -15,6 +15,6 @@ import javax.ejb.Remote;
 @Remote
 public interface BidIncrementSessionBeanRemote {
 
-    void incrementPrice(BigDecimal currentPrice);
+    BigDecimal incrementPrice(BigDecimal currentPrice);
     
 }

@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.BidEntity;
 import javax.ejb.Remote;
+import javax.persistence.NoResultException;
 import util.exception.InsufficientBalanceException;
 
 /**
@@ -16,7 +17,7 @@ import util.exception.InsufficientBalanceException;
 @Remote
 public interface BidEntitySessionBeanRemote {
 
-    BidEntity getHighestBidForAuctionListing(Long auctionListingId);
+    BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException;
 
     void markWinningBid(Long auctionListingId);
 

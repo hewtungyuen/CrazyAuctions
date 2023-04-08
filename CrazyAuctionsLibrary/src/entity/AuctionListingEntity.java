@@ -5,18 +5,15 @@
  */
 package entity;
 
-import ejb.session.stateless.AuctionListingTimerSessionBeanRemote;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import javax.ejb.EJB;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.PostPersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import util.enumeration.AuctionListingStateEnum;
