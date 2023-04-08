@@ -16,6 +16,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
+import util.exception.InsufficientBalanceException;
 
 /**
  *
@@ -55,16 +56,19 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     }
 
     @Override
-    public BidEntity createNewBid(Long customerId, Long auctionListingId) {
+    public BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException {
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
         BigDecimal currentBidPrice = a.getCurrentBidPrice();
-        
+        BigDecimal newBidPrice = currentBidPrice; // increment this 
+
+        if (c.getCreditBalance().compareTo(newBidPrice) < 0) {
+            throw new InsufficientBalanceException("Insufficient balance to bid for " + a.getProductName());
+        }
         BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
         CustomerEntity previousBidder = previousBid.getCustomer();
         customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
-        
-        BigDecimal newBidPrice = currentBidPrice;
+
         customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
 
         BidEntity b = new BidEntity(c, a, newBidPrice);

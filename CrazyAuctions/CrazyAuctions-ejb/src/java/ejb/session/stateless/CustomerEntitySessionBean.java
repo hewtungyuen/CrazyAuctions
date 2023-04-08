@@ -88,13 +88,15 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId) {
+    public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId, Integer quantity) {
         CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
         creditPackage.setPurchasedBefore(Boolean.TRUE);
-        
+
         CustomerEntity customer = em.find(CustomerEntity.class, customerId);
-        credit(customerId, creditPackage.getCredits(), "Purchase credit package");
+        BigDecimal numberOfCreditsPurchased = creditPackage.getCredits().multiply(new BigDecimal(quantity));
         
+        credit(customerId, numberOfCreditsPurchased, "Purchase credit package");
+
         return creditPackage;
     }
 

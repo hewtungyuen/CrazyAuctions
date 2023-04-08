@@ -32,7 +32,7 @@ public interface CustomerEntitySessionBeanRemote {
 
     List<AddressEntity> viewAllAddresses(Long customerId);
 
-    CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId);
+    CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId, Integer quantity);
 
     void credit(Long customerId, BigDecimal amount, String transactionDescription);
 

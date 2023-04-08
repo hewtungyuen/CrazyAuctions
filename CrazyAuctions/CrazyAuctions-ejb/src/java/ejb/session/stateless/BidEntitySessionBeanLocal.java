@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.BidEntity;
 import javax.ejb.Local;
+import util.exception.InsufficientBalanceException;
 
 /**
  *
@@ -19,6 +20,6 @@ public interface BidEntitySessionBeanLocal {
 
     void markWinningBid(Long auctionListingId);
 
-    BidEntity createNewBid(Long customerId, Long auctionListingId);
-    
+    BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException;
+
 }

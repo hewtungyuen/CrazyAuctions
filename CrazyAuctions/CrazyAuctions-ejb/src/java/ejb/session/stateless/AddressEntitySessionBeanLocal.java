@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -20,5 +21,7 @@ public interface AddressEntitySessionBeanLocal {
     AddressEntity deleteAddress(Long addressId);
 
     AddressEntity updateAddress(AddressEntity newAddress);
+
+    List<AddressEntity> viewAllAvailableAddressesForCustomer(Long customerId);
     
 }

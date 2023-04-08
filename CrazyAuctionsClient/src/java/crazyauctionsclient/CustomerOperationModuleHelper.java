@@ -19,6 +19,7 @@ import entity.CustomerEntity;
 import entity.TransactionEntity;
 import java.util.List;
 import java.util.Scanner;
+import util.exception.InsufficientBalanceException;
 
 /**
  *
@@ -115,7 +116,10 @@ public class CustomerOperationModuleHelper {
         System.out.println("Enter credit package id to purchase:");
         Long creditPackageId = scanner.nextLong();
 
-        CreditPackageEntity c = customerEntitySessionBeanRemote.purchaseCreditPackage(customerId, creditPackageId);
+        System.out.println("Enter quantity:");
+        Integer quantity = scanner.nextInt();
+
+        CreditPackageEntity c = customerEntitySessionBeanRemote.purchaseCreditPackage(customerId, creditPackageId, quantity);
         System.out.println("Purchased credit package: " + c.toString());
     }
 
@@ -163,8 +167,13 @@ public class CustomerOperationModuleHelper {
     }
 
     public void placeNewBid(Long auctionListingId) {
-        BidEntity b = bidEntitySessionBeanRemote.createNewBid(customerId, auctionListingId);
-        System.out.println("Placed new bid at " + b.getBidPrice());
+        try {
+            BidEntity b = bidEntitySessionBeanRemote.createNewBid(customerId, auctionListingId);
+            System.out.println("Placed new bid at " + b.getBidPrice());
+        } catch (InsufficientBalanceException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void refreshAuctionListingBids() {
@@ -176,13 +185,23 @@ public class CustomerOperationModuleHelper {
 
         System.out.println("Select delivery address for which auction listing? (input product name)");
         String productName = scanner.nextLine().trim();
+        AuctionListingEntity auctionListing = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
 
-        viewAllAddresses();
+        if (auctionListing.getWinnerDeliveryAddress() != null) {
+            System.out.println("Already selected delivery address for this auction listing");
+            return;
+        }
+        
+        List<AddressEntity> addresses = addressEntitySessionBeanRemote.viewAllAvailableAddressesForCustomer(customerId);
+        
+        for (AddressEntity a : addresses) {
+            a.toString();
+        }
+        
         System.out.println("Select delivery address: (input address id)");
         Long addressId = scanner.nextLong();
 
         AddressEntity address = addressEntitySessionBeanRemote.getAddress(addressId);
-        AuctionListingEntity auctionListing = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
 
         auctionListing.setWinnerDeliveryAddress(address);
         AuctionListingEntity updated = auctionListingEntitySessionBeanRemote.updateAuctionListing(auctionListing);

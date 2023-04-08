@@ -6,9 +6,13 @@
 package ejb.session.stateless;
 
 import entity.AddressEntity;
+import entity.AuctionListingEntity;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,8 +33,14 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
     @Override
     public AddressEntity deleteAddress(Long addressId) {
         AddressEntity a = em.find(AddressEntity.class, addressId);
-        em.remove(a);
-        a.getCustomer().getAddresses().remove(a);
+        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.winnerDeliveryAddress.id = :addressId");
+        q.setParameter("addressId", addressId);
+        try {
+            AuctionListingEntity auctionListing = (AuctionListingEntity) q.getSingleResult();
+            a.setIsDisabled(Boolean.TRUE);
+        } catch (NoResultException ex) {
+            em.remove(a);
+        }
         return a;
     }
 
@@ -40,4 +50,11 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
         return newAddress;
     }
 
+    @Override
+    public List<AddressEntity> viewAllAvailableAddressesForCustomer(Long customerId) {
+        Query q = em.createQuery("SELECT a FROM AddressEntity a WHERE a.customer.id = :customerId AND a.isDisabled = FALSE");
+        return q.getResultList();
+    }
+
+    
 }
