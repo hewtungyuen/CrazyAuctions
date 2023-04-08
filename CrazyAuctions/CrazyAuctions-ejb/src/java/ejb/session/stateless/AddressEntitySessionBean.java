@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.AddressEntity;
 import entity.AuctionListingEntity;
+import entity.CustomerEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -56,5 +57,19 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
         return q.getResultList();
     }
 
-    
+    @Override
+    public AddressEntity createAddress(String addressLine, Long customerId) {
+        CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        AddressEntity a = new AddressEntity(c, addressLine);
+        em.persist(a);
+        return a;
+    }
+
+    @Override
+    public List<AddressEntity> viewAllAddresses(Long customerId) {
+        Query q = em.createQuery("SELECT a FROM AddressEntity a WHERE a.customer.id = :customerId");
+        q.setParameter("customerId", customerId);
+        return q.getResultList();
+    }
+
 }

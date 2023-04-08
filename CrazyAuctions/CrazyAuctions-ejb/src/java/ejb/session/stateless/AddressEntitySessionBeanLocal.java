@@ -23,5 +23,9 @@ public interface AddressEntitySessionBeanLocal {
     AddressEntity updateAddress(AddressEntity newAddress);
 
     List<AddressEntity> viewAllAvailableAddressesForCustomer(Long customerId);
+
+    AddressEntity createAddress(String addressLine, Long customerId);
+
+    List<AddressEntity> viewAllAddresses(Long customerId);
     
 }

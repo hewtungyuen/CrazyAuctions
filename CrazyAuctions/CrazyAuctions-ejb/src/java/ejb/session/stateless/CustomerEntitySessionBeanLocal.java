@@ -28,10 +28,6 @@ public interface CustomerEntitySessionBeanLocal {
 
     CustomerEntity getCustomer(Long customerId);
 
-    AddressEntity createAddress(Long customer, String address);
-
-    List<AddressEntity> viewAllAddresses(Long customerId);
-
     CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId, Integer quantity);
 
     void credit(Long customerId, BigDecimal amount, String transactionDescription);

@@ -28,12 +28,6 @@ public class CustomerEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany(mappedBy = "customer")
-    private List<AddressEntity> addresses;
-
-    @OneToMany(mappedBy = "customer")
-    private List<TransactionEntity> transactions;
     
     @Enumerated
     private CustomerTypeEnum customerType;
@@ -45,8 +39,6 @@ public class CustomerEntity implements Serializable {
     public CustomerEntity() {
         this.creditBalance = new BigDecimal(0.0);
         this.isLoggedIn = false;
-        this.addresses = new ArrayList<>();
-        this.transactions = new ArrayList<>();
     }
 
     public CustomerEntity(CustomerTypeEnum customerType, String username, String password) {
@@ -158,33 +150,5 @@ public class CustomerEntity implements Serializable {
      */
     public void setIsLoggedIn(Boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
-    }
-
-    /**
-     * @return the addresses
-     */
-    public List<AddressEntity> getAddresses() {
-        return addresses;
-    }
-
-    /**
-     * @param addresses the addresses to set
-     */
-    public void setAddresses(List<AddressEntity> addresses) {
-        this.addresses = addresses;
-    }
-
-    /**
-     * @return the transactions
-     */
-    public List<TransactionEntity> getTransactions() {
-        return transactions;
-    }
-
-    /**
-     * @param transactions the transactions to set
-     */
-    public void setTransactions(List<TransactionEntity> transactions) {
-        this.transactions = transactions;
     }
 }

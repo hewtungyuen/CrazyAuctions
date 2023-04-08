@@ -74,7 +74,7 @@ public class CustomerOperationModuleHelper {
         System.out.println("Enter address:");
         String address = scanner.nextLine();
 
-        customerEntitySessionBeanRemote.createAddress(customerId, address);
+        addressEntitySessionBeanRemote.createAddress(address, customerId);
     }
 
     public Long viewAddressDetails() {
@@ -88,7 +88,7 @@ public class CustomerOperationModuleHelper {
     }
 
     public void viewAllAddresses() {
-        List<AddressEntity> addresses = customerEntitySessionBeanRemote.viewAllAddresses(customerId);
+        List<AddressEntity> addresses = addressEntitySessionBeanRemote.viewAllAddresses(customerId);
         for (AddressEntity a : addresses) {
             System.out.println(a.toString());
         }
