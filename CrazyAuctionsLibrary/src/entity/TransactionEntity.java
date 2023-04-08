@@ -8,11 +8,13 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,14 +32,22 @@ public class TransactionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private CustomerEntity customer;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date transactionDate;
+    
+    @Column(nullable = false, precision = 2)
     private BigDecimal transactionAmount;
+    
     @Enumerated
+    @Column(nullable = false)
     private TransactionTypeEnum transactionType;
+    
+    @Column(nullable = false, length = 30)
     private String transactionDescription;
 
     public TransactionEntity() {

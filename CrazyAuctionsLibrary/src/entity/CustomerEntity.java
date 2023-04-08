@@ -7,14 +7,12 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import util.enumeration.CustomerTypeEnum;
 
 /**
@@ -28,12 +26,21 @@ public class CustomerEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Enumerated
+    @Column(nullable = false)
     private CustomerTypeEnum customerType;
+
+    @Column(nullable = false, length = 16)
     private String username;
+
+    @Column(nullable = false, length = 16)
     private String password;
+
+    @Column(nullable = false, precision = 2)
     private BigDecimal creditBalance;
+
+    @Column(nullable = false)
     private Boolean isLoggedIn;
 
     public CustomerEntity() {
@@ -79,7 +86,7 @@ public class CustomerEntity implements Serializable {
     @Override
     public String toString() {
         return "Customer Entity: id=" + getId() + ", customerType=" + getCustomerType() + ", username=" + getUsername() + ", password=" + getPassword()
-            + ", creditBalance=" + getCreditBalance() + ", isLoggedIn=" + getIsLoggedIn();
+                + ", creditBalance=" + getCreditBalance() + ", isLoggedIn=" + getIsLoggedIn();
     }
 
     /**

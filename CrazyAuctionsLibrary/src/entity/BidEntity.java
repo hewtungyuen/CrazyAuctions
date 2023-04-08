@@ -7,10 +7,12 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -24,11 +26,19 @@ public class BidEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private CustomerEntity customer;
-    @ManyToOne
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private AuctionListingEntity auctionListing;
+
+    @Column(nullable = false, precision = 2)
     private BigDecimal bidPrice;
+    
+    @Column(nullable = false)
     private Boolean isWinningBid; // only if it actually won
 
     public BidEntity() {
@@ -41,8 +51,7 @@ public class BidEntity implements Serializable {
         this.auctionListing = auctionListing;
         this.bidPrice = bidPrice;
     }
-    
-    
+
     public Long getId() {
         return id;
     }
@@ -73,8 +82,8 @@ public class BidEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Bid Entity: id=" + getId() + ", bidPrice=" + getBidPrice() 
-                + ", isWinningBid=" + getIsWinningBid() + ", customer=" + getCustomer().getUsername() 
+        return "Bid Entity: id=" + getId() + ", bidPrice=" + getBidPrice()
+                + ", isWinningBid=" + getIsWinningBid() + ", customer=" + getCustomer().getUsername()
                 + ", auctionListing=" + getAuctionListing().getProductName();
     }
 
@@ -133,5 +142,5 @@ public class BidEntity implements Serializable {
     public void setIsWinningBid(Boolean isWinningBid) {
         this.isWinningBid = isWinningBid;
     }
-    
+
 }

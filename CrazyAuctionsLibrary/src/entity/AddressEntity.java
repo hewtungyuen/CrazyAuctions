@@ -6,10 +6,12 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -23,10 +25,15 @@ public class AddressEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @ManyToOne
+
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private CustomerEntity customer;
+
+    @Column(nullable = false, unique = true, length = 30)
     private String address;
+
+    @Column(nullable = false)
     private Boolean isDisabled;
 
     public AddressEntity() {
@@ -37,7 +44,7 @@ public class AddressEntity implements Serializable {
         this.customer = customer;
         this.address = address;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -115,5 +122,5 @@ public class AddressEntity implements Serializable {
     public void setIsDisabled(Boolean isDisabled) {
         this.isDisabled = isDisabled;
     }
-    
+
 }

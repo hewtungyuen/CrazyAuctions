@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,8 +24,14 @@ public class CreditPackageEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private Boolean isEnabled;
+
+    @Column(nullable = false)
     private Boolean purchasedBefore;
+
+    @Column(nullable = false, precision = 2)
     private BigDecimal credits;
 
     public CreditPackageEntity() {
@@ -37,7 +44,6 @@ public class CreditPackageEntity implements Serializable {
         this.credits = credits;
     }
 
-    
     public Long getId() {
         return id;
     }
@@ -94,5 +100,5 @@ public class CreditPackageEntity implements Serializable {
     public void setCredits(BigDecimal credits) {
         this.credits = credits;
     }
-    
+
 }

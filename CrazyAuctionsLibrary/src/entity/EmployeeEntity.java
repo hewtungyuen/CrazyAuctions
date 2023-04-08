@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -24,10 +25,18 @@ public class EmployeeEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Enumerated
+    @Column(nullable = false)
     private EmployeeTypeEnum employeeType;
+
+    @Column(nullable = false, length = 16)
     private String username;
+    
+    @Column(nullable = false, length = 16)
     private String password;
+    
+    @Column(nullable = false)
     private Boolean isLoggedIn;
 
     public EmployeeEntity() {
@@ -63,7 +72,7 @@ public class EmployeeEntity implements Serializable {
     @Override
     public String toString() {
         return "Employee Entity: id=" + getId() + ", Username=" + getUsername() + ", Password=" + getPassword() + ", isLoggedin=" + getIsLoggedIn()
-            + ", Type=" + getEmployeeType();
+                + ", Type=" + getEmployeeType();
     }
 
     /**

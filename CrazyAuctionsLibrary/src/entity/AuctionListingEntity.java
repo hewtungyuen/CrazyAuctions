@@ -8,11 +8,13 @@ package entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,28 +26,38 @@ import util.enumeration.AuctionListingStateEnum;
  */
 @Entity
 public class AuctionListingEntity implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(optional = true)
+    @JoinColumn(unique = true)
     private BidEntity winningBid;
 
-    @OneToOne
+    @OneToOne(optional = true)
     private AddressEntity winnerDeliveryAddress;
 
+    @Column(nullable = false, precision = 2)
     private BigDecimal currentBidPrice;
+
+    @Column(nullable = false, precision = 2)
     private BigDecimal reservePrice;
+
+    @Column(nullable = false, unique = true, length = 30)
     private String productName;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date startDate;
+
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date endDate;
 
     @Enumerated
+    @Column(nullable = false)
     private AuctionListingStateEnum auctionListingState;
 
     public AuctionListingEntity() {
@@ -83,9 +95,9 @@ public class AuctionListingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AuctionListing Entity: id=" + getId() + ", winningBid=" + getWinningBid() + ", winnerDeliveryAddress=" + getWinnerDeliveryAddress() 
-            + ", currentBidPrice=" + getCurrentBidPrice() + ", reservePrice=" + getReservePrice() + ", productName=" + getProductName() + ", startDate=" 
-            + getStartDate() + ", endDate=" + getEndDate() + ", auctionListingState=" + getAuctionListingState();
+        return "AuctionListing Entity: id=" + getId() + ", winningBid=" + getWinningBid() + ", winnerDeliveryAddress=" + getWinnerDeliveryAddress()
+                + ", currentBidPrice=" + getCurrentBidPrice() + ", reservePrice=" + getReservePrice() + ", productName=" + getProductName() + ", startDate="
+                + getStartDate() + ", endDate=" + getEndDate() + ", auctionListingState=" + getAuctionListingState();
     }
 
     /**
