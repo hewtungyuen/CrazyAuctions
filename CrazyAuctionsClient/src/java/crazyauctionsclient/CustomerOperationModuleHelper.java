@@ -172,6 +172,20 @@ public class CustomerOperationModuleHelper {
     }
 
     public void selectDeliveryAddressForWonAuctionListing() {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Select delivery address for which auction listing? (input product name)");
+        String productName = scanner.nextLine().trim();
+
+        viewAllAddresses();
+        System.out.println("Select delivery address: (input address id)");
+        Long addressId = scanner.nextLong();
+
+        AddressEntity address = addressEntitySessionBeanRemote.getAddress(addressId);
+        AuctionListingEntity auctionListing = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
+
+        auctionListing.setWinnerDeliveryAddress(address);
+        AuctionListingEntity updated = auctionListingEntitySessionBeanRemote.updateAuctionListing(auctionListing);
+        System.out.println("Selected delivery address: " + address.getAddress() + "for: " + auctionListing.getProductName());
     }
 }
