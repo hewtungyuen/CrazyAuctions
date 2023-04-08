@@ -36,7 +36,7 @@ public class BidIncrementSessionBean implements BidIncrementSessionBeanRemote, B
         } else if (currentPrice.compareTo(new BigDecimal("2500.00")) >= 0 && currentPrice.compareTo(new BigDecimal("4999.99")) <= 0) {
             return new BigDecimal("50.00").add(currentPrice);
         } else {
-            return new BigDecimal("100.00");
+            return new BigDecimal("100.00").add(currentPrice);
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package ejb.session.stateless;
 
+import ejb.session.singleton.BidIncrementSessionBeanLocal;
 import entity.AuctionListingEntity;
 import entity.BidEntity;
 import entity.CustomerEntity;
@@ -24,6 +25,9 @@ import util.exception.InsufficientBalanceException;
 @Stateless
 public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEntitySessionBeanLocal {
 
+    @EJB
+    private BidIncrementSessionBeanLocal bidIncrementSessionBeanLocal;
+    
     @EJB
     private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
 
@@ -64,7 +68,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
         BigDecimal currentBidPrice = a.getCurrentBidPrice();
-        BigDecimal newBidPrice = currentBidPrice; // increment this 
+        BigDecimal newBidPrice = bidIncrementSessionBeanLocal.incrementPrice(currentBidPrice);
 
         if (c.getCreditBalance().compareTo(newBidPrice) < 0) {
             throw new InsufficientBalanceException("Insufficient balance to bid for " + a.getProductName());
