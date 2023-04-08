@@ -86,7 +86,7 @@ public class AuctionListingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "AuctionListingEntity: id=" + getId() + ", winningBid=" + getWinningBid() + ", winnerDeliveryAddress=" + getWinnerDeliveryAddress() 
+        return "AuctionListing Entity: id=" + getId() + ", winningBid=" + getWinningBid() + ", winnerDeliveryAddress=" + getWinnerDeliveryAddress() 
             + ", currentBidPrice=" + getCurrentBidPrice() + ", reservePrice=" + getReservePrice() + ", productName=" + getProductName() + ", startDate=" 
             + getStartDate() + ", endDate=" + getEndDate();
     }
