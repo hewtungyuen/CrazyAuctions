@@ -53,7 +53,8 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
 
     @Override
     public List<AddressEntity> viewAllAvailableAddressesForCustomer(Long customerId) {
-        Query q = em.createQuery("SELECT a FROM AddressEntity a WHERE a.customer.id = :customerId AND a.isDisabled = FALSE");
+        Query q = em.createQuery("SELECT a FROM AddressEntity a WHERE a.customer.id = :customerId AND a.isDisabled IS NULL");
+        q.setParameter("customerId", customerId);
         return q.getResultList();
     }
 

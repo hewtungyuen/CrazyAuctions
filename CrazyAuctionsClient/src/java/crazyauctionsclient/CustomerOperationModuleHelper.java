@@ -190,8 +190,9 @@ public class CustomerOperationModuleHelper {
         
         List<AddressEntity> addresses = addressEntitySessionBeanRemote.viewAllAvailableAddressesForCustomer(customerId);
         
+        System.out.println("Number of addresses: " + addresses.size());
         for (AddressEntity a : addresses) {
-            a.toString();
+            System.out.println(a.toString());
         }
         
         System.out.println("Select delivery address: (input address id)");
