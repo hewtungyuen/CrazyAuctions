@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import javax.persistence.NoResultException;
+import util.exception.NoAuctionListingBidsException;
 
 /**
  *
@@ -158,7 +159,7 @@ public class SalesOperations {
         BidEntity winningBid;
         try {
             winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
-        } catch (NoResultException ex) {
+        } catch (NoAuctionListingBidsException ex) {
             System.out.println("No bids for this auction listing");
             return;
         }

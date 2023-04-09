@@ -97,7 +97,8 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     @Override
     public void debit(Long customerId, BigDecimal amount, String transactionDescription) { // no such customer, insufficient balance
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
-        c.setCreditBalance(c.getCreditBalance().subtract(amount));
+        BigDecimal newCreditBalance = c.getCreditBalance().subtract(amount);
+        c.setCreditBalance(newCreditBalance);
         transactionEntitySessionBeanLocal.createNewTransaction(
                 amount,
                 TransactionTypeEnum.DEBIT,

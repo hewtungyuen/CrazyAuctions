@@ -10,6 +10,7 @@ import entity.AuctionListingEntity;
 import entity.BidEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -55,6 +56,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     public BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException {
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+
         BigDecimal currentBidPrice = a.getCurrentBidPrice();
         BigDecimal newBidPrice = bidIncrementSessionBeanLocal.incrementPrice(currentBidPrice);
 
@@ -65,12 +67,13 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         try {
             BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
             CustomerEntity previousBidder = previousBid.getCustomer();
+            System.out.println("refunding: " + previousBidder.getUsername());
             customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
         } catch (NoAuctionListingBidsException ex) {
-            
+            System.out.println("No previous highest bidder");
         }
 
-        customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
+        customerEntitySessionBeanLocal.debit(c.getId(), newBidPrice, "Placed bid for " + a.getProductName());
         a.setCurrentBidPrice(newBidPrice);
         BidEntity b = new BidEntity(c, a, newBidPrice);
         em.persist(b);
@@ -81,9 +84,10 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     @Override
     public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoAuctionListingBidsException {
 
-        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC");
+        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId "
+                + "AND b.bidPrice = (SELECT MAX(b2.bidPrice) FROM BidEntity b2 WHERE b2.auctionListing.id = :auctionListingId)");
         q.setParameter("auctionListingId", auctionListingId);
-        q.setMaxResults(1);
+        
         try {
             BidEntity highest = (BidEntity) q.getSingleResult();
             return highest;
