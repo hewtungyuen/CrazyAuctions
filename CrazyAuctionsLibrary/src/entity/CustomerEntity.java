@@ -38,7 +38,7 @@ public class CustomerEntity implements Serializable {
     @Column(nullable = false, length = 16)
     private String password;
 
-    @Column(nullable = false, scale = 2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal creditBalance;
 
     @Column(nullable = false)

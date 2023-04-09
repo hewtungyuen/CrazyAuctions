@@ -33,7 +33,7 @@ public class AddressEntity implements Serializable {
     @Column(nullable = false, unique = true, length = 30)
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isDisabled;
 
     public AddressEntity() {
