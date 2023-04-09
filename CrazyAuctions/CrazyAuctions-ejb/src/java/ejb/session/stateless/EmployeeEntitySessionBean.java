@@ -13,7 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.EmployeeTypeEnum;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -26,7 +26,7 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     private EntityManager em;
 
     @Override
-    public EmployeeEntity login(String username, String password) throws InvalidLoginException {
+    public EmployeeEntity login(String username, String password) throws AuthenticationException {
         Query q = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :username");
         q.setParameter("username", username);
 
@@ -36,10 +36,10 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
                 e.setIsLoggedIn(Boolean.TRUE);
                 return e;
             } else {
-                throw new InvalidLoginException("Incorrect password");
+                throw new AuthenticationException("Incorrect password");
             }
         } catch (NoResultException ex) {
-            throw new InvalidLoginException("Incorrect username");
+            throw new AuthenticationException("Incorrect username");
         }
     }
 

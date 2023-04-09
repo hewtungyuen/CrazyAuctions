@@ -80,7 +80,7 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.viewCustomerProfile();
 
                 } else if (response == 3) {
-                    customerOperationModuleHelper.updateCustomerProfile();
+                    customerOperationModuleHelper.updateCustomerProfile(customerId);
 
                 } else if (response == 4) {
                     customerOperationModuleHelper.createAddress();

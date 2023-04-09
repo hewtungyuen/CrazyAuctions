@@ -12,7 +12,7 @@ import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -79,7 +79,7 @@ public class MainApp {
         try {
             e = employeeEntitySessionBeanRemote.login(username, password);
 
-        } catch (InvalidLoginException ex) {
+        } catch (AuthenticationException ex) {
             System.out.println(ex.getMessage());
             return;
         }

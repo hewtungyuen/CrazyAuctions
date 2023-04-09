@@ -9,13 +9,13 @@ package util.exception;
  *
  * @author hewtu
  */
-public class InvalidLoginException extends Exception {
+public class AuthenticationException extends Exception {
 
     /**
      * Creates a new instance of <code>InvalidLoginException</code> without
      * detail message.
      */
-    public InvalidLoginException() {
+    public AuthenticationException() {
     }
 
     /**
@@ -24,7 +24,7 @@ public class InvalidLoginException extends Exception {
      *
      * @param msg the detail message.
      */
-    public InvalidLoginException(String msg) {
+    public AuthenticationException(String msg) {
         super(msg);
     }
 }

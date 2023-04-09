@@ -13,7 +13,7 @@ import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.CustomerEntity;
 import java.util.Scanner;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -98,7 +98,7 @@ public class MainApp {
                     bidEntitySessionBeanRemote
             );
             customerOperationModule.menu();
-        } catch (InvalidLoginException ex) {
+        } catch (AuthenticationException ex) {
             System.out.println(ex.getMessage());
         }
 

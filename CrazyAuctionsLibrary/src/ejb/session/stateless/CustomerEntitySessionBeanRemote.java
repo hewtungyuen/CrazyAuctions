@@ -11,7 +11,7 @@ import entity.CustomerEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Remote;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -22,7 +22,7 @@ public interface CustomerEntitySessionBeanRemote {
 
     CustomerEntity createCustomer(String username, String password);
 
-    CustomerEntity login(String username, String password) throws InvalidLoginException;
+    CustomerEntity login(String username, String password) throws AuthenticationException;
 
     void logout(Long customerId);
 
@@ -33,5 +33,7 @@ public interface CustomerEntitySessionBeanRemote {
     void credit(Long customerId, BigDecimal amount, String transactionDescription);
 
     void debit(Long customerId, BigDecimal amount, String transactionDescription);
+
+    CustomerEntity updateCustomer(CustomerEntity customer);
     
 }

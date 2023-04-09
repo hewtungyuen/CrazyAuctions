@@ -19,6 +19,7 @@ import entity.CustomerEntity;
 import entity.TransactionEntity;
 import java.util.List;
 import java.util.Scanner;
+import util.exception.AuthenticationException;
 import util.exception.InsufficientBalanceException;
 
 /**
@@ -64,8 +65,50 @@ public class CustomerOperationModuleHelper {
 
     }
 
-    public void updateCustomerProfile() {
+    public void updateCustomerProfile(Long customerId) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("1: Update username");
+        System.out.println("2: Change password");
+        System.out.println("3: Exit\n");
 
+        Integer response = scanner.nextInt();
+        CustomerEntity c = customerEntitySessionBeanRemote.getCustomer(customerId);
+
+        if (response == 1) {
+            changeUsername(c);
+        } else if (response == 2) {
+            try {
+                changePassword(c);
+            } catch (AuthenticationException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    public CustomerEntity changeUsername(CustomerEntity c) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter new username");
+        String username = scanner.nextLine();
+        c.setUsername(username);
+        return customerEntitySessionBeanRemote.updateCustomer(c);
+    }
+
+    public CustomerEntity changePassword(CustomerEntity c) throws AuthenticationException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter new password");
+        String password = scanner.nextLine();
+
+        System.out.println("Confirm new password");
+        String confirmPassword = scanner.nextLine();
+
+        if (password.equals(confirmPassword)) {
+            c.setPassword(password);
+            return customerEntitySessionBeanRemote.updateCustomer(c);
+        } else {
+            throw new AuthenticationException("Passwords dont match");
+        }
     }
 
     public void createAddress() {

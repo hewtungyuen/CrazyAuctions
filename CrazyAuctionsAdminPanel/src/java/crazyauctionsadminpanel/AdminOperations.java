@@ -116,6 +116,10 @@ public class AdminOperations {
         for (EmployeeEntity e : employees) {
             System.out.println(e.toString());
         }
+        
+        if (employees.isEmpty()) {
+            System.out.println("No employees");
+        }
     }
 
     public void updateEmployee(Long employeeId) {

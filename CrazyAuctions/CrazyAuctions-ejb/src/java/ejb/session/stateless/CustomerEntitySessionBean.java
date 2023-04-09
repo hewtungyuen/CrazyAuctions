@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.CustomerTypeEnum;
 import util.enumeration.TransactionTypeEnum;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -40,7 +40,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public CustomerEntity login(String username, String password) throws InvalidLoginException {
+    public CustomerEntity login(String username, String password) throws AuthenticationException {
         Query q = em.createQuery("SELECT c FROM CustomerEntity c WHERE c.username = :username");
         q.setParameter("username", username);
 
@@ -50,10 +50,10 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
                 c.setIsLoggedIn(Boolean.TRUE);
                 return c;
             } else {
-                throw new InvalidLoginException("Incorrect password");
+                throw new AuthenticationException("Incorrect password");
             }
         } catch (NoResultException ex) {
-            throw new InvalidLoginException("Incorrect username");
+            throw new AuthenticationException("Incorrect username");
         }
     }
 
@@ -104,4 +104,11 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         );
     }
 
+    @Override
+    public CustomerEntity updateCustomer(CustomerEntity customer) {
+        em.merge(customer);
+        return customer;
+    }
+
+    
 }

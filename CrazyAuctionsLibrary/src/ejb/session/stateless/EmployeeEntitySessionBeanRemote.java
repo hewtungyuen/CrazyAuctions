@@ -9,7 +9,7 @@ import entity.EmployeeEntity;
 import java.util.List;
 import javax.ejb.Remote;
 import util.enumeration.EmployeeTypeEnum;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -18,7 +18,7 @@ import util.exception.InvalidLoginException;
 @Remote
 public interface EmployeeEntitySessionBeanRemote {
 
-    EmployeeEntity login(String username, String password) throws InvalidLoginException;
+    EmployeeEntity login(String username, String password) throws AuthenticationException;
 
     Long logout(Long employeeId);
 

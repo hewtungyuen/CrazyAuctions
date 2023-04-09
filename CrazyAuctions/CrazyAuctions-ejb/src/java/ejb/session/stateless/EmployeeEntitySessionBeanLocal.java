@@ -9,7 +9,7 @@ import entity.EmployeeEntity;
 import java.util.List;
 import javax.ejb.Local;
 import util.enumeration.EmployeeTypeEnum;
-import util.exception.InvalidLoginException;
+import util.exception.AuthenticationException;
 
 /**
  *
@@ -18,7 +18,7 @@ import util.exception.InvalidLoginException;
 @Local
 public interface EmployeeEntitySessionBeanLocal {
 
-    EmployeeEntity login(String username, String password) throws InvalidLoginException;
+    EmployeeEntity login(String username, String password) throws AuthenticationException;
 
     Long logout(Long employeeId);
 
