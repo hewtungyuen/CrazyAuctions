@@ -9,6 +9,7 @@ import entity.EmployeeEntity;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.EmployeeTypeEnum;
@@ -37,9 +38,7 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
             } else {
                 throw new InvalidLoginException("Incorrect password");
             }
-        } catch (InvalidLoginException ex) {
-            throw new InvalidLoginException("Incorrect password");
-        } catch (Exception ex) {
+        } catch (NoResultException ex) {
             throw new InvalidLoginException("Incorrect username");
         }
     }

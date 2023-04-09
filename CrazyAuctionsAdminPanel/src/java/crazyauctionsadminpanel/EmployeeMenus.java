@@ -11,7 +11,6 @@ import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
 import java.util.Scanner;
-import util.enumeration.EmployeeTypeEnum;
 
 /**
  *

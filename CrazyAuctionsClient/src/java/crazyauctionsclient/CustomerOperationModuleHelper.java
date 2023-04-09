@@ -92,6 +92,10 @@ public class CustomerOperationModuleHelper {
         for (AddressEntity a : addresses) {
             System.out.println(a.toString());
         }
+
+        if (addresses.isEmpty()) {
+            System.out.println("No addresses");
+        }
     }
 
     public void viewCreditBalance() {
@@ -103,6 +107,10 @@ public class CustomerOperationModuleHelper {
         List<TransactionEntity> transactions = transactionEntitySessionBeanRemote.viewCustomerTransactions(customerId);
         for (TransactionEntity t : transactions) {
             System.out.println(t.toString());
+        }
+
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions");
         }
     }
 
@@ -128,6 +136,10 @@ public class CustomerOperationModuleHelper {
         for (AuctionListingEntity a : listings) {
             System.out.println(a.toString());
         }
+
+        if (listings.isEmpty()) {
+            System.out.println("No active auction listings");
+        }
     }
 
     public String viewAuctionListingDetails() {
@@ -142,6 +154,10 @@ public class CustomerOperationModuleHelper {
         List<AuctionListingEntity> won = auctionListingEntitySessionBeanRemote.browseWonAuctionListings(customerId);
         for (AuctionListingEntity a : won) {
             System.out.println(a.toString());
+        }
+
+        if (won.isEmpty()) {
+            System.out.println("No won auction listings");
         }
     }
 
@@ -187,14 +203,14 @@ public class CustomerOperationModuleHelper {
             System.out.println("Already selected delivery address for this auction listing");
             return;
         }
-        
+
         List<AddressEntity> addresses = addressEntitySessionBeanRemote.viewAllAvailableAddressesForCustomer(customerId);
-        
+
         System.out.println("Number of addresses: " + addresses.size());
         for (AddressEntity a : addresses) {
             System.out.println(a.toString());
         }
-        
+
         System.out.println("Select delivery address: (input address id)");
         Long addressId = scanner.nextLong();
 

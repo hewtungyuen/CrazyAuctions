@@ -10,7 +10,6 @@ import entity.AuctionListingEntity;
 import entity.BidEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,7 +47,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
                 a.setWinningBid(b);
             }
         } catch (NoAuctionListingBidsException e) {
-            return;
+
         }
     }
 

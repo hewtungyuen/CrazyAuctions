@@ -14,7 +14,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
@@ -41,10 +40,10 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
     @Override
     public AuctionListingEntity createNewAuctionListing(
-            BigDecimal startingBidPrice, 
-            BigDecimal reservePrice, 
-            String productName, 
-            Date startDate, 
+            BigDecimal startingBidPrice,
+            BigDecimal reservePrice,
+            String productName,
+            Date startDate,
             Date endDate
     ) { // duplicate product name 
         AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
@@ -69,8 +68,8 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
     @Override
     public List<AuctionListingEntity> viewAllListingsWithBidsBelowReserve() {
-        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.currentBidPrice < a.reservePrice AND a.auctionListingState != :openState");
-        q.setParameter("openState", AuctionListingStateEnum.OPEN);
+        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.currentBidPrice < a.reservePrice AND a.auctionListingState = :closedState");
+        q.setParameter("closedState", AuctionListingStateEnum.CLOSED);
         return q.getResultList();
     }
 
@@ -88,11 +87,16 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
     @Override
     public AuctionListingEntity deleteAuctionListing(Long auctionListingId) {  // no such auction listing 
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        auctionListingTimerSessionBeanLocal.cancelTimers(a.getId());
 
         try {
             BidEntity highestBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(auctionListingId);
+            highestBid.setIsWinningBid(Boolean.FALSE);
+            
             a.setAuctionListingState(AuctionListingStateEnum.DISABLED);
-
+            a.setWinningBid(null);
+            a.setWinnerDeliveryAddress(null);
+            
             CustomerEntity c = highestBid.getCustomer();
             customerEntitySessionBeanLocal.credit(c.getId(), highestBid.getBidPrice(), "Refund for " + a.getProductName());
         } catch (NoAuctionListingBidsException ex) {
@@ -116,5 +120,5 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         q.setParameter("customerId", customerId);
         return q.getResultList();
     }
-    
+
 }

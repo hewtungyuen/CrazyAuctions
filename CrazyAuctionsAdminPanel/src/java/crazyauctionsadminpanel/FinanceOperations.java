@@ -50,6 +50,9 @@ public class FinanceOperations {
         for (CreditPackageEntity p : packages) {
             System.out.println(p.toString());
         }
+        if (packages.isEmpty()) {
+            System.out.println("No credit packages");
+        }
     }
 
     public void updateCreditPackage(Long creditPackageId) {
@@ -61,7 +64,7 @@ public class FinanceOperations {
         if (credits.compareTo(BigDecimal.ZERO) > 0) {
             c.setCredits(credits);
         }
-        
+
         CreditPackageEntity updatedCreditPackage = creditPackageEntitySessionBeanRemote.updateCreditPackage(c);
         System.out.println("Updated: " + updatedCreditPackage.toString());
 

@@ -89,6 +89,10 @@ public class SalesOperations {
         for (AuctionListingEntity a : listings) {
             System.out.println(a.toString());
         }
+
+        if (listings.isEmpty()) {
+            System.out.println("No auction listings");
+        }
     }
 
     public void viewAllAuctionListingsWithBidBelowReserve() {

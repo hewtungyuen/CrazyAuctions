@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.CustomerTypeEnum;
@@ -51,9 +52,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
             } else {
                 throw new InvalidLoginException("Incorrect password");
             }
-        } catch (InvalidLoginException ex) {
-            throw new InvalidLoginException("Incorrect password");
-        } catch (Exception ex) {
+        } catch (NoResultException ex) {
             throw new InvalidLoginException("Incorrect username");
         }
     }
@@ -74,9 +73,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
         creditPackage.setPurchasedBefore(Boolean.TRUE);
 
-        CustomerEntity customer = em.find(CustomerEntity.class, customerId);
         BigDecimal numberOfCreditsPurchased = creditPackage.getCredits().multiply(new BigDecimal(quantity));
-        
         credit(customerId, numberOfCreditsPurchased, "Purchase credit package");
 
         return creditPackage;
