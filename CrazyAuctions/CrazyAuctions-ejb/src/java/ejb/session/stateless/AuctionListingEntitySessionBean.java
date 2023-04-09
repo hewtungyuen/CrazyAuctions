@@ -27,9 +27,6 @@ import util.enumeration.AuctionListingStateEnum;
 public class AuctionListingEntitySessionBean implements AuctionListingEntitySessionBeanRemote, AuctionListingEntitySessionBeanLocal {
 
     @EJB
-    private TransactionEntitySessionBeanLocal transactionEntitySessionBeanLocal;
-
-    @EJB
     private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
 
     @EJB
@@ -42,7 +39,13 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
     private EntityManager em;
 
     @Override
-    public AuctionListingEntity createNewAuctionListing(BigDecimal startingBidPrice, BigDecimal reservePrice, String productName, Date startDate, Date endDate) {
+    public AuctionListingEntity createNewAuctionListing(
+            BigDecimal startingBidPrice, 
+            BigDecimal reservePrice, 
+            String productName, 
+            Date startDate, 
+            Date endDate
+    ) { // duplicate product name 
         AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
         em.persist(a);
         em.flush();
@@ -51,7 +54,7 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
     }
 
     @Override
-    public AuctionListingEntity getAuctionListingByProductName(String productName) {
+    public AuctionListingEntity getAuctionListingByProductName(String productName) { // no such auction listing
         Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.productName = :productName");
         q.setParameter("productName", productName);
         return (AuctionListingEntity) q.getSingleResult();
@@ -82,7 +85,7 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
     }
 
     @Override
-    public AuctionListingEntity deleteAuctionListing(Long auctionListingId) {
+    public AuctionListingEntity deleteAuctionListing(Long auctionListingId) {  // no such auction listing 
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
         try {

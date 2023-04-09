@@ -64,7 +64,7 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     }
 
     @Override
-    public Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) {
+    public Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) { // duplicate username
         EmployeeEntity e = new EmployeeEntity(username, password, employeeType);
         em.persist(e);
         em.flush();
@@ -78,21 +78,21 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     }
 
     @Override
-    public EmployeeEntity getEmployeeByUsername(String username) {
+    public EmployeeEntity getEmployeeByUsername(String username) { // no such employee
         Query q = em.createQuery("SELECT e FROM EmployeeEntity e WHERE e.username = :username");
         q.setParameter("username", username);
         return (EmployeeEntity) q.getSingleResult();
     }
 
     @Override
-    public EmployeeEntity deleteEmployee(Long employeeId) {
+    public EmployeeEntity deleteEmployee(Long employeeId) { // no such employee 
         EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
         em.remove(e);
         return e;
     }
 
     @Override
-    public EmployeeEntity getEmployeeById(Long employeeId) {
+    public EmployeeEntity getEmployeeById(Long employeeId) { // no such employee 
         EmployeeEntity e = em.find(EmployeeEntity.class, employeeId);
         return e;
     }

@@ -27,7 +27,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
 
     @EJB
     private BidIncrementSessionBeanLocal bidIncrementSessionBeanLocal;
-    
+
     @EJB
     private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
 
@@ -35,20 +35,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     private EntityManager em;
 
     @Override
-    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException {
-        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC");
-        q.setParameter("auctionListingId", auctionListingId);
-        q.setMaxResults(1);
-        try {
-            BidEntity highest = (BidEntity) q.getSingleResult();
-            return highest;
-        } catch (NoResultException ex) {
-            throw new NoResultException("asdfasdf");
-        }
-    }
-
-    @Override
-    public void markWinningBid(Long auctionListingId) {  // next time account for proxy bid 
+    public void markWinningBid(Long auctionListingId) {  // no such auction listing 
 
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
@@ -73,9 +60,14 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         if (c.getCreditBalance().compareTo(newBidPrice) < 0) {
             throw new InsufficientBalanceException("Insufficient balance to bid for " + a.getProductName());
         }
-        BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
-        CustomerEntity previousBidder = previousBid.getCustomer();
-        customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
+
+        try {
+            BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
+            CustomerEntity previousBidder = previousBid.getCustomer();
+            customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
+        } catch (NoResultException ex) {
+            
+        }
 
         customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
 
@@ -83,6 +75,20 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         em.persist(b);
         em.flush();
         return b;
+    }
+
+    @Override
+    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException {
+
+        Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC");
+        q.setParameter("auctionListingId", auctionListingId);
+        q.setMaxResults(1);
+        try {
+            BidEntity highest = (BidEntity) q.getSingleResult();
+            return highest;
+        } catch (NoResultException ex) {
+            throw new NoResultException("asdfasdf");
+        }
     }
 
 }

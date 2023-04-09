@@ -17,10 +17,10 @@ import util.exception.InsufficientBalanceException;
 @Remote
 public interface BidEntitySessionBeanRemote {
 
-    BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException;
-
     void markWinningBid(Long auctionListingId);
 
     BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException;
+
+    BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException;
 
 }

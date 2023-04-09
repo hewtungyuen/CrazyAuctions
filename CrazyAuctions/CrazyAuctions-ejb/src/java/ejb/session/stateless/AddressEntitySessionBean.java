@@ -26,7 +26,7 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
     private EntityManager em;
 
     @Override
-    public AddressEntity getAddress(Long addressId) {
+    public AddressEntity getAddress(Long addressId) { // no such address
         AddressEntity a = em.find(AddressEntity.class, addressId);
         return a;
     }
@@ -58,7 +58,7 @@ public class AddressEntitySessionBean implements AddressEntitySessionBeanRemote,
     }
 
     @Override
-    public AddressEntity createAddress(String addressLine, Long customerId) {
+    public AddressEntity createAddress(String addressLine, Long customerId) {  // duplicate address
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AddressEntity a = new AddressEntity(c, addressLine);
         em.persist(a);

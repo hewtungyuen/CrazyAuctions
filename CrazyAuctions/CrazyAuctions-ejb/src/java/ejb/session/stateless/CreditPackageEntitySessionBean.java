@@ -24,7 +24,7 @@ public class CreditPackageEntitySessionBean implements CreditPackageEntitySessio
     private EntityManager em;
 
     @Override
-    public CreditPackageEntity createCreditPackage(BigDecimal credits) {
+    public CreditPackageEntity createCreditPackage(BigDecimal credits) { // duplicate credit package
         CreditPackageEntity c = new CreditPackageEntity(credits);
         em.persist(c);
         em.flush();
@@ -38,13 +38,13 @@ public class CreditPackageEntitySessionBean implements CreditPackageEntitySessio
     }
 
     @Override
-    public CreditPackageEntity getCreditPackage(Long creditPackageId) {
+    public CreditPackageEntity getCreditPackage(Long creditPackageId) { // no such credit package 
         CreditPackageEntity c = em.find(CreditPackageEntity.class, creditPackageId);
         return c;
     }
 
     @Override
-    public CreditPackageEntity deleteCreditPackage(Long creditPackageId) {
+    public CreditPackageEntity deleteCreditPackage(Long creditPackageId) { // no such credit package
         CreditPackageEntity c = em.find(CreditPackageEntity.class, creditPackageId);
         if (c.getPurchasedBefore().equals(true)) {
             c.setIsEnabled(Boolean.FALSE);

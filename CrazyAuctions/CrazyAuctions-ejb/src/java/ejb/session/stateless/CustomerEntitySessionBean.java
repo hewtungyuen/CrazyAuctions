@@ -5,11 +5,9 @@
  */
 package ejb.session.stateless;
 
-import entity.AddressEntity;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,7 +31,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     private EntityManager em;
 
     @Override
-    public CustomerEntity createCustomer(String username, String password) {
+    public CustomerEntity createCustomer(String username, String password) { // duplicate username 
         CustomerEntity c = new CustomerEntity(CustomerTypeEnum.BASIC, username, password);
         em.persist(c);
         em.flush();
@@ -67,12 +65,12 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public CustomerEntity getCustomer(Long customerId) {
+    public CustomerEntity getCustomer(Long customerId) { // no such customer 
         return em.find(CustomerEntity.class, customerId);
     }
 
     @Override
-    public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId, Integer quantity) {
+    public CreditPackageEntity purchaseCreditPackage(Long customerId, Long creditPackageId, Integer quantity) { // no such credit package
         CreditPackageEntity creditPackage = em.find(CreditPackageEntity.class, creditPackageId);
         creditPackage.setPurchasedBefore(Boolean.TRUE);
 
@@ -85,7 +83,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public void credit(Long customerId, BigDecimal amount, String transactionDescription) {
+    public void credit(Long customerId, BigDecimal amount, String transactionDescription) { // no such customers
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         c.setCreditBalance(c.getCreditBalance().add(amount));
         transactionEntitySessionBeanLocal.createNewTransaction(
@@ -97,7 +95,7 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public void debit(Long customerId, BigDecimal amount, String transactionDescription) {
+    public void debit(Long customerId, BigDecimal amount, String transactionDescription) { // no such customer, insufficient balance
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         c.setCreditBalance(c.getCreditBalance().subtract(amount));
         transactionEntitySessionBeanLocal.createNewTransaction(
