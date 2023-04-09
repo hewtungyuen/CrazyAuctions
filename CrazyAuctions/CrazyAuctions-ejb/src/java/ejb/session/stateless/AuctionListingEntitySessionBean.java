@@ -18,6 +18,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
+import util.exception.NoAuctionListingBidsException;
 
 /**
  *
@@ -94,7 +95,8 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
             CustomerEntity c = highestBid.getCustomer();
             customerEntitySessionBeanLocal.credit(c.getId(), highestBid.getBidPrice(), "Refund for " + a.getProductName());
-        } catch (NoResultException ex) {
+        } catch (NoAuctionListingBidsException ex) {
+            System.out.println("in catch block");
             em.remove(a);
         }
 

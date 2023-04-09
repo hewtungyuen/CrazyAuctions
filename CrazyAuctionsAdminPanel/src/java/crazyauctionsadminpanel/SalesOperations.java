@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -154,8 +155,13 @@ public class SalesOperations {
         System.out.println("Enter product name: ");
         String productName = scanner.nextLine();
         AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
-
-        BidEntity winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
+        BidEntity winningBid;
+        try {
+            winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
+        } catch (NoResultException ex) {
+            System.out.println("No bids for this auction listing");
+            return;
+        }
 
         System.out.println("Assign this bid (" + winningBid.toString() + ") as winner?: ");
         System.out.println("1: Yes");

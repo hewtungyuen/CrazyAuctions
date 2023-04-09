@@ -7,8 +7,8 @@ package ejb.session.stateless;
 
 import entity.BidEntity;
 import javax.ejb.Local;
-import javax.persistence.NoResultException;
 import util.exception.InsufficientBalanceException;
+import util.exception.NoAuctionListingBidsException;
 
 /**
  *
@@ -21,6 +21,6 @@ public interface BidEntitySessionBeanLocal {
 
     BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException;
 
-    BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException;
+    BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoAuctionListingBidsException;
 
 }

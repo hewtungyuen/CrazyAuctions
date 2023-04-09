@@ -17,6 +17,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import util.exception.InsufficientBalanceException;
+import util.exception.NoAuctionListingBidsException;
 
 /**
  *
@@ -45,7 +46,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
                 b.setIsWinningBid(Boolean.TRUE);
                 a.setWinningBid(b);
             }
-        } catch (NoResultException e) {
+        } catch (NoAuctionListingBidsException e) {
             return;
         }
     }
@@ -65,12 +66,12 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
             BidEntity previousBid = getHighestBidForAuctionListing(auctionListingId);
             CustomerEntity previousBidder = previousBid.getCustomer();
             customerEntitySessionBeanLocal.credit(previousBidder.getId(), currentBidPrice, "Outbidded for " + a.getProductName());
-        } catch (NoResultException ex) {
+        } catch (NoAuctionListingBidsException ex) {
             
         }
 
         customerEntitySessionBeanLocal.debit(customerId, newBidPrice, "Placed bid for " + a.getProductName());
-
+        a.setCurrentBidPrice(newBidPrice);
         BidEntity b = new BidEntity(c, a, newBidPrice);
         em.persist(b);
         em.flush();
@@ -78,7 +79,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     }
 
     @Override
-    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoResultException {
+    public BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoAuctionListingBidsException {
 
         Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId ORDER BY b.bidPrice DESC");
         q.setParameter("auctionListingId", auctionListingId);
@@ -87,7 +88,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
             BidEntity highest = (BidEntity) q.getSingleResult();
             return highest;
         } catch (NoResultException ex) {
-            throw new NoResultException("asdfasdf");
+            throw new NoAuctionListingBidsException("Auction has no bids");
         }
     }
 
