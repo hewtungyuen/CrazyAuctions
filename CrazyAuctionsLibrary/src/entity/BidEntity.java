@@ -35,7 +35,7 @@ public class BidEntity implements Serializable {
     @JoinColumn(nullable = false)
     private AuctionListingEntity auctionListing;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, scale = 2)
     private BigDecimal bidPrice;
     
     @Column(nullable = false)

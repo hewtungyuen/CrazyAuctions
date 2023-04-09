@@ -10,6 +10,16 @@ package util.enumeration;
  * @author hewtu
  */
 public enum CustomerTypeEnum {
-    BASIC,
-    PREMIUM
+    BASIC("BASIC"),
+    PREMIUM("PREMIUM");
+
+    private final String state;
+
+    private CustomerTypeEnum(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
 }

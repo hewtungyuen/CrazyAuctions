@@ -10,6 +10,16 @@ package util.enumeration;
  * @author hewtu
  */
 public enum TransactionTypeEnum {
-    CREDIT,
-    DEBIT
+    CREDIT("CREDIT"),
+    DEBIT("DEBIT");
+    
+    private final String state;
+
+    private TransactionTypeEnum(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
 }

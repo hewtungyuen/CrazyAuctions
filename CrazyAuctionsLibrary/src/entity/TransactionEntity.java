@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,10 +41,10 @@ public class TransactionEntity implements Serializable {
     @Column(nullable = false)
     private Date transactionDate;
     
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, scale = 2)
     private BigDecimal transactionAmount;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TransactionTypeEnum transactionType;
     

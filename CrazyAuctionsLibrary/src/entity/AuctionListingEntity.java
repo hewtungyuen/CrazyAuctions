@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,10 +40,10 @@ public class AuctionListingEntity implements Serializable {
     @OneToOne(optional = true)
     private AddressEntity winnerDeliveryAddress;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, scale = 2)
     private BigDecimal currentBidPrice;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false, scale = 2)
     private BigDecimal reservePrice;
 
     @Column(nullable = false, unique = true, length = 30)
@@ -56,7 +57,7 @@ public class AuctionListingEntity implements Serializable {
     @Column(nullable = false)
     private Date endDate;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuctionListingStateEnum auctionListingState;
 

@@ -10,7 +10,17 @@ package util.enumeration;
  * @author hewtu
  */
 public enum AuctionListingStateEnum {
-    OPEN,
-    CLOSED,
-    DISABLED
+    OPEN("OPEN"),
+    CLOSED("CLOSED"),
+    DISABLED("DISABLED");
+    
+    private final String state;
+
+    private AuctionListingStateEnum(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
 }
