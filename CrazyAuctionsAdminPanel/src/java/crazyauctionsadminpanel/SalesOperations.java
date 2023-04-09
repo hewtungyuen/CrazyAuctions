@@ -172,8 +172,9 @@ public class SalesOperations {
 
         if (response == 1) {
             a.setWinningBid(winningBid);
-            winningBid.setIsWinningBid(Boolean.TRUE);
             auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
+            winningBid.setIsWinningBid(Boolean.TRUE);
+            bidEntitySessionBeanRemote.updateBid(winningBid);
             System.out.println("Assigned winning bid for: " + a.toString());
         } else {
             a.setWinningBid(null);  // might have an issue here 

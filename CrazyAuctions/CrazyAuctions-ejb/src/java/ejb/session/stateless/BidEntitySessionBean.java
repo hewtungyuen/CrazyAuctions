@@ -96,4 +96,11 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         }
     }
 
+    @Override
+    public BidEntity updateBid(BidEntity updatedBid) {
+        em.merge(updatedBid);
+        return updatedBid;
+    }
+
+    
 }

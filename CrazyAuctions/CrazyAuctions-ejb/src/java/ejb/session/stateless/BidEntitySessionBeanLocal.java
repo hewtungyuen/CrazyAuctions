@@ -23,4 +23,6 @@ public interface BidEntitySessionBeanLocal {
 
     BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoAuctionListingBidsException;
 
+    BidEntity updateBid(BidEntity updatedBid);
+
 }
