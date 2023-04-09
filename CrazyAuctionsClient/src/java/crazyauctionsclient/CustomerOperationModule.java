@@ -52,7 +52,7 @@ public class CustomerOperationModule {
         Integer response = 0;
 
         while (true) {
-            System.out.println("*** OAS Auction Client ***\n");
+            System.out.println("*** OAS Auction Client Menu ***\n");
             System.out.println("1: Logout");
             System.out.println("2: View Customer Profile");
             System.out.println("3: Update Customer Profile");
@@ -65,10 +65,9 @@ public class CustomerOperationModule {
             System.out.println("10: Browse All Auction Listings");
             System.out.println("11: View Auction Listing Details");  // includes place new bids and refresh
             System.out.println("12: Browse Won Auction Listings");  // includes select delivery address 
-            System.out.println("13: Exit\n");
             response = 0;
 
-            while (response < 1 || response > 13) {
+            while (response < 1 || response > 12) {
                 System.out.print("> ");
 
                 response = scanner.nextInt();
@@ -113,14 +112,12 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.browseWonAuctionListings();
                     browseWonAuctionListingsMenu();
 
-                } else if (response == 13 || response == 1) {
-                    break;
                 } else {
                     System.out.println("Invalid option, please try again!\n");
                 }
             }
 
-            if (response == 13 || response == 1) {
+            if (response == 1) {
                 break;
             }
         }
