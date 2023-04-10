@@ -54,7 +54,11 @@ public class CustomerOperationModuleHelper {
     }
 
     public void logout() {
-        customerEntitySessionBeanRemote.logout(customerId);
+        try {
+            customerEntitySessionBeanRemote.logout(customerId);
+        } catch (AuthenticationException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void viewCustomerProfile() {
@@ -96,11 +100,11 @@ public class CustomerOperationModuleHelper {
 
     public CustomerEntity changePassword(CustomerEntity c) throws AuthenticationException {
         CustomerEntity customer = customerEntitySessionBeanRemote.getCustomer(c.getId());
-        
+
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter old password");
         String oldPassword = scanner.nextLine();
-        
+
         if (!customer.getPassword().equals(oldPassword)) {
             throw new AuthenticationException("Passwords dont match");
         }
