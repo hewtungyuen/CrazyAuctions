@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
+import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -46,6 +47,9 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
 
         try {
             CustomerEntity c = (CustomerEntity) q.getSingleResult();
+            if (Objects.equals(c.getIsLoggedIn(), Boolean.TRUE)) {
+                throw new AuthenticationException(c.getUsername() + " is already logged in");
+            }
             if (c.getPassword().equals(password)) {
                 c.setIsLoggedIn(Boolean.TRUE);
                 return c;
@@ -58,8 +62,11 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     }
 
     @Override
-    public void logout(Long customerId) {
+    public void logout(Long customerId) throws AuthenticationException {
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
+        if (Objects.equals(c.getIsLoggedIn(), Boolean.FALSE)) {
+            throw new AuthenticationException(c.getUsername() + " is already logged out");
+        }
         c.setIsLoggedIn(Boolean.FALSE);
     }
 
@@ -110,5 +117,4 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         return customer;
     }
 
-    
 }

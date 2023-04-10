@@ -24,7 +24,7 @@ public interface CustomerEntitySessionBeanRemote {
 
     CustomerEntity login(String username, String password) throws AuthenticationException;
 
-    void logout(Long customerId);
+    void logout(Long customerId) throws AuthenticationException;
 
     CustomerEntity getCustomer(Long customerId);
 

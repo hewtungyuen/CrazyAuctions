@@ -7,6 +7,7 @@ package ejb.session.stateless;
 
 import entity.EmployeeEntity;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -32,6 +33,9 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
 
         try {
             EmployeeEntity e = (EmployeeEntity) q.getSingleResult();
+            if (Objects.equals(e.getIsLoggedIn(), Boolean.TRUE)) {
+                throw new AuthenticationException(e.getUsername() + " is already logged in");
+            }
             if (e.getPassword().equals(password)) {
                 e.setIsLoggedIn(Boolean.TRUE);
                 return e;
