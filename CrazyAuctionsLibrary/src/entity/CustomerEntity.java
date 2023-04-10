@@ -86,8 +86,8 @@ public class CustomerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer Entity: id=" + getId() + ", customerType=" + getCustomerType() + ", username=" + getUsername() + ", password=" + getPassword()
-                + ", creditBalance=" + getCreditBalance() + ", isLoggedIn=" + getIsLoggedIn();
+        return "Customer Entity: id=" + getId() + ", \n customerType=" + getCustomerType() + ", \n username=" + getUsername() + ", \n password=" + getPassword()
+                + ", \n creditBalance=" + getCreditBalance() + ", \n isLoggedIn=" + getIsLoggedIn();
     }
 
     /**
