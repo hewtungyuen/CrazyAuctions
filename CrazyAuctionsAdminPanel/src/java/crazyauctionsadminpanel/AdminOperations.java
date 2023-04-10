@@ -27,7 +27,12 @@ public class AdminOperations {
 
     // all employees 
     public void logout() {
-        employeeEntitySessionBeanRemote.logout(employeeId);
+        EmployeeEntity e = employeeEntitySessionBeanRemote.getEmployeeById(employeeId);
+        if (e.getIsLoggedIn()) {
+            employeeEntitySessionBeanRemote.logout(employeeId);
+        } else {
+            System.out.println(e.getUsername() + " is already logged out");
+        }
     }
 
     public void changePassword() {
@@ -116,7 +121,7 @@ public class AdminOperations {
         for (EmployeeEntity e : employees) {
             System.out.println(e.toString());
         }
-        
+
         if (employees.isEmpty()) {
             System.out.println("No employees");
         }

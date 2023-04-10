@@ -78,7 +78,10 @@ public class MainApp {
         EmployeeEntity e;
         try {
             e = employeeEntitySessionBeanRemote.login(username, password);
-
+            if (e.getIsLoggedIn()) {
+                System.out.println(e.getUsername() + " is already logged in");
+                return;
+            }
         } catch (AuthenticationException ex) {
             System.out.println(ex.getMessage());
             return;
