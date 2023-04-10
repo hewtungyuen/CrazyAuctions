@@ -74,7 +74,8 @@ public class CreditPackageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "CreditPackage Entity: id=" + getId() + ", isEnabled=" + getIsEnabled() + ", purchasedBefore=" + getPurchasedBefore() + ", credits=" + getCredits();
+        return "CreditPackage Entity: id=" + getId() + ", \n isEnabled=" + getIsEnabled() + ", \n purchasedBefore=" + getPurchasedBefore() 
+            + ", \n credits=" + getCredits();
     }
 
     public Boolean getIsEnabled() {
