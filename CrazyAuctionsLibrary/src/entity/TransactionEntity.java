@@ -41,7 +41,7 @@ public class TransactionEntity implements Serializable {
     @Column(nullable = false)
     private Date transactionDate;
     
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal transactionAmount;
     
     @Enumerated(EnumType.STRING)

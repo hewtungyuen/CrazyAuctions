@@ -40,10 +40,10 @@ public class AuctionListingEntity implements Serializable {
     @OneToOne(optional = true)
     private AddressEntity winnerDeliveryAddress;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal currentBidPrice;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal reservePrice;
 
     @Column(nullable = false, unique = true, length = 30)

@@ -31,7 +31,7 @@ public class CreditPackageEntity implements Serializable {
     @Column(nullable = false)
     private Boolean purchasedBefore;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal credits;
 
     public CreditPackageEntity() {
