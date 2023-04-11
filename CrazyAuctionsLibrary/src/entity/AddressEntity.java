@@ -67,8 +67,7 @@ public class AddressEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Address Entity: id=" + getId() + ", \n    address=" + getAddress() + ", \n    isDisabled=" + getIsDisabled() +  
-            + ", \n    customer=" + getCustomer().getUsername() + "\n";
+        return "Address: id = " + getId() + ", \n    address = " + getAddress() + ", \n    isDisabled = " + getIsDisabled() + ", \n    customer = " + getCustomer().getUsername() + "\n";
     }
 
     /**

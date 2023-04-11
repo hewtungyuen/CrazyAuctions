@@ -12,7 +12,8 @@ package util.enumeration;
 public enum AuctionListingStateEnum {
     OPEN("OPEN"),
     CLOSED("CLOSED"),
-    DISABLED("DISABLED");
+    DISABLED("DISABLED"),
+    REQUIRE_INTERVENTION("REQUIRE_INTERVENTION");
     
     private final String state;
 
