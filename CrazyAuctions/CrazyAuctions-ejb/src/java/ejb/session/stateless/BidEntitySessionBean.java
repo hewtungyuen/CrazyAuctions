@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import util.enumeration.AuctionListingStateEnum;
 import util.exception.InsufficientBalanceException;
 import util.exception.NoAuctionListingBidsException;
 
@@ -39,15 +40,25 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     public void markWinningBid(Long auctionListingId) {  // no such auction listing 
 
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        System.out.println("run mark winning bid");
 
         try {
             BidEntity b = getHighestBidForAuctionListing(auctionListingId);
-            if (b.getBidPrice().compareTo(a.getReservePrice()) >= 0) {
+            System.out.println("current bid price" + a.getCurrentBidPrice());
+            System.out.println("reserve price" + a.getReservePrice());
+
+            if (a.getCurrentBidPrice().compareTo(a.getReservePrice()) >= 0) {
+                System.out.println("bid price > reserve price");
                 b.setIsWinningBid(Boolean.TRUE);
                 a.setWinningBid(b);
+                a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
+            } else {
+                System.out.println("bid price < reserve price");
+                a.setAuctionListingState(AuctionListingStateEnum.REQUIRE_INTERVENTION);
             }
-        } catch (NoAuctionListingBidsException e) {
 
+        } catch (NoAuctionListingBidsException e) {
+            a.setAuctionListingState(AuctionListingStateEnum.REQUIRE_INTERVENTION);
         }
     }
 
@@ -86,7 +97,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         Query q = em.createQuery("SELECT b FROM BidEntity b WHERE b.auctionListing.id = :auctionListingId "
                 + "AND b.bidPrice = (SELECT MAX(b2.bidPrice) FROM BidEntity b2 WHERE b2.auctionListing.id = :auctionListingId)");
         q.setParameter("auctionListingId", auctionListingId);
-        
+
         try {
             BidEntity highest = (BidEntity) q.getSingleResult();
             return highest;
@@ -101,5 +112,4 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         return updatedBid;
     }
 
-    
 }

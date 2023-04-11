@@ -8,9 +8,11 @@ package crazyauctionsadminpanel;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
 import java.util.Scanner;
+import util.exception.NoAuctionListingBidsException;
 
 /**
  *
@@ -24,16 +26,18 @@ public class EmployeeMenus {
     private FinanceOperations financeOperations;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
     public EmployeeMenus(Long employeeId,
             EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote,
+            CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote
     ) {
         this.employeeOperations = new EmployeeOperations(employeeId, employeeEntitySessionBeanRemote);
         this.adminOperations = new AdminOperations(employeeId, employeeEntitySessionBeanRemote);
-        this.salesOperations = new SalesOperations(auctionListingEntitySessionBeanRemote, bidEntitySessionBeanRemote);
+        this.salesOperations = new SalesOperations(auctionListingEntitySessionBeanRemote, bidEntitySessionBeanRemote, customerEntitySessionBeanRemote);
         this.financeOperations = new FinanceOperations(creditPackageEntitySessionBeanRemote);
     }
 
@@ -196,8 +200,12 @@ public class EmployeeMenus {
                     salesOperations.viewAllAuctionListings();
 
                 } else if (response == 6) {
-                    salesOperations.viewAllAuctionListingsWithBidBelowReserve();
-                    assignWinningBidMenu();
+                    try {
+                        salesOperations.viewAllAuctionListingsWithBidBelowReserve();
+                        assignWinningBidMenu();
+                    } catch (NoAuctionListingBidsException ex) {
+                        System.out.println(ex.getMessage());
+                    }
 
                 } else {
                     System.out.println("Invalid option, please try again!\n");

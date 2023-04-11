@@ -6,13 +6,10 @@
 package crazyauctionsadminpanel;
 
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
-import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.CreditPackageEntity;
-import entity.EmployeeEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
-import util.enumeration.EmployeeTypeEnum;
 
 /**
  *

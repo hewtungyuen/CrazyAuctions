@@ -41,26 +41,29 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
         Date startDate = a.getStartDate();
         Date endDate = a.getEndDate();
-
         TimerService timerService = sessionContext.getTimerService();
-
-        timerService.createTimer(startDate, auctionListingId);
-        timerService.createTimer(endDate, auctionListingId);
-        System.out.println("Created timers");
+        Date now = new Date();
+        if (startDate.after(now)) {
+            if (endDate.after(startDate)) {
+                timerService.createTimer(startDate, auctionListingId);
+                System.out.println("Created starting timer at " + startDate.toString());
+                
+                timerService.createTimer(endDate, auctionListingId);
+                System.out.println("Created ending timer at " + endDate.toString());
+            }
+        }
     }
 
     @Timeout
     public void handleTimeout(Timer t) {
-        System.out.println("TIMEOUT");
         Long auctionListingId = (Long) t.getInfo();
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
         if (a.getAuctionListingState().equals(AuctionListingStateEnum.CLOSED)) {
-            System.out.println("OPENING");
+            System.out.println("Start date reached for " + auctionListingId);
             a.setAuctionListingState(AuctionListingStateEnum.OPEN);
         } else if (a.getAuctionListingState().equals(AuctionListingStateEnum.OPEN)) {
-            System.out.println("CLOSING");
-            a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
+            System.out.println("End date reached for " + auctionListingId);
             bidEntitySessionBeanLocal.markWinningBid(auctionListingId);
         }
     }
@@ -75,7 +78,7 @@ public class AuctionListingTimerSessionBean implements AuctionListingTimerSessio
                 if (t.getInfo().equals(auctionListingId)) {
                     try {
                         t.cancel();
-                        System.out.println("Cancelled timer");
+                        System.out.println("Cancelled timer for " + auctionListingId);
                     } catch (NoSuchObjectLocalException ex) {
                         System.err.println("Timer already cancelled");
                     }

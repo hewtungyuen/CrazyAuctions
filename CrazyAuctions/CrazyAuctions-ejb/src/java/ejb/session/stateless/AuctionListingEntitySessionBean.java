@@ -68,8 +68,8 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
 
     @Override
     public List<AuctionListingEntity> viewAllListingsWithBidsBelowReserve() {
-        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.currentBidPrice < a.reservePrice AND a.auctionListingState = :closedState");
-        q.setParameter("closedState", AuctionListingStateEnum.CLOSED);
+        Query q = em.createQuery("SELECT a FROM AuctionListingEntity a WHERE a.currentBidPrice < a.reservePrice AND a.auctionListingState = :interventionState");
+        q.setParameter("interventionState", AuctionListingStateEnum.REQUIRE_INTERVENTION);
         return q.getResultList();
     }
 

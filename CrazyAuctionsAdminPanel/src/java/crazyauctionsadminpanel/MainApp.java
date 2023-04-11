@@ -8,6 +8,7 @@ package crazyauctionsadminpanel;
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.BidEntitySessionBeanRemote;
 import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.EmployeeEntity;
 import java.util.Scanner;
@@ -24,17 +25,20 @@ public class MainApp {
     private EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote;
     private CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote;
     private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
     public MainApp(
             EmployeeEntitySessionBeanRemote employeeEntitySessionBeanRemote,
             CreditPackageEntitySessionBeanRemote creditPackageEntitySessionBeanRemote,
             AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote,
+            CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote
     ) {
         this.employeeEntitySessionBeanRemote = employeeEntitySessionBeanRemote;
         this.creditPackageEntitySessionBeanRemote = creditPackageEntitySessionBeanRemote;
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
         this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
+        this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
     }
 
     public void runApp() {
@@ -89,7 +93,8 @@ public class MainApp {
                 employeeEntitySessionBeanRemote,
                 creditPackageEntitySessionBeanRemote,
                 auctionListingEntitySessionBeanRemote,
-                bidEntitySessionBeanRemote
+                bidEntitySessionBeanRemote,
+                customerEntitySessionBeanRemote
         );
 
         // render menu according to employee type 

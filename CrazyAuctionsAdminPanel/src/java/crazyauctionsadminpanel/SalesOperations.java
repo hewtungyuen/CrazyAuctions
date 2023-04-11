@@ -7,6 +7,7 @@ package crazyauctionsadminpanel;
 
 import ejb.session.stateless.AuctionListingEntitySessionBeanRemote;
 import ejb.session.stateless.BidEntitySessionBeanRemote;
+import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
 import entity.BidEntity;
 import java.math.BigDecimal;
@@ -14,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import javax.persistence.NoResultException;
+import util.enumeration.AuctionListingStateEnum;
 import util.exception.NoAuctionListingBidsException;
 
 /**
@@ -26,12 +27,15 @@ public class SalesOperations {
     private Long employeeId;
     private AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote;
     private BidEntitySessionBeanRemote bidEntitySessionBeanRemote;
+    private CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote;
 
     public SalesOperations(AuctionListingEntitySessionBeanRemote auctionListingEntitySessionBeanRemote,
-            BidEntitySessionBeanRemote bidEntitySessionBeanRemote
+            BidEntitySessionBeanRemote bidEntitySessionBeanRemote,
+            CustomerEntitySessionBeanRemote customerEntitySessionBeanRemote
     ) {
         this.auctionListingEntitySessionBeanRemote = auctionListingEntitySessionBeanRemote;
         this.bidEntitySessionBeanRemote = bidEntitySessionBeanRemote;
+        this.customerEntitySessionBeanRemote = customerEntitySessionBeanRemote;
     }
 
     // sales staff
@@ -70,8 +74,18 @@ public class SalesOperations {
             return;
         }
 
-        AuctionListingEntity a = auctionListingEntitySessionBeanRemote.createNewAuctionListing(startingBidPrice, reservePrice, productName, startDate, endDate);
-        System.out.println("Created: " + a.toString());
+        Date now = new Date();
+
+        if (startDate.after(now)) {
+            if (endDate.after(startDate)) {
+                AuctionListingEntity a = auctionListingEntitySessionBeanRemote.createNewAuctionListing(startingBidPrice, reservePrice, productName, startDate, endDate);
+                System.out.println("Created: " + a.toString());
+                return;
+            }
+        }
+
+        System.out.println("Start date must be in the future, and end date must be after start date");
+
     }
 
     public AuctionListingEntity viewAuctionListingDetails() {
@@ -95,10 +109,14 @@ public class SalesOperations {
         }
     }
 
-    public void viewAllAuctionListingsWithBidBelowReserve() {
+    public void viewAllAuctionListingsWithBidBelowReserve() throws NoAuctionListingBidsException {
         List<AuctionListingEntity> listings = auctionListingEntitySessionBeanRemote.viewAllListingsWithBidsBelowReserve();
         for (AuctionListingEntity a : listings) {
             System.out.println(a.toString());
+        }
+
+        if (listings.isEmpty()) {
+            throw new NoAuctionListingBidsException("No auction listings with bids below reserve");
         }
     }
 
@@ -145,26 +163,41 @@ public class SalesOperations {
             }
         }
 
-        AuctionListingEntity updated = auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
-        System.out.println("Updated: " + updated.toString());
+        Date now = new Date();
+        
+        if (a.getAuctionListingState().equals(this)) {
+            
+        }
+        if (a.getStartDate().after(now)) {
+            if (a.getEndDate().after(a.getStartDate())) {
+                AuctionListingEntity updated = auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
+                System.out.println("Updated: " + updated.toString());
+                return;
+            }
+        }
+        System.out.println("Start date must be in the future, and end date must be after start date");
     }
 
     public void deleteAuctionListing(AuctionListingEntity a) {
         AuctionListingEntity deleted = auctionListingEntitySessionBeanRemote.deleteAuctionListing(a.getId());
-        System.out.println("Deleted :" + a.toString());
+        System.out.println("Deleted :" + deleted.toString());
     }
 
     public void assignWinningBid() {
         Scanner scanner = new Scanner(System.in);
-
         System.out.println("Enter product name: ");
         String productName = scanner.nextLine();
+
         AuctionListingEntity a = auctionListingEntitySessionBeanRemote.getAuctionListingByProductName(productName);
+        a.setAuctionListingState(AuctionListingStateEnum.CLOSED);
+
         BidEntity winningBid;
+
         try {
             winningBid = bidEntitySessionBeanRemote.getHighestBidForAuctionListing(a.getId());
         } catch (NoAuctionListingBidsException ex) {
-            System.out.println("No bids for this auction listing");
+            System.out.println("No bids for this auction listing: no winner will be assigned.");
+            auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
             return;
         }
 
@@ -176,13 +209,14 @@ public class SalesOperations {
 
         if (response == 1) {
             a.setWinningBid(winningBid);
-            auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
             winningBid.setIsWinningBid(Boolean.TRUE);
-            bidEntitySessionBeanRemote.updateBid(winningBid);
             System.out.println("Assigned winning bid for: " + a.toString());
         } else {
-            a.setWinningBid(null);  // might have an issue here 
+            customerEntitySessionBeanRemote.credit(winningBid.getCustomer().getId(), winningBid.getBidPrice(), "Refunded bid for " + a.getProductName());
+            System.out.println("Refunded bid to customer " + winningBid.getCustomer().getUsername() + " for " + a.getProductName());
         }
 
+        auctionListingEntitySessionBeanRemote.updateAuctionListing(a);
+        bidEntitySessionBeanRemote.updateBid(winningBid);
     }
 }
