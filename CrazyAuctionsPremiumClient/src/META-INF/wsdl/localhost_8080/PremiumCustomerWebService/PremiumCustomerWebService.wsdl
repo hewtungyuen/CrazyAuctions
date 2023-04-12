@@ -4,26 +4,20 @@
 <xsd:import namespace="http://soap.ws/" schemaLocation="http://localhost:8080/PremiumCustomerWebService/PremiumCustomerWebService?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="remoteLogin">
-<part name="parameters" element="tns:remoteLogin"/>
+<message name="configureProxyBidding">
+<part name="parameters" element="tns:configureProxyBidding"/>
 </message>
-<message name="remoteLoginResponse">
-<part name="parameters" element="tns:remoteLoginResponse"/>
+<message name="configureProxyBiddingResponse">
+<part name="parameters" element="tns:configureProxyBiddingResponse"/>
 </message>
-<message name="AuthenticationException">
-<part name="fault" element="tns:AuthenticationException"/>
+<message name="ProxyBidNotLargeEnoughException">
+<part name="fault" element="tns:ProxyBidNotLargeEnoughException"/>
 </message>
-<message name="premiumRegistration">
-<part name="parameters" element="tns:premiumRegistration"/>
+<message name="remoteViewCreditBalance">
+<part name="parameters" element="tns:remoteViewCreditBalance"/>
 </message>
-<message name="premiumRegistrationResponse">
-<part name="parameters" element="tns:premiumRegistrationResponse"/>
-</message>
-<message name="remoteViewAuctionListingDetails">
-<part name="parameters" element="tns:remoteViewAuctionListingDetails"/>
-</message>
-<message name="remoteViewAuctionListingDetailsResponse">
-<part name="parameters" element="tns:remoteViewAuctionListingDetailsResponse"/>
+<message name="remoteViewCreditBalanceResponse">
+<part name="parameters" element="tns:remoteViewCreditBalanceResponse"/>
 </message>
 <message name="remoteBrowseAllAuctionListings">
 <part name="parameters" element="tns:remoteBrowseAllAuctionListings"/>
@@ -37,20 +31,17 @@
 <message name="remoteViewWonAuctionListingsResponse">
 <part name="parameters" element="tns:remoteViewWonAuctionListingsResponse"/>
 </message>
-<message name="remoteViewCreditBalance">
-<part name="parameters" element="tns:remoteViewCreditBalance"/>
+<message name="premiumRegistration">
+<part name="parameters" element="tns:premiumRegistration"/>
 </message>
-<message name="remoteViewCreditBalanceResponse">
-<part name="parameters" element="tns:remoteViewCreditBalanceResponse"/>
+<message name="premiumRegistrationResponse">
+<part name="parameters" element="tns:premiumRegistrationResponse"/>
 </message>
-<message name="configureProxyBidding">
-<part name="parameters" element="tns:configureProxyBidding"/>
+<message name="remoteViewAuctionListingDetails">
+<part name="parameters" element="tns:remoteViewAuctionListingDetails"/>
 </message>
-<message name="configureProxyBiddingResponse">
-<part name="parameters" element="tns:configureProxyBiddingResponse"/>
-</message>
-<message name="ProxyBidNotLargeEnoughException">
-<part name="fault" element="tns:ProxyBidNotLargeEnoughException"/>
+<message name="remoteViewAuctionListingDetailsResponse">
+<part name="parameters" element="tns:remoteViewAuctionListingDetailsResponse"/>
 </message>
 <message name="remoteLogout">
 <part name="parameters" element="tns:remoteLogout"/>
@@ -58,19 +49,24 @@
 <message name="remoteLogoutResponse">
 <part name="parameters" element="tns:remoteLogoutResponse"/>
 </message>
+<message name="AuthenticationException">
+<part name="fault" element="tns:AuthenticationException"/>
+</message>
+<message name="remoteLogin">
+<part name="parameters" element="tns:remoteLogin"/>
+</message>
+<message name="remoteLoginResponse">
+<part name="parameters" element="tns:remoteLoginResponse"/>
+</message>
 <portType name="PremiumCustomerWebService">
-<operation name="remoteLogin">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLoginRequest" message="tns:remoteLogin"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLoginResponse" message="tns:remoteLoginResponse"/>
-<fault message="tns:AuthenticationException" name="AuthenticationException" wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogin/Fault/AuthenticationException"/>
+<operation name="configureProxyBidding">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingRequest" message="tns:configureProxyBidding"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingResponse" message="tns:configureProxyBiddingResponse"/>
+<fault message="tns:ProxyBidNotLargeEnoughException" name="ProxyBidNotLargeEnoughException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBidding/Fault/ProxyBidNotLargeEnoughException"/>
 </operation>
-<operation name="premiumRegistration">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationRequest" message="tns:premiumRegistration"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationResponse" message="tns:premiumRegistrationResponse"/>
-</operation>
-<operation name="remoteViewAuctionListingDetails">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewAuctionListingDetailsRequest" message="tns:remoteViewAuctionListingDetails"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewAuctionListingDetailsResponse" message="tns:remoteViewAuctionListingDetailsResponse"/>
+<operation name="remoteViewCreditBalance">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewCreditBalanceRequest" message="tns:remoteViewCreditBalance"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewCreditBalanceResponse" message="tns:remoteViewCreditBalanceResponse"/>
 </operation>
 <operation name="remoteBrowseAllAuctionListings">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteBrowseAllAuctionListingsRequest" message="tns:remoteBrowseAllAuctionListings"/>
@@ -80,80 +76,27 @@
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsRequest" message="tns:remoteViewWonAuctionListings"/>
 <output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsResponse" message="tns:remoteViewWonAuctionListingsResponse"/>
 </operation>
-<operation name="remoteViewCreditBalance">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewCreditBalanceRequest" message="tns:remoteViewCreditBalance"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewCreditBalanceResponse" message="tns:remoteViewCreditBalanceResponse"/>
+<operation name="premiumRegistration">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationRequest" message="tns:premiumRegistration"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationResponse" message="tns:premiumRegistrationResponse"/>
 </operation>
-<operation name="configureProxyBidding">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingRequest" message="tns:configureProxyBidding"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingResponse" message="tns:configureProxyBiddingResponse"/>
-<fault message="tns:ProxyBidNotLargeEnoughException" name="ProxyBidNotLargeEnoughException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBidding/Fault/ProxyBidNotLargeEnoughException"/>
+<operation name="remoteViewAuctionListingDetails">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewAuctionListingDetailsRequest" message="tns:remoteViewAuctionListingDetails"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewAuctionListingDetailsResponse" message="tns:remoteViewAuctionListingDetailsResponse"/>
 </operation>
 <operation name="remoteLogout">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogoutRequest" message="tns:remoteLogout"/>
 <output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogoutResponse" message="tns:remoteLogoutResponse"/>
 <fault message="tns:AuthenticationException" name="AuthenticationException" wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogout/Fault/AuthenticationException"/>
 </operation>
+<operation name="remoteLogin">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLoginRequest" message="tns:remoteLogin"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLoginResponse" message="tns:remoteLoginResponse"/>
+<fault message="tns:AuthenticationException" name="AuthenticationException" wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogin/Fault/AuthenticationException"/>
+</operation>
 </portType>
 <binding name="PremiumCustomerWebServicePortBinding" type="tns:PremiumCustomerWebService">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="remoteLogin">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="AuthenticationException">
-<soap:fault name="AuthenticationException" use="literal"/>
-</fault>
-</operation>
-<operation name="premiumRegistration">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="remoteViewAuctionListingDetails">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="remoteBrowseAllAuctionListings">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="remoteViewWonAuctionListings">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="remoteViewCreditBalance">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="configureProxyBidding">
 <soap:operation soapAction=""/>
 <input>
@@ -166,7 +109,64 @@
 <soap:fault name="ProxyBidNotLargeEnoughException" use="literal"/>
 </fault>
 </operation>
+<operation name="remoteViewCreditBalance">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="remoteBrowseAllAuctionListings">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="remoteViewWonAuctionListings">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="premiumRegistration">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="remoteViewAuctionListingDetails">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="remoteLogout">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="AuthenticationException">
+<soap:fault name="AuthenticationException" use="literal"/>
+</fault>
+</operation>
+<operation name="remoteLogin">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

@@ -6,6 +6,8 @@
 package crazyauctionspremiumclient;
 
 import java.util.Scanner;
+import ws.soap.premiumcustomer.AuthenticationException_Exception;
+import ws.soap.premiumcustomer.CustomerEntity;
 import ws.soap.premiumcustomer.PremiumCustomerWebService;
 
 /**
@@ -53,17 +55,20 @@ public class MainApp {
     }
 
     public void doLogin() {
-        // check if credentials are correct
-        // check customer type and render correct menu accordingly 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter username:");
         String username = scanner.nextLine();
         System.out.println("Enter password:");
         String password = scanner.nextLine();
-        
-        
-        PremiumCustomerMenu premiumCustomerMenu = new PremiumCustomerMenu();
-        premiumCustomerMenu.menu();
+
+        try {
+            CustomerEntity c = port.remoteLogin(username, password);
+            PremiumCustomerMenu premiumCustomerMenu = new PremiumCustomerMenu(c.getId(), port);
+            premiumCustomerMenu.menu();
+        } catch (AuthenticationException_Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void doRegister() {
@@ -74,8 +79,8 @@ public class MainApp {
 
         System.out.println("Enter password:");
         String password = scanner.nextLine();
-
-//        CustomerEntity c = customerEntitySessionBeanRemote.createCustomer(username, password);
-//        System.out.println("Successfully registered: " + c.toString());
+        
+        CustomerEntity c = port.premiumRegistration(username, password);
+        System.out.println("Successfully registered: " + c.toString());
     }
 }

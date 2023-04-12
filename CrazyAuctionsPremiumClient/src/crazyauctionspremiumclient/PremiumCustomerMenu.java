@@ -5,12 +5,12 @@
  */
 package crazyauctionspremiumclient;
 
-import ejb.session.stateless.BidEntitySessionBeanRemote;
-import entity.AuctionListingEntity;
-import entity.BidEntity;
+import ws.soap.premiumcustomer.AuctionListingEntity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
+import ws.soap.premiumcustomer.AuthenticationException_Exception;
+import ws.soap.premiumcustomer.PremiumCustomerWebService;
 
 /**
  *
@@ -19,6 +19,12 @@ import java.util.Scanner;
 public class PremiumCustomerMenu {
 
     private Long customerId;
+    private PremiumCustomerWebService port;
+
+    public PremiumCustomerMenu(Long customerId, PremiumCustomerWebService port) {
+        this.customerId = customerId;
+        this.port = port;
+    }
 
     public void menu() {
         Scanner scanner = new Scanner(System.in);
@@ -39,7 +45,11 @@ public class PremiumCustomerMenu {
                 response = scanner.nextInt();
 
                 if (response == 1) {
-                    logout(customerId);
+                    try {
+                        logout(customerId);
+                    } catch (AuthenticationException_Exception ex) {
+                        System.out.println("Already logged out");
+                    }
                     break;
                 } else if (response == 2) {
                     viewCreditBalance(customerId);
@@ -60,12 +70,13 @@ public class PremiumCustomerMenu {
         }
     }
 
-    public void logout(Long customerId) {
-
+    public void logout(Long customerId) throws AuthenticationException_Exception {
+        port.remoteLogout(customerId);
     }
 
     public void viewCreditBalance(Long customerId) {
-
+        BigDecimal balance = port.remoteViewCreditBalance(customerId);
+        System.out.println("Credit balance: " + balance);
     }
 
     public void viewAuctionListingDetails() {
@@ -73,8 +84,8 @@ public class PremiumCustomerMenu {
         System.out.println("Enter auction listing product name: ");
 
         String productName = scanner.nextLine();
-        AuctionListingEntity a;
-//        System.out.println(a.toString());
+        AuctionListingEntity a = port.remoteViewAuctionListingDetails(productName);
+        System.out.println(a.toString());
 
         System.out.println("1: Configure Proxy Bid");
         System.out.println("2: Configure Sniping Bid");
@@ -83,33 +94,46 @@ public class PremiumCustomerMenu {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
-            configureProxyBid();
+            configureProxyBid(a.getId(), customerId);
         } else if (response == 2) {
-            configureSnipinigBid();
+            configureSnipinigBid(a.getId(), customerId);
         }
     }
 
-    public void configureProxyBid() {
+    public void configureProxyBid(Long auctionListingId, Long customerId) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter proxy bid price: ");
 
     }
 
-    public void configureSnipinigBid() {
+    public void configureSnipinigBid(Long auctionListingId, Long customerId) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter sniping bid price: ");
         BigDecimal snipingPrice = scanner.nextBigDecimal();
-        
+
         System.out.println("Enter time duration (in minutes) before auction expiry to trigger sniping bid: ");
         Integer minutes = scanner.nextInt();
     }
 
     public void browseAllAuctionListings() {
+        List<AuctionListingEntity> listings = port.remoteBrowseAllAuctionListings();
+        for (AuctionListingEntity a : listings) {
+            System.out.println(a.getProductName());
+        }
 
+        if (listings.isEmpty()) {
+            System.out.println("No open auction listings. ");
+        }
     }
 
     public void viewWonAuctionListings() {
-
+        List<AuctionListingEntity> listings = port.remoteViewWonAuctionListings(customerId);
+        for (AuctionListingEntity a : listings) {
+            System.out.println(a.getProductName());
+        }
+        if (listings.isEmpty()) {
+            System.out.println("No won auction listings. ");
+        }
     }
 
 }

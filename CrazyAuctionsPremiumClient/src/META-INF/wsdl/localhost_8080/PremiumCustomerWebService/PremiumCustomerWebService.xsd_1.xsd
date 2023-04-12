@@ -98,7 +98,6 @@
 <xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
 <xs:element name="customer" type="tns:customerEntity" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="isProxyBid" type="xs:boolean" minOccurs="0"/>
 <xs:element name="isWinningBid" type="xs:boolean" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
@@ -157,18 +156,6 @@
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="remoteViewAuctionListingDetails">
-<xs:sequence>
-<xs:element name="productName" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="remoteViewAuctionListingDetailsResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:auctionListingEntity" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="configureProxyBidding">
 <xs:sequence>
 <xs:element name="proxyBid" type="tns:bidEntity" minOccurs="0"/>
@@ -184,6 +171,18 @@
 <xs:complexType name="ProxyBidNotLargeEnoughException">
 <xs:sequence>
 <xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="remoteViewAuctionListingDetails">
+<xs:sequence>
+<xs:element name="productName" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="remoteViewAuctionListingDetailsResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:auctionListingEntity" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
