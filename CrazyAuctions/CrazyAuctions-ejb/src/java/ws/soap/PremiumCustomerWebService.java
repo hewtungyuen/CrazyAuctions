@@ -60,7 +60,13 @@ public class PremiumCustomerWebService {
 
     @WebMethod(operationName = "remoteLogin")
     public CustomerEntity remoteLogin(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws AuthenticationException {
-        CustomerEntity c = customerEntitySessionBeanLocal.getCustomerByUsername(username);
+        CustomerEntity c;
+        
+        try {
+            c = customerEntitySessionBeanLocal.getCustomerByUsername(username);
+        } catch (Exception ex) {
+            throw new AuthenticationException("No such user");
+        }
         if (c.getCustomerType().equals(CustomerTypeEnum.BASIC)) {
             throw new AuthenticationException(username + " is not a premium customer");
         }
@@ -152,15 +158,13 @@ public class PremiumCustomerWebService {
     public BidEntity configureSnipingBid(@WebParam(name = "snipingBid") BidEntity snipingBid) {
         // check if the user has enough credits 
         // debit from the customer 
-        
+
         // create timer to trigger _ minutes as specified by the user 
-        
         // in the timer, 
-            // check if the user is still logged in 
-            // check if the sniping bid price is minimally one increment higher than the current bid 
-            // place a bid as per normal, with the specified price 
-            // if cmi, refund the customer the original sniping bid amount 
-            
+        // check if the user is still logged in 
+        // check if the sniping bid price is minimally one increment higher than the current bid 
+        // place a bid as per normal, with the specified price 
+        // if cmi, refund the customer the original sniping bid amount 
         return null;
     }
 }
