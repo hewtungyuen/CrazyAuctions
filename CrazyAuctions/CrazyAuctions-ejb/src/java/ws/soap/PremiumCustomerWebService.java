@@ -60,6 +60,10 @@ public class PremiumCustomerWebService {
 
     @WebMethod(operationName = "remoteLogin")
     public CustomerEntity remoteLogin(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws AuthenticationException {
+        CustomerEntity c = customerEntitySessionBeanLocal.getCustomerByUsername(username);
+        if (c.getCustomerType().equals(CustomerTypeEnum.BASIC)) {
+            throw new AuthenticationException(username + " is not a premium customer");
+        }
         return customerEntitySessionBeanLocal.login(username, password);
     }
 

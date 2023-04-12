@@ -35,5 +35,7 @@ public interface CustomerEntitySessionBeanRemote {
     void debit(Long customerId, BigDecimal amount, String transactionDescription);
 
     CustomerEntity updateCustomer(CustomerEntity customer);
-    
+
+    CustomerEntity getCustomerByUsername(String username);
+
 }

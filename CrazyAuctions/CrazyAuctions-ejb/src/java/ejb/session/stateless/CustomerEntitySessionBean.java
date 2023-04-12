@@ -117,4 +117,12 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
         return customer;
     }
 
+    @Override
+    public CustomerEntity getCustomerByUsername(String username) {
+        Query q = em.createQuery("SELECT c FROM CustomerEntity c WHERE c.username = :username");
+        q.setParameter("username", username);
+
+        return (CustomerEntity) q.getSingleResult();
+    }
+
 }
