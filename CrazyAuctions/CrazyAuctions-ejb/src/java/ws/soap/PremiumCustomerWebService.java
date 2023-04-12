@@ -75,7 +75,7 @@ public class PremiumCustomerWebService {
     }
 
     @WebMethod(operationName = "remoteViewAuctionListingDetails")
-    public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) throws NoSuchAuctionListingException {
+    public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) {
         AuctionListingEntity a = auctionListingEntitySessionBeanLocal.getAuctionListingByProductName(productName);
         BidEntity b = a.getWinningBid();
         em.detach(a);

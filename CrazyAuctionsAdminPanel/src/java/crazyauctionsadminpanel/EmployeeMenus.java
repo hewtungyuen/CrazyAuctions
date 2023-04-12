@@ -102,8 +102,12 @@ public class EmployeeMenus {
                     adminOperations.createNewEmployee();
 
                 } else if (response == 4) {
-                    Long employeeId = adminOperations.viewEmployeeDetails();
-                    viewEmployeeDetailsMenu(employeeId);
+                    try {
+                        Long employeeId = adminOperations.viewEmployeeDetails();
+                        viewEmployeeDetailsMenu(employeeId);
+                    } catch (Exception ex) {
+                        System.out.println("No such employee");
+                    }
 
                 } else if (response == 5) {
                     adminOperations.viewAllEmployees();
@@ -147,8 +151,13 @@ public class EmployeeMenus {
                     financeOperations.createCreditPackage();
 
                 } else if (response == 4) {
-                    Long creditPackageId = financeOperations.viewCreditPackageDetails();
-                    viewCreditPackageDetailsMenu(creditPackageId);
+
+                    try {
+                        Long creditPackageId = financeOperations.viewCreditPackageDetails();
+                        viewCreditPackageDetailsMenu(creditPackageId);
+                    } catch (Exception ex) {
+                        System.out.println("No such credit package");
+                    }
 
                 } else if (response == 5) {
                     financeOperations.viewAllCreditPackages();
@@ -193,8 +202,12 @@ public class EmployeeMenus {
                     salesOperations.createAuctionListing();
 
                 } else if (response == 4) {
-                    AuctionListingEntity a = salesOperations.viewAuctionListingDetails();
-                    viewAuctionListingDetailsMenu(a);
+                    try {
+                        AuctionListingEntity a = salesOperations.viewAuctionListingDetails();
+                        viewAuctionListingDetailsMenu(a);
+                    } catch (Exception ex) {
+                        System.out.println("No such auction listing ");
+                    }
 
                 } else if (response == 5) {
                     salesOperations.viewAllAuctionListings();

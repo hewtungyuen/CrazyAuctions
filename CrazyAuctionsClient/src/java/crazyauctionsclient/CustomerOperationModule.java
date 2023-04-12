@@ -86,8 +86,12 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.createAddress();
 
                 } else if (response == 5) {
-                    Long addressId = customerOperationModuleHelper.viewAddressDetails();
-                    viewAddressDetailsMenu(addressId);
+                    try {
+                        Long addressId = customerOperationModuleHelper.viewAddressDetails();
+                        viewAddressDetailsMenu(addressId);
+                    } catch (Exception ex) {
+                        System.out.println("No such address");
+                    }
 
                 } else if (response == 6) {
                     customerOperationModuleHelper.viewAllAddresses();
@@ -105,8 +109,13 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.browseAllAuctionListings();
 
                 } else if (response == 11) {
-                    String productName = customerOperationModuleHelper.viewAuctionListingDetails();
-                    viewAuctionListingDetailsMenu(productName);
+
+                    try {
+                        String productName = customerOperationModuleHelper.viewAuctionListingDetails();
+                        viewAuctionListingDetailsMenu(productName);
+                    } catch (Exception ex) {
+                        System.out.println("No such auction listing");
+                    }
 
                 } else if (response == 12) {
                     customerOperationModuleHelper.browseWonAuctionListings();

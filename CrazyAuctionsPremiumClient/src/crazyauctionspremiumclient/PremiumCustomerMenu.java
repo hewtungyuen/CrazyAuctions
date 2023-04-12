@@ -84,20 +84,26 @@ public class PremiumCustomerMenu {
         System.out.println("Enter auction listing product name: ");
 
         String productName = scanner.nextLine();
-        AuctionListingEntity a = port.remoteViewAuctionListingDetails(productName);
-        System.out.println(a.toString());
 
-        System.out.println("1: Configure Proxy Bid");
-        System.out.println("2: Configure Sniping Bid");
-        System.out.println("3: Exit\n");
+        try {
+            AuctionListingEntity a = port.remoteViewAuctionListingDetails(productName);
+            System.out.println(a.toString());
 
-        Integer response = scanner.nextInt();
+            System.out.println("1: Configure Proxy Bid");
+            System.out.println("2: Configure Sniping Bid");
+            System.out.println("3: Exit\n");
 
-        if (response == 1) {
-            configureProxyBid(a.getId(), customerId);
-        } else if (response == 2) {
-            configureSnipinigBid(a.getId(), customerId);
+            Integer response = scanner.nextInt();
+
+            if (response == 1) {
+                configureProxyBid(a.getId(), customerId);
+            } else if (response == 2) {
+                configureSnipinigBid(a.getId(), customerId);
+            }
+        } catch (Exception ex) {
+            System.out.println("No such auction listing");
         }
+
     }
 
     public void configureProxyBid(Long auctionListingId, Long customerId) {
