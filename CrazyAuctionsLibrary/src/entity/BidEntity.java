@@ -37,7 +37,7 @@ public class BidEntity implements Serializable {
 
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal bidPrice;
-    
+
     @Column(nullable = false)
     private Boolean isWinningBid; // only if it actually won
 
@@ -82,8 +82,8 @@ public class BidEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Bid: id = " + getId() + ", \n    bidPrice = " + getBidPrice()+ ", \n    isWinningBid = " + getIsWinningBid() + ",\n    customer = " 
-            + getCustomer().getUsername() + ", \n    auctionListing = " + getAuctionListing().getProductName() + "\n";
+        return "Bid: id = " + getId() + ", \n    bidPrice = " + getBidPrice() + ", \n    isWinningBid = " + getIsWinningBid() + ",\n    customer = "
+                + getCustomer().getUsername() + ", \n    auctionListing = " + getAuctionListing().getProductName() + "\n";
     }
 
     /**

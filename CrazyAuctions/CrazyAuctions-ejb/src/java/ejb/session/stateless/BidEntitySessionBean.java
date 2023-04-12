@@ -28,6 +28,9 @@ import util.exception.NoAuctionListingBidsException;
 public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEntitySessionBeanLocal {
 
     @EJB
+    private AuctionListingEntitySessionBeanLocal auctionListingEntitySessionBeanLocal;
+
+    @EJB
     private BidIncrementSessionBeanLocal bidIncrementSessionBeanLocal;
 
     @EJB
@@ -85,10 +88,30 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
 
         customerEntitySessionBeanLocal.debit(c.getId(), newBidPrice, "Placed bid for " + a.getProductName());
         a.setCurrentBidPrice(newBidPrice);
-        BidEntity b = new BidEntity(c, a, newBidPrice);
-        em.persist(b);
+        BidEntity normalBid = new BidEntity(c, a, newBidPrice);
+        em.persist(normalBid);
         em.flush();
-        return b;
+        
+        return normalBid;
+    }
+
+    @Override
+    public void handleProxyBid(BidEntity proxyBid, BidEntity normalBid) {
+        Long auctionListingId = proxyBid.getId();
+
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+        BigDecimal newBidPrice = bidIncrementSessionBeanLocal.incrementPrice(a.getCurrentBidPrice());
+
+        if (proxyBid.getBidPrice().compareTo(newBidPrice) >= 0) {
+            CustomerEntity c = normalBid.getCustomer();
+            customerEntitySessionBeanLocal.credit(c.getId(), a.getCurrentBidPrice(), "Outbidded for " + a.getProductName());
+            a.setCurrentBidPrice(newBidPrice);
+            auctionListingEntitySessionBeanLocal.updateAuctionListing(a);
+        } else {
+            CustomerEntity c = proxyBid.getCustomer();
+            customerEntitySessionBeanLocal.credit(c.getId(), proxyBid.getBidPrice(), "Proxy bid expired for " + a.getProductName());
+        }
+
     }
 
     @Override
@@ -111,5 +134,4 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         em.merge(updatedBid);
         return updatedBid;
     }
-
 }

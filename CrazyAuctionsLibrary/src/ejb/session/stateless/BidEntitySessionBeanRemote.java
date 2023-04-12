@@ -25,4 +25,6 @@ public interface BidEntitySessionBeanRemote {
 
     BidEntity updateBid(BidEntity updatedBid);
 
+    void handleProxyBid(BidEntity proxyBid, BidEntity normalBid);
+
 }

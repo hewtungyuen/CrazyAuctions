@@ -5,10 +5,26 @@
  */
 package ws.soap;
 
+import ejb.session.singleton.BidIncrementSessionBeanLocal;
+import ejb.session.stateless.AuctionListingEntitySessionBeanLocal;
+import ejb.session.stateless.BidEntitySessionBeanLocal;
+import ejb.session.stateless.CustomerEntitySessionBeanLocal;
+import entity.AuctionListingEntity;
+import entity.BidEntity;
+import entity.CustomerEntity;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import util.enumeration.CustomerTypeEnum;
+import util.exception.AuthenticationException;
+import util.exception.NoAuctionListingBidsException;
+import util.exception.ProxyBidNotLargeEnoughException;
 
 /**
  *
@@ -18,13 +34,85 @@ import javax.ejb.Stateless;
 @Stateless()
 public class PremiumCustomerWebService {
 
-    /**
-     * This is a sample web service operation
-     */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
+    @EJB
+    private BidIncrementSessionBeanLocal bidIncrementSessionBeanLocal;
+
+    @EJB
+    private BidEntitySessionBeanLocal bidEntitySessionBeanLocal;
+
+    @EJB
+    private CustomerEntitySessionBeanLocal customerEntitySessionBeanLocal;
+    @PersistenceContext(unitName = "CrazyAuctions-ejbPU")
+    private EntityManager em;
+
+    @EJB
+    private AuctionListingEntitySessionBeanLocal auctionListingEntitySessionBeanLocal;
+
+    @WebMethod(operationName = "premiumRegistration")
+    public CustomerEntity premiumRegistration(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
+        CustomerEntity c = customerEntitySessionBeanLocal.createCustomer(username, password);
+        c.setCustomerType(CustomerTypeEnum.PREMIUM);
+        CustomerEntity premiumCustomer = customerEntitySessionBeanLocal.updateCustomer(c);
+        return premiumCustomer;
     }
-    
-    
+
+    @WebMethod(operationName = "remoteLogin")
+    public CustomerEntity remoteLogin(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws AuthenticationException {
+        return customerEntitySessionBeanLocal.login(username, password);
+    }
+
+    @WebMethod(operationName = "remoteLogout")
+    public void remoteLogout(@WebParam(name = "customerId") Long customerId) throws AuthenticationException {
+        customerEntitySessionBeanLocal.logout(customerId);
+    }
+
+    @WebMethod(operationName = "remoteViewCreditBalance")
+    public BigDecimal remoteViewCreditBalance(@WebParam(name = "customerId") Long customerId) {
+        CustomerEntity c = customerEntitySessionBeanLocal.getCustomer(customerId);
+        return c.getCreditBalance();
+    }
+
+    @WebMethod(operationName = "remoteViewAuctionListingDetails")
+    public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) {
+        return auctionListingEntitySessionBeanLocal.getAuctionListingByProductName(productName);
+    }
+
+    @WebMethod(operationName = "remoteBrowseAllAuctionListings")
+    public List<AuctionListingEntity> remoteBrowseAllAuctionListings() {
+        return auctionListingEntitySessionBeanLocal.viewAllOpenAuctionListings();
+    }
+
+    @WebMethod(operationName = "remoteViewWonAuctionListings")
+    public List<AuctionListingEntity> remoteViewWonAuctionListings(@WebParam(name = "customerId") Long customerId) {
+        return auctionListingEntitySessionBeanLocal.browseWonAuctionListings(customerId);
+    }
+
+    @WebMethod(operationName = "configureProxyBidding")
+    public BidEntity configureProxyBidding(@WebParam(name = "proxyBid") BidEntity proxyBid) throws ProxyBidNotLargeEnoughException{
+
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, proxyBid.getAuctionListing().getId());
+        
+        BigDecimal currentBidPrice = a.getCurrentBidPrice();
+        BigDecimal newBidPrice = bidIncrementSessionBeanLocal.incrementPrice(currentBidPrice);
+        
+        if (proxyBid.getBidPrice().compareTo(newBidPrice) < 0) {
+            throw new ProxyBidNotLargeEnoughException("Proxy bid is not large enough. Enter a larger value.");
+        }
+        
+        em.persist(proxyBid);
+        customerEntitySessionBeanLocal.debit(proxyBid.getCustomer().getId(), proxyBid.getBidPrice(), "Placed proxy bid for " + a.getProductName());
+        a.setCurrentBidPrice(newBidPrice);
+        
+        try {
+            BidEntity previousBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(proxyBid.getAuctionListing().getId());
+            CustomerEntity previousCustomer = previousBid.getCustomer();
+            customerEntitySessionBeanLocal.credit(previousCustomer.getId(), previousBid.getBidPrice(), "Outbidded for " + a.getProductName());
+        } catch (NoAuctionListingBidsException ex) {
+            
+        }
+        
+        
+        em.flush();
+        return proxyBid;
+    }
 }

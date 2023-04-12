@@ -12,21 +12,16 @@ import ws.soap.premiumcustomer.PremiumCustomerWebService_Service;
  *
  * @author hewtu
  */
-public class CrazyAuctionsPremiumClient {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         PremiumCustomerWebService_Service premiumCustomerWebService_Service = new PremiumCustomerWebService_Service();
         PremiumCustomerWebService premiumCustomerWebServicePort = premiumCustomerWebService_Service.getPremiumCustomerWebServicePort();
-        System.out.println(premiumCustomerWebServicePort.hello("asdf"));
-    }
-
-    public PremiumCustomerWebService getPort() {
-        PremiumCustomerWebService_Service premiumCustomerWebService_Service = new PremiumCustomerWebService_Service();
-        PremiumCustomerWebService premiumCustomerWebServicePort = premiumCustomerWebService_Service.getPremiumCustomerWebServicePort();
-        return premiumCustomerWebServicePort;
+        
+        MainApp mainApp = new MainApp(premiumCustomerWebServicePort);
+        mainApp.runApp();
     }
 }
