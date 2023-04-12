@@ -25,6 +25,7 @@ import javax.persistence.PersistenceContext;
 import util.enumeration.CustomerTypeEnum;
 import util.exception.AuthenticationException;
 import util.exception.NoAuctionListingBidsException;
+import util.exception.NoSuchAuctionListingException;
 import util.exception.ProxyBidNotLargeEnoughException;
 
 /**
@@ -74,7 +75,7 @@ public class PremiumCustomerWebService {
     }
 
     @WebMethod(operationName = "remoteViewAuctionListingDetails")
-    public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) {
+    public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) throws NoSuchAuctionListingException {
         AuctionListingEntity a = auctionListingEntitySessionBeanLocal.getAuctionListingByProductName(productName);
         BidEntity b = a.getWinningBid();
         em.detach(a);
@@ -141,5 +142,21 @@ public class PremiumCustomerWebService {
 
         em.flush();
         return proxyBid;
+    }
+
+    @WebMethod(operationName = "configureSnipingBid")
+    public BidEntity configureSnipingBid(@WebParam(name = "snipingBid") BidEntity snipingBid) {
+        // check if the user has enough credits 
+        // debit from the customer 
+        
+        // create timer to trigger _ minutes as specified by the user 
+        
+        // in the timer, 
+            // check if the user is still logged in 
+            // check if the sniping bid price is minimally one increment higher than the current bid 
+            // place a bid as per normal, with the specified price 
+            // if cmi, refund the customer the original sniping bid amount 
+            
+        return null;
     }
 }
