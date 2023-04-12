@@ -2,6 +2,10 @@
 
 <xs:element name="AuthenticationException" type="tns:AuthenticationException"/>
 
+<xs:element name="InsufficientBalanceException" type="tns:InsufficientBalanceException"/>
+
+<xs:element name="InvalidDateInputException" type="tns:InvalidDateInputException"/>
+
 <xs:element name="ProxyBidNotLargeEnoughException" type="tns:ProxyBidNotLargeEnoughException"/>
 
 <xs:element name="configureProxyBidding" type="tns:configureProxyBidding"/>
@@ -52,19 +56,13 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="configureSnipingBid">
-<xs:sequence>
-<xs:element name="snipingBid" type="tns:bidEntity" minOccurs="0"/>
-</xs:sequence>
+<xs:complexType name="remoteBrowseAllAuctionListings">
+<xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="bidEntity">
+<xs:complexType name="remoteBrowseAllAuctionListingsResponse">
 <xs:sequence>
-<xs:element name="auctionListing" type="tns:auctionListingEntity" minOccurs="0"/>
-<xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
-<xs:element name="customer" type="tns:customerEntity" minOccurs="0"/>
-<xs:element name="id" type="xs:long" minOccurs="0"/>
-<xs:element name="isWinningBid" type="xs:boolean" minOccurs="0"/>
+<xs:element name="return" type="tns:auctionListingEntity" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -102,19 +100,38 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="configureSnipingBidResponse">
+<xs:complexType name="bidEntity">
 <xs:sequence>
-<xs:element name="return" type="tns:bidEntity" minOccurs="0"/>
+<xs:element name="auctionListing" type="tns:auctionListingEntity" minOccurs="0"/>
+<xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
+<xs:element name="customer" type="tns:customerEntity" minOccurs="0"/>
+<xs:element name="id" type="xs:long" minOccurs="0"/>
+<xs:element name="isWinningBid" type="xs:boolean" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="remoteBrowseAllAuctionListings">
+<xs:complexType name="configureSnipingBid">
+<xs:sequence>
+<xs:element name="customerId" type="xs:long" minOccurs="0"/>
+<xs:element name="auctionListingId" type="xs:long" minOccurs="0"/>
+<xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
+<xs:element name="minutes" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="configureSnipingBidResponse">
 <xs:sequence/>
 </xs:complexType>
 
-<xs:complexType name="remoteBrowseAllAuctionListingsResponse">
+<xs:complexType name="InsufficientBalanceException">
 <xs:sequence>
-<xs:element name="return" type="tns:auctionListingEntity" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InvalidDateInputException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

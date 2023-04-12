@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 import ws.soap.premiumcustomer.AuthenticationException_Exception;
+import ws.soap.premiumcustomer.BidEntity;
+import ws.soap.premiumcustomer.InsufficientBalanceException_Exception;
+import ws.soap.premiumcustomer.InvalidDateInputException_Exception;
 import ws.soap.premiumcustomer.PremiumCustomerWebService;
 
 /**
@@ -118,7 +121,14 @@ public class PremiumCustomerMenu {
         BigDecimal snipingPrice = scanner.nextBigDecimal();
 
         System.out.println("Enter time duration (in minutes) before auction expiry to trigger sniping bid: ");
-        Integer minutes = scanner.nextInt();
+        Long minutes = scanner.nextLong();
+
+        try {
+            port.configureSnipingBid(customerId, auctionListingId, snipingPrice, minutes);
+            System.out.println("Successfully configured sniping bid");
+        } catch (InsufficientBalanceException_Exception | InvalidDateInputException_Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void browseAllAuctionListings() {

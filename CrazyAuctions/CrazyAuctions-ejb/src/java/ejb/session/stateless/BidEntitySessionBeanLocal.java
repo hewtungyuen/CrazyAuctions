@@ -6,6 +6,7 @@
 package ejb.session.stateless;
 
 import entity.BidEntity;
+import java.math.BigDecimal;
 import javax.ejb.Local;
 import util.exception.InsufficientBalanceException;
 import util.exception.NoAuctionListingBidsException;
@@ -19,7 +20,7 @@ public interface BidEntitySessionBeanLocal {
 
     void markWinningBid(Long auctionListingId);
 
-    BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException;
+    BidEntity createNewBid(Long customerId, Long auctionListingId, BigDecimal bidPrice) throws InsufficientBalanceException;
 
     BidEntity getHighestBidForAuctionListing(Long auctionListingId) throws NoAuctionListingBidsException;
 

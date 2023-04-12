@@ -181,6 +181,11 @@ public class CustomerOperationModuleHelper {
         System.out.println("Enter quantity:");
         Integer quantity = scanner.nextInt();
 
+        if (quantity == 0) {
+            System.out.println("Quantity cannot be zero");
+            return;
+        }
+
         CreditPackageEntity c = customerEntitySessionBeanRemote.purchaseCreditPackage(customerId, creditPackageId, quantity);
         System.out.println("Purchased credit package: " + c.toString());
     }
@@ -238,7 +243,7 @@ public class CustomerOperationModuleHelper {
 
     public void placeNewBid(Long auctionListingId) {
         try {
-            BidEntity b = bidEntitySessionBeanRemote.createNewBid(customerId, auctionListingId);
+            BidEntity b = bidEntitySessionBeanRemote.createNewBid(customerId, auctionListingId, null);
             System.out.println("Placed new bid at " + b.getBidPrice());
         } catch (InsufficientBalanceException ex) {
             System.out.println(ex.getMessage());

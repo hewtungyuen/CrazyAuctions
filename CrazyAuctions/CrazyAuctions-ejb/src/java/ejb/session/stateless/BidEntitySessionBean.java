@@ -66,13 +66,17 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
     }
 
     @Override
-    public BidEntity createNewBid(Long customerId, Long auctionListingId) throws InsufficientBalanceException {
+    public BidEntity createNewBid(Long customerId, Long auctionListingId, BigDecimal bidPrice) throws InsufficientBalanceException {
         CustomerEntity c = em.find(CustomerEntity.class, customerId);
         AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
 
         BigDecimal currentBidPrice = a.getCurrentBidPrice();
         BigDecimal newBidPrice = bidIncrementSessionBeanLocal.incrementPrice(currentBidPrice);
-
+        
+        if (bidPrice != null) {
+            newBidPrice = bidPrice;
+        }
+        
         if (c.getCreditBalance().compareTo(newBidPrice) < 0) {
             throw new InsufficientBalanceException("Insufficient balance to bid for " + a.getProductName());
         }
@@ -91,7 +95,7 @@ public class BidEntitySessionBean implements BidEntitySessionBeanRemote, BidEnti
         BidEntity normalBid = new BidEntity(c, a, newBidPrice);
         em.persist(normalBid);
         em.flush();
-        
+
         return normalBid;
     }
 

@@ -9,11 +9,16 @@ import ejb.session.singleton.BidIncrementSessionBeanLocal;
 import ejb.session.stateless.AuctionListingEntitySessionBeanLocal;
 import ejb.session.stateless.BidEntitySessionBeanLocal;
 import ejb.session.stateless.CustomerEntitySessionBeanLocal;
-import entity.AddressEntity;
+import ejb.session.stateless.SnipingBidTimerSessionBeanLocal;
 import entity.AuctionListingEntity;
 import entity.BidEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.jws.WebService;
@@ -24,9 +29,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import util.enumeration.CustomerTypeEnum;
 import util.exception.AuthenticationException;
+import util.exception.InsufficientBalanceException;
+import util.exception.InvalidDateInputException;
 import util.exception.NoAuctionListingBidsException;
-import util.exception.NoSuchAuctionListingException;
 import util.exception.ProxyBidNotLargeEnoughException;
+import util.helperclass.SnipingBidDetails;
 
 /**
  *
@@ -35,6 +42,9 @@ import util.exception.ProxyBidNotLargeEnoughException;
 @WebService(serviceName = "PremiumCustomerWebService")
 @Stateless()
 public class PremiumCustomerWebService {
+
+    @EJB
+    private SnipingBidTimerSessionBeanLocal snipingBidTimerSessionBeanLocal;
 
     @EJB
     private BidIncrementSessionBeanLocal bidIncrementSessionBeanLocal;
@@ -61,7 +71,7 @@ public class PremiumCustomerWebService {
     @WebMethod(operationName = "remoteLogin")
     public CustomerEntity remoteLogin(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws AuthenticationException {
         CustomerEntity c;
-        
+
         try {
             c = customerEntitySessionBeanLocal.getCustomerByUsername(username);
         } catch (Exception ex) {
@@ -88,8 +98,8 @@ public class PremiumCustomerWebService {
     public AuctionListingEntity remoteViewAuctionListingDetails(@WebParam(name = "productName") String productName) {
         AuctionListingEntity a = auctionListingEntitySessionBeanLocal.getAuctionListingByProductName(productName);
         BidEntity b = a.getWinningBid();
-        em.detach(a);
-        if (b.getAuctionListing() != null) {
+        if (b != null) {
+            em.detach(a);
             em.detach(b);
             b.setAuctionListing(null);
         }
@@ -99,15 +109,16 @@ public class PremiumCustomerWebService {
     @WebMethod(operationName = "remoteBrowseAllAuctionListings")
     public List<AuctionListingEntity> remoteBrowseAllAuctionListings() {
         List<AuctionListingEntity> listings = auctionListingEntitySessionBeanLocal.viewAllOpenAuctionListings();
-
+        System.out.println("Size: " + listings.size());
         for (AuctionListingEntity a : listings) {
             BidEntity b = a.getWinningBid();
-            em.detach(a);
-            if (b.getAuctionListing() != null) {
+            if (b != null) {
+                em.detach(a);
                 em.detach(b);
                 b.setAuctionListing(null);
             }
         }
+        System.out.println("Size after detaching: " + listings.size());
         return listings;
     }
 
@@ -155,16 +166,24 @@ public class PremiumCustomerWebService {
     }
 
     @WebMethod(operationName = "configureSnipingBid")
-    public BidEntity configureSnipingBid(@WebParam(name = "snipingBid") BidEntity snipingBid) {
-        // check if the user has enough credits 
-        // debit from the customer 
+    public void configureSnipingBid(@WebParam(name = "customerId") Long customerId, @WebParam(name = "auctionListingId") Long auctionListingId, @WebParam(name = "bidPrice") BigDecimal bidPrice, @WebParam(name = "minutes") Long minutes) throws InsufficientBalanceException, InvalidDateInputException {
 
-        // create timer to trigger _ minutes as specified by the user 
-        // in the timer, 
-        // check if the user is still logged in 
-        // check if the sniping bid price is minimally one increment higher than the current bid 
-        // place a bid as per normal, with the specified price 
-        // if cmi, refund the customer the original sniping bid amount 
-        return null;
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, auctionListingId);
+
+        LocalDateTime auctionCloseDate = LocalDateTime.ofInstant(a.getEndDate().toInstant(), ZoneId.systemDefault());
+        LocalDateTime triggerDate = auctionCloseDate.minusMinutes(minutes);
+        Timestamp t = Timestamp.valueOf(triggerDate);
+        Date triggerDateFinal = new Date(t.getTime());
+
+        if (triggerDateFinal.before(a.getStartDate())) {
+            throw new InvalidDateInputException("Trigger time is before start date");
+        }
+
+        if (triggerDateFinal.before(new Date())) {
+            throw new InvalidDateInputException("Trigger time is in the past");
+        }
+
+        SnipingBidDetails snipingBidDetails = new SnipingBidDetails(customerId, auctionListingId, bidPrice, triggerDateFinal);
+        snipingBidTimerSessionBeanLocal.createTimer(snipingBidDetails);
     }
 }

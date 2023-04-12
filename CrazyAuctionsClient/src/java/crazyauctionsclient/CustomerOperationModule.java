@@ -103,7 +103,11 @@ public class CustomerOperationModule {
                     customerOperationModuleHelper.viewCreditTransactionHistory();
 
                 } else if (response == 9) {
-                    customerOperationModuleHelper.purchaseCreditPackage();
+                    try {
+                        customerOperationModuleHelper.purchaseCreditPackage();
+                    } catch (Exception ex) {
+                        System.out.println("No such credit package");
+                    }
 
                 } else if (response == 10) {
                     customerOperationModuleHelper.browseAllAuctionListings();

@@ -11,6 +11,7 @@ import ejb.session.stateless.CreditPackageEntitySessionBeanRemote;
 import ejb.session.stateless.CustomerEntitySessionBeanRemote;
 import ejb.session.stateless.EmployeeEntitySessionBeanRemote;
 import entity.AuctionListingEntity;
+import java.util.Date;
 import java.util.Scanner;
 import util.exception.NoAuctionListingBidsException;
 
@@ -276,11 +277,14 @@ public class EmployeeMenus {
         Integer response = scanner.nextInt();
 
         if (response == 1) {
+            if (a.getStartDate().before(new Date())) {
+                System.out.println("Cannot update auction listing after it started");
+                return;
+            }
             salesOperations.updateAuctionListing(a);
         } else if (response == 2) {
             salesOperations.deleteAuctionListing(a);
         }
-
     }
 
     public void assignWinningBidMenu() {
