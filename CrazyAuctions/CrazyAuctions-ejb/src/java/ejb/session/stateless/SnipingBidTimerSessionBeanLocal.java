@@ -8,6 +8,7 @@ package ejb.session.stateless;
 import entity.BidEntity;
 import java.util.Date;
 import javax.ejb.Local;
+import util.exception.InsufficientBalanceException;
 import util.helperclass.SnipingBidDetails;
 
 /**
@@ -17,6 +18,6 @@ import util.helperclass.SnipingBidDetails;
 @Local
 public interface SnipingBidTimerSessionBeanLocal {
 
-    void createTimer(SnipingBidDetails snipingBidDetails);
+    void createTimer(SnipingBidDetails snipingBidDetails) throws InsufficientBalanceException;
     
 }

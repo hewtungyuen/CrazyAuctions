@@ -74,8 +74,16 @@ public class SnipingBidTimerSessionBean implements SnipingBidTimerSessionBeanRem
     }
 
     @Override
-    public void createTimer(SnipingBidDetails snipingBidDetails
-    ) {
+    public void createTimer(SnipingBidDetails snipingBidDetails) throws InsufficientBalanceException {
+        CustomerEntity c = em.find(CustomerEntity.class, snipingBidDetails.getCustomerId());
+        AuctionListingEntity a = em.find(AuctionListingEntity.class, snipingBidDetails.getAuctionListingId());
+        BigDecimal snipingBidPrice = snipingBidDetails.getSnipingBidPrice();
+
+        BigDecimal incrementedPrice = bidIncrementSessionBeanLocal.incrementPrice(a.getCurrentBidPrice());
+
+        if (snipingBidPrice.compareTo(incrementedPrice) < 0) {
+            throw new InsufficientBalanceException("Premium customer " + c.getUsername() + "'s sniping bid price is too low");
+        }
         TimerService timerService = sessionContext.getTimerService();
         timerService.createTimer(snipingBidDetails.getTriggerDate(), snipingBidDetails);
 
