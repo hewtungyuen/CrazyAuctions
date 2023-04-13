@@ -90,8 +90,11 @@ public class PremiumCustomerMenu {
 
         try {
             AuctionListingEntity a = port.remoteViewAuctionListingDetails(productName);
-            System.out.println(a.toString());
-
+            System.out.println("Product name: " + a.getProductName());
+            System.out.println("Bid price: " + a.getCurrentBidPrice());
+            System.out.println("Start date: " + a.getStartDate());
+            System.out.println("End date: " + a.getEndDate());
+            System.out.println("------");
             System.out.println("1: Configure Proxy Bid");
             System.out.println("2: Configure Sniping Bid");
             System.out.println("3: Exit\n");
@@ -99,7 +102,7 @@ public class PremiumCustomerMenu {
             Integer response = scanner.nextInt();
 
             if (response == 1) {
-                configureProxyBid(a.getId(), customerId);
+//                configureProxyBid(a.getId(), customerId);
             } else if (response == 2) {
                 configureSnipinigBid(a.getId(), customerId);
             }
@@ -134,7 +137,11 @@ public class PremiumCustomerMenu {
     public void browseAllAuctionListings() {
         List<AuctionListingEntity> listings = port.remoteBrowseAllAuctionListings();
         for (AuctionListingEntity a : listings) {
-            System.out.println(a.getProductName());
+            System.out.println("Product name: " + a.getProductName());
+            System.out.println("Bid price: " + a.getCurrentBidPrice());
+            System.out.println("Start date: " + a.getStartDate());
+            System.out.println("End date: " + a.getEndDate());
+            System.out.println("------");
         }
 
         if (listings.isEmpty()) {
@@ -145,7 +152,11 @@ public class PremiumCustomerMenu {
     public void viewWonAuctionListings() {
         List<AuctionListingEntity> listings = port.remoteViewWonAuctionListings(customerId);
         for (AuctionListingEntity a : listings) {
-            System.out.println(a.getProductName());
+            System.out.println("Product name: " + a.getProductName());
+            System.out.println("Bid price: " + a.getCurrentBidPrice());
+            System.out.println("Start date: " + a.getStartDate());
+            System.out.println("End date: " + a.getEndDate());
+            System.out.println("------");
         }
         if (listings.isEmpty()) {
             System.out.println("No won auction listings. ");
