@@ -22,11 +22,29 @@
 <message name="premiumRegistrationResponse">
 <part name="parameters" element="tns:premiumRegistrationResponse"/>
 </message>
+<message name="AuthenticationException">
+<part name="fault" element="tns:AuthenticationException"/>
+</message>
+<message name="remoteViewWonAuctionListings">
+<part name="parameters" element="tns:remoteViewWonAuctionListings"/>
+</message>
+<message name="remoteViewWonAuctionListingsResponse">
+<part name="parameters" element="tns:remoteViewWonAuctionListingsResponse"/>
+</message>
 <message name="remoteBrowseAllAuctionListings">
 <part name="parameters" element="tns:remoteBrowseAllAuctionListings"/>
 </message>
 <message name="remoteBrowseAllAuctionListingsResponse">
 <part name="parameters" element="tns:remoteBrowseAllAuctionListingsResponse"/>
+</message>
+<message name="configureProxyBidding">
+<part name="parameters" element="tns:configureProxyBidding"/>
+</message>
+<message name="configureProxyBiddingResponse">
+<part name="parameters" element="tns:configureProxyBiddingResponse"/>
+</message>
+<message name="ProxyBidNotLargeEnoughException">
+<part name="fault" element="tns:ProxyBidNotLargeEnoughException"/>
 </message>
 <message name="configureSnipingBid">
 <part name="parameters" element="tns:configureSnipingBid"/>
@@ -40,29 +58,11 @@
 <message name="InvalidDateInputException">
 <part name="fault" element="tns:InvalidDateInputException"/>
 </message>
-<message name="remoteViewWonAuctionListings">
-<part name="parameters" element="tns:remoteViewWonAuctionListings"/>
-</message>
-<message name="remoteViewWonAuctionListingsResponse">
-<part name="parameters" element="tns:remoteViewWonAuctionListingsResponse"/>
-</message>
-<message name="configureProxyBidding">
-<part name="parameters" element="tns:configureProxyBidding"/>
-</message>
-<message name="configureProxyBiddingResponse">
-<part name="parameters" element="tns:configureProxyBiddingResponse"/>
-</message>
-<message name="ProxyBidNotLargeEnoughException">
-<part name="fault" element="tns:ProxyBidNotLargeEnoughException"/>
-</message>
 <message name="remoteLogout">
 <part name="parameters" element="tns:remoteLogout"/>
 </message>
 <message name="remoteLogoutResponse">
 <part name="parameters" element="tns:remoteLogoutResponse"/>
-</message>
-<message name="AuthenticationException">
-<part name="fault" element="tns:AuthenticationException"/>
 </message>
 <message name="remoteLogin">
 <part name="parameters" element="tns:remoteLogin"/>
@@ -82,25 +82,26 @@
 <operation name="premiumRegistration">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationRequest" message="tns:premiumRegistration"/>
 <output wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistrationResponse" message="tns:premiumRegistrationResponse"/>
+<fault message="tns:AuthenticationException" name="AuthenticationException" wsam:Action="http://soap.ws/PremiumCustomerWebService/premiumRegistration/Fault/AuthenticationException"/>
+</operation>
+<operation name="remoteViewWonAuctionListings">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsRequest" message="tns:remoteViewWonAuctionListings"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsResponse" message="tns:remoteViewWonAuctionListingsResponse"/>
 </operation>
 <operation name="remoteBrowseAllAuctionListings">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteBrowseAllAuctionListingsRequest" message="tns:remoteBrowseAllAuctionListings"/>
 <output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteBrowseAllAuctionListingsResponse" message="tns:remoteBrowseAllAuctionListingsResponse"/>
+</operation>
+<operation name="configureProxyBidding">
+<input wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingRequest" message="tns:configureProxyBidding"/>
+<output wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingResponse" message="tns:configureProxyBiddingResponse"/>
+<fault message="tns:ProxyBidNotLargeEnoughException" name="ProxyBidNotLargeEnoughException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBidding/Fault/ProxyBidNotLargeEnoughException"/>
 </operation>
 <operation name="configureSnipingBid">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/configureSnipingBidRequest" message="tns:configureSnipingBid"/>
 <output wsam:Action="http://soap.ws/PremiumCustomerWebService/configureSnipingBidResponse" message="tns:configureSnipingBidResponse"/>
 <fault message="tns:InsufficientBalanceException" name="InsufficientBalanceException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureSnipingBid/Fault/InsufficientBalanceException"/>
 <fault message="tns:InvalidDateInputException" name="InvalidDateInputException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureSnipingBid/Fault/InvalidDateInputException"/>
-</operation>
-<operation name="remoteViewWonAuctionListings">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsRequest" message="tns:remoteViewWonAuctionListings"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteViewWonAuctionListingsResponse" message="tns:remoteViewWonAuctionListingsResponse"/>
-</operation>
-<operation name="configureProxyBidding">
-<input wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingRequest" message="tns:configureProxyBidding"/>
-<output wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBiddingResponse" message="tns:configureProxyBiddingResponse"/>
-<fault message="tns:ProxyBidNotLargeEnoughException" name="ProxyBidNotLargeEnoughException" wsam:Action="http://soap.ws/PremiumCustomerWebService/configureProxyBidding/Fault/ProxyBidNotLargeEnoughException"/>
 </operation>
 <operation name="remoteLogout">
 <input wsam:Action="http://soap.ws/PremiumCustomerWebService/remoteLogoutRequest" message="tns:remoteLogout"/>
@@ -141,32 +142,20 @@
 <output>
 <soap:body use="literal"/>
 </output>
-</operation>
-<operation name="remoteBrowseAllAuctionListings">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="configureSnipingBid">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-<fault name="InsufficientBalanceException">
-<soap:fault name="InsufficientBalanceException" use="literal"/>
-</fault>
-<fault name="InvalidDateInputException">
-<soap:fault name="InvalidDateInputException" use="literal"/>
+<fault name="AuthenticationException">
+<soap:fault name="AuthenticationException" use="literal"/>
 </fault>
 </operation>
 <operation name="remoteViewWonAuctionListings">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="remoteBrowseAllAuctionListings">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -185,6 +174,21 @@
 </output>
 <fault name="ProxyBidNotLargeEnoughException">
 <soap:fault name="ProxyBidNotLargeEnoughException" use="literal"/>
+</fault>
+</operation>
+<operation name="configureSnipingBid">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="InsufficientBalanceException">
+<soap:fault name="InsufficientBalanceException" use="literal"/>
+</fault>
+<fault name="InvalidDateInputException">
+<soap:fault name="InvalidDateInputException" use="literal"/>
 </fault>
 </operation>
 <operation name="remoteLogout">

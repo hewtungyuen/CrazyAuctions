@@ -148,6 +148,12 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="AuthenticationException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="remoteViewWonAuctionListings">
 <xs:sequence>
 <xs:element name="customerId" type="xs:long" minOccurs="0"/>
@@ -170,12 +176,6 @@
 <xs:complexType name="remoteLoginResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:customerEntity" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="AuthenticationException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

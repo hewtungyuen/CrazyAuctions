@@ -61,11 +61,13 @@ public class PremiumCustomerWebService {
     private AuctionListingEntitySessionBeanLocal auctionListingEntitySessionBeanLocal;
 
     @WebMethod(operationName = "premiumRegistration")
-    public CustomerEntity premiumRegistration(@WebParam(name = "username") String username, @WebParam(name = "password") String password) {
-        CustomerEntity c = customerEntitySessionBeanLocal.createCustomer(username, password);
+    public CustomerEntity premiumRegistration(@WebParam(name = "username") String username, @WebParam(name = "password") String password) throws AuthenticationException {
+        CustomerEntity c = customerEntitySessionBeanLocal.login(username, password);
         c.setCustomerType(CustomerTypeEnum.PREMIUM);
+        c.setIsLoggedIn(Boolean.FALSE);
         CustomerEntity premiumCustomer = customerEntitySessionBeanLocal.updateCustomer(c);
         return premiumCustomer;
+
     }
 
     @WebMethod(operationName = "remoteLogin")
