@@ -49,7 +49,7 @@ public class SalesOperations {
         System.out.println("Enter reserve price: ");
         BigDecimal reservePrice = scanner.nextBigDecimal();
 
-        System.out.println("Enter starting bid price (must be lower than reserve price): ");
+        System.out.println("Enter starting bid price: ");
         BigDecimal startingBidPrice = scanner.nextBigDecimal();
         scanner.nextLine();
         Date startDate;
