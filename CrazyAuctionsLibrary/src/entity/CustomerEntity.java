@@ -14,6 +14,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import util.enumeration.CustomerTypeEnum;
 
 /**
@@ -28,19 +31,27 @@ public class CustomerEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CustomerTypeEnum customerType;
 
+//    @NotNull
+//    @Size(min = 1, max = 16)
     @Column(nullable = false, length = 16)
     private String username;
 
+//    @NotNull
+//    @Size(min = 8, max = 16)
     @Column(nullable = false, length = 16)
     private String password;
 
+//    @NotNull
+//    @DecimalMin("0.00")
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal creditBalance;
 
+//    @NotNull
     @Column(nullable = false)
     private Boolean isLoggedIn;
 
@@ -86,8 +97,8 @@ public class CustomerEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Customer: " + getId() + ",\n    customerType = " + getCustomerType() + ",\n    username = " + getUsername() 
-            + ",\n    password = " + getPassword() + ",\n    creditBalance = " + getCreditBalance() + ",\n    isLoggedIn = " + getIsLoggedIn() + "\n";
+        return "Customer: " + getId() + ",\n    customerType = " + getCustomerType() + ",\n    username = " + getUsername()
+                + ",\n    password = " + getPassword() + ",\n    creditBalance = " + getCreditBalance() + ",\n    isLoggedIn = " + getIsLoggedIn() + "\n";
     }
 
     /**

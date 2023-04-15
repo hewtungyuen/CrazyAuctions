@@ -19,6 +19,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import util.enumeration.TransactionTypeEnum;
 
 /**
@@ -33,21 +36,28 @@ public class TransactionEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private CustomerEntity customer;
 
+//    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date transactionDate;
-    
+
+//    @NotNull
+//    @DecimalMin("0.01")
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal transactionAmount;
-    
+
+//    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TransactionTypeEnum transactionType;
-    
+
+//    @NotNull
+//    @Size(min = 8, max = 30)
     @Column(nullable = false, length = 30)
     private String transactionDescription;
 
@@ -62,7 +72,7 @@ public class TransactionEntity implements Serializable {
         this.transactionType = transactionType;
         this.transactionDescription = transactionDescription;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -93,9 +103,9 @@ public class TransactionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Transaction: " + getId() + ",\n    transactionDate = " + getTransactionDate() + ",\n    transactionAmount = " + getTransactionAmount() 
-            + ",\n    transactionType = " + getTransactionType() + ",\n    transactionDescription = " + getTransactionDescription() 
-            + ",\n    customer = " + getCustomer().getUsername() + "\n";
+        return "Transaction: " + getId() + ",\n    transactionDate = " + getTransactionDate() + ",\n    transactionAmount = " + getTransactionAmount()
+                + ",\n    transactionType = " + getTransactionType() + ",\n    transactionDescription = " + getTransactionDescription()
+                + ",\n    customer = " + getCustomer().getUsername() + "\n";
     }
 
     /**

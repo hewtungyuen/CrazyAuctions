@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -27,17 +29,22 @@ public class BidEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private CustomerEntity customer;
 
+//    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private AuctionListingEntity auctionListing;
 
+//    @NotNull
+//    @DecimalMin("0.06") // min starting bid price is 0.01, so min bid price = 0.01 + 0.05 = 0.06
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal bidPrice;
 
+//    @NotNull
     @Column(nullable = false)
     private Boolean isWinningBid; // only if it actually won
 

@@ -19,6 +19,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import util.enumeration.AuctionListingStateEnum;
 
 /**
@@ -40,23 +44,34 @@ public class AuctionListingEntity implements Serializable {
     @OneToOne(optional = true)
     private AddressEntity winnerDeliveryAddress;
 
+//    @NotNull
+//    @DecimalMin("0.01")
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal currentBidPrice;
 
+//    @NotNull
+//    @DecimalMin("0.01")
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal reservePrice;
 
+//    @NotNull
+//    @Size(min = 1, max = 30)
     @Column(nullable = false, unique = true, length = 30)
     private String productName;
 
+//    @NotNull
+//    @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date startDate;
 
+//    @NotNull
+//    @Future
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date endDate;
 
+//    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuctionListingStateEnum auctionListingState;

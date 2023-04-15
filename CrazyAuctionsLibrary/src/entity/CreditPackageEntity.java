@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -25,12 +27,16 @@ public class CreditPackageEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @NotNull
     @Column(nullable = false)
     private Boolean isEnabled;
 
+//    @NotNull
     @Column(nullable = false)
     private Boolean purchasedBefore;
 
+//    @NotNull
+//    @DecimalMin("0.01")
     @Column(nullable = false, precision = 18, scale = 4)
     private BigDecimal credits;
 
@@ -74,8 +80,8 @@ public class CreditPackageEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Credit Package: id = " + getId() + ", \n    isEnabled = " + getIsEnabled() + ", \n    purchasedBefore = " + getPurchasedBefore() 
-            + ", \n    credits = " + getCredits() + "\n";
+        return "Credit Package: id = " + getId() + ", \n    isEnabled = " + getIsEnabled() + ", \n    purchasedBefore = " + getPurchasedBefore()
+                + ", \n    credits = " + getCredits() + "\n";
     }
 
     public Boolean getIsEnabled() {
