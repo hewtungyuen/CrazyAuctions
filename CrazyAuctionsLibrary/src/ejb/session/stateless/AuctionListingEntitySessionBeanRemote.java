@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
+import util.exception.DuplicateProductNameException;
 
 /**
  *
@@ -19,7 +20,7 @@ import javax.ejb.Remote;
 @Remote
 public interface AuctionListingEntitySessionBeanRemote {
 
-    AuctionListingEntity createNewAuctionListing(BigDecimal startingBidPrice, BigDecimal reservePrice, String productName, Date startDate, Date endDate);
+    AuctionListingEntity createNewAuctionListing(BigDecimal startingBidPrice, BigDecimal reservePrice, String productName, Date startDate, Date endDate) throws DuplicateProductNameException;
 
     AuctionListingEntity getAuctionListingByProductName(String productName);
 

@@ -14,6 +14,7 @@ import ejb.session.stateless.TransactionEntitySessionBeanRemote;
 import entity.CustomerEntity;
 import java.util.Scanner;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -113,8 +114,11 @@ public class MainApp {
         System.out.println("Enter password:");
         String password = scanner.nextLine();
 
-        CustomerEntity c = customerEntitySessionBeanRemote.createCustomer(username, password);
-        System.out.println("Successfully registered: " + c.toString());
-
+        try {
+            CustomerEntity c = customerEntitySessionBeanRemote.createCustomer(username, password);
+            System.out.println("Successfully registered: " + c.toString());
+        } catch (DuplicateUsernameException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

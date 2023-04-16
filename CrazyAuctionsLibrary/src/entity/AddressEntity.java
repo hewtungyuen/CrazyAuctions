@@ -35,7 +35,7 @@ public class AddressEntity implements Serializable {
 
 //    @NotNull
 //    @Size(min = 1, max = 30)
-    @Column(nullable = false, unique = true, length = 30)
+    @Column(nullable = false, length = 30)
     private String address;
 
     @Column(nullable = true)

@@ -8,16 +8,19 @@ package ejb.session.stateless;
 import entity.CreditPackageEntity;
 import entity.CustomerEntity;
 import java.math.BigDecimal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Objects;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.enumeration.CustomerTypeEnum;
 import util.enumeration.TransactionTypeEnum;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -33,11 +36,15 @@ public class CustomerEntitySessionBean implements CustomerEntitySessionBeanRemot
     private EntityManager em;
 
     @Override
-    public CustomerEntity createCustomer(String username, String password) { // duplicate username 
-        CustomerEntity c = new CustomerEntity(CustomerTypeEnum.BASIC, username, password);
-        em.persist(c);
-        em.flush();
-        return c;
+    public CustomerEntity createCustomer(String username, String password) throws DuplicateUsernameException { // duplicate username 
+        try {
+            CustomerEntity c = new CustomerEntity(CustomerTypeEnum.BASIC, username, password);
+            em.persist(c);
+            em.flush();
+            return c;
+        } catch (PersistenceException ex) {
+            throw new DuplicateUsernameException("Username: " + username + " is invalid. Please use another username.");
+        }
     }
 
     @Override

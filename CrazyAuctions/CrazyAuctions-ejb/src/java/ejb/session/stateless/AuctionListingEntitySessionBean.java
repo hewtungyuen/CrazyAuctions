@@ -15,8 +15,10 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.enumeration.AuctionListingStateEnum;
+import util.exception.DuplicateProductNameException;
 import util.exception.NoAuctionListingBidsException;
 
 /**
@@ -45,12 +47,16 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
             String productName,
             Date startDate,
             Date endDate
-    ) { // duplicate product name 
-        AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
-        em.persist(a);
-        em.flush();
-        auctionListingTimerSessionBeanLocal.createAuctionTimers(a.getId());
-        return a;
+    ) throws DuplicateProductNameException { // duplicate product name 
+        try {
+            AuctionListingEntity a = new AuctionListingEntity(startingBidPrice, reservePrice, productName, startDate, endDate);
+            em.persist(a);
+            em.flush();
+            auctionListingTimerSessionBeanLocal.createAuctionTimers(a.getId());
+            return a;
+        } catch (PersistenceException ex) {
+            throw new DuplicateProductNameException("Product name " + productName + " is invalid. Plaese use another product name.");
+        }
     }
 
     @Override
@@ -92,11 +98,11 @@ public class AuctionListingEntitySessionBean implements AuctionListingEntitySess
         try {
             BidEntity highestBid = bidEntitySessionBeanLocal.getHighestBidForAuctionListing(auctionListingId);
             highestBid.setIsWinningBid(Boolean.FALSE);
-            
+
             a.setAuctionListingState(AuctionListingStateEnum.DISABLED);
             a.setWinningBid(null);
             a.setWinnerDeliveryAddress(null);
-            
+
             CustomerEntity c = highestBid.getCustomer();
             customerEntitySessionBeanLocal.credit(c.getId(), highestBid.getBidPrice(), "Refund for " + a.getProductName());
         } catch (NoAuctionListingBidsException ex) {

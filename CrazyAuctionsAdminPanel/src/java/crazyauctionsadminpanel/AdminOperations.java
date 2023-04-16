@@ -10,6 +10,7 @@ import entity.EmployeeEntity;
 import java.util.List;
 import java.util.Scanner;
 import util.enumeration.EmployeeTypeEnum;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -99,9 +100,12 @@ public class AdminOperations {
             return;
         }
 
-        Long employeeId = employeeEntitySessionBeanRemote.createNewEmployee(username, password, employeeType);
-
-        System.out.println("Created employee: " + employeeId);
+        try {
+            Long newEmployeeId = employeeEntitySessionBeanRemote.createNewEmployee(username, password, employeeType);
+            System.out.println("Created employee: " + newEmployeeId);
+        } catch (DuplicateUsernameException ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
 

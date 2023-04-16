@@ -38,7 +38,7 @@ public class CustomerEntity implements Serializable {
 
 //    @NotNull
 //    @Size(min = 1, max = 16)
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false, unique = true, length = 16)
     private String username;
 
 //    @NotNull

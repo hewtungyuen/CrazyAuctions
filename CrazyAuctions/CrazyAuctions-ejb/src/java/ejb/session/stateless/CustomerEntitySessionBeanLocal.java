@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -20,7 +21,7 @@ import util.exception.AuthenticationException;
 @Local
 public interface CustomerEntitySessionBeanLocal {
 
-    CustomerEntity createCustomer(String username, String password);
+    CustomerEntity createCustomer(String username, String password) throws DuplicateUsernameException;
 
     CustomerEntity login(String username, String password) throws AuthenticationException;
 

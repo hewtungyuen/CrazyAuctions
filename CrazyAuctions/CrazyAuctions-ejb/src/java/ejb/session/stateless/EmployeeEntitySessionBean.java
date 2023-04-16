@@ -12,9 +12,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import util.enumeration.EmployeeTypeEnum;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -67,11 +69,15 @@ public class EmployeeEntitySessionBean implements EmployeeEntitySessionBeanRemot
     }
 
     @Override
-    public Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) { // duplicate username
-        EmployeeEntity e = new EmployeeEntity(username, password, employeeType);
-        em.persist(e);
-        em.flush();
-        return e.getId();
+    public Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) throws DuplicateUsernameException { // duplicate username
+        try {
+            EmployeeEntity e = new EmployeeEntity(username, password, employeeType);
+            em.persist(e);
+            em.flush();
+            return e.getId();
+        } catch (PersistenceException ex) {
+            throw new DuplicateUsernameException("Username: " + username + " is invalid. Please use another username.");
+        }
     }
 
     @Override

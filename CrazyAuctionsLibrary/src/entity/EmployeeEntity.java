@@ -36,14 +36,14 @@ public class EmployeeEntity implements Serializable {
 
 //    @NotNull
 //    @Size(min = 1, max = 16)
-    @Column(nullable = false, length = 16)
+    @Column(nullable = false, unique = true, length = 16)
     private String username;
-    
+
 //    @NotNull
 //    @Size(min = 8, max = 16)
     @Column(nullable = false, length = 16)
     private String password;
-    
+
 //    @NotNull
     @Column(nullable = false)
     private Boolean isLoggedIn;

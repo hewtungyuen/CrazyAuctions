@@ -56,31 +56,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="configureSnipingBid">
-<xs:sequence>
-<xs:element name="customerId" type="xs:long" minOccurs="0"/>
-<xs:element name="auctionListingId" type="xs:long" minOccurs="0"/>
-<xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
-<xs:element name="minutes" type="xs:long" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="configureSnipingBidResponse">
-<xs:sequence/>
-</xs:complexType>
-
-<xs:complexType name="InsufficientBalanceException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="InvalidDateInputException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="remoteBrowseAllAuctionListings">
 <xs:sequence/>
 </xs:complexType>
@@ -132,6 +107,31 @@
 <xs:element name="customer" type="tns:customerEntity" minOccurs="0"/>
 <xs:element name="id" type="xs:long" minOccurs="0"/>
 <xs:element name="isWinningBid" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="configureSnipingBid">
+<xs:sequence>
+<xs:element name="customerId" type="xs:long" minOccurs="0"/>
+<xs:element name="auctionListingId" type="xs:long" minOccurs="0"/>
+<xs:element name="bidPrice" type="xs:decimal" minOccurs="0"/>
+<xs:element name="minutes" type="xs:long" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="configureSnipingBidResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="InsufficientBalanceException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="InvalidDateInputException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import util.enumeration.AuctionListingStateEnum;
+import util.exception.DuplicateProductNameException;
 import util.exception.NoAuctionListingBidsException;
 
 /**
@@ -78,9 +79,14 @@ public class SalesOperations {
 
         if (startDate.after(now)) {
             if (endDate.after(startDate)) {
-                AuctionListingEntity a = auctionListingEntitySessionBeanRemote.createNewAuctionListing(startingBidPrice, reservePrice, productName, startDate, endDate);
-                System.out.println("Created: " + a.toString());
-                return;
+                try {
+                    AuctionListingEntity a = auctionListingEntitySessionBeanRemote.createNewAuctionListing(startingBidPrice, reservePrice, productName, startDate, endDate);
+                    System.out.println("Created: " + a.toString());
+                    return;
+                } catch (DuplicateProductNameException ex) {
+                    System.out.println(ex.getMessage());
+                    return;
+                }
             }
         }
 
@@ -164,9 +170,9 @@ public class SalesOperations {
         }
 
         Date now = new Date();
-        
+
         if (a.getAuctionListingState().equals(this)) {
-            
+
         }
         if (a.getStartDate().after(now)) {
             if (a.getEndDate().after(a.getStartDate())) {

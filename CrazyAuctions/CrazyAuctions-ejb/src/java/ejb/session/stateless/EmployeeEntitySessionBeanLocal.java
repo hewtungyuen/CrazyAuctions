@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import util.enumeration.EmployeeTypeEnum;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -26,7 +27,7 @@ public interface EmployeeEntitySessionBeanLocal {
 
     void changePassword(Long employeeId, String newPassword);
 
-    Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType);
+    Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) throws DuplicateUsernameException;
 
     List<EmployeeEntity> viewAllEmployees();
 

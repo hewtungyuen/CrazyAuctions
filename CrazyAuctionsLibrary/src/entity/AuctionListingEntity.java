@@ -38,7 +38,7 @@ public class AuctionListingEntity implements Serializable {
     private Long id;
 
     @OneToOne(optional = true)
-    @JoinColumn(unique = true)
+    @JoinColumn(nullable = true)
     private BidEntity winningBid;
 
     @OneToOne(optional = true)

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Remote;
 import util.enumeration.EmployeeTypeEnum;
 import util.exception.AuthenticationException;
+import util.exception.DuplicateUsernameException;
 
 /**
  *
@@ -26,7 +27,7 @@ public interface EmployeeEntitySessionBeanRemote {
 
     void changePassword(Long employeeId, String newPassword);
 
-    Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType);
+    Long createNewEmployee(String username, String password, EmployeeTypeEnum employeeType) throws DuplicateUsernameException;
 
     List<EmployeeEntity> viewAllEmployees();
 
